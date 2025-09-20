@@ -29,6 +29,7 @@ dist
 .vscode-test
 .tanstack
 .output
+.nitro
 
 # Debug
 npm-debug.log*
