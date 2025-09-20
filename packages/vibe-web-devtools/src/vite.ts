@@ -18,8 +18,9 @@ export default function (): Plugin {
 	});
 
 	return {
-		name: "vite-plugin-vibe-web-dev",
+		name: "vibe-web-devtools",
 		enforce: "pre",
+		apply: "serve",
 		configureServer(server) {
 			_server = server;
 			server.middlewares.use("/_vibe-web/rpc", async (req, res, next) => {
