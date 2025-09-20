@@ -102,18 +102,18 @@
 	},
 	"homepage": "https://github.com/zikaari/webext-bridge#readme",
 	"dependencies": {
-		"webextension-polyfill": "^0.9.0",
 		"nanoevents": "^6.0.2",
 		"serialize-error": "^9.0.0",
-		"tiny-uid": "^1.1.1"
+		"tiny-uid": "^1.1.1",
+		"webextension-polyfill": "^0.9.0"
 	},
 	"devDependencies": {
 		"@types/node": "^22.16.5",
+		"@types/webextension-polyfill": "^0.8.3",
 		"bumpp": "^7.1.1",
 		"tsdown": "^0.13.5",
 		"tsup": "^5.11.13",
 		"type-fest": "^2.11.1",
-		"typescript": "^5.9.2",
-		"@types/webextension-polyfill": "^0.8.3"
+		"typescript": "^5.9.2"
 	}
 }
