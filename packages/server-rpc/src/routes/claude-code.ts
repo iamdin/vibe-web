@@ -5,6 +5,11 @@ import { z } from "zod/v4";
 import { orpc } from "../orpc";
 
 const session = orpc.router({
+	abort: orpc
+		.input(z.object({ sessionId: z.string() }))
+		.handler(async ({ input, context: { claudeCodeAgent } }) => {
+			claudeCodeAgent.session.abort(input.sessionId);
+		}),
 	create: orpc
 		.output(
 			z.object({

@@ -23,11 +23,6 @@ interface SessionState {
 	permissionMode: string;
 }
 
-const promptInputSchema = z.object({
-	sessionId: z.string(),
-	prompt: z.string(),
-});
-
 export class Session {
 	private store = new Map<string, SessionState>();
 
@@ -37,6 +32,10 @@ export class Session {
 			throw new Error("session not found");
 		}
 		return session;
+	}
+
+	list() {
+		return Array.from(this.store.values());
 	}
 
 	create() {
@@ -65,9 +64,10 @@ export class Session {
 		return { sessionId };
 	}
 
-	end(sessionId: string) {
+	abort(sessionId: string) {
 		const session = this.get(sessionId);
 		session.input.end();
+		session.query.interrupt();
 		this.store.delete(sessionId);
 	}
 

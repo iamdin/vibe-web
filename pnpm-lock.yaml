@@ -49,7 +49,7 @@ importers:
         version: link:../../packages/code-inspector-web
       '@vibe-web/server-trpc':
         specifier: workspace:*
-        version: link:../../packages/server-trpc
+        version: link:../../packages/server-rpc
       '@vibe-web/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -141,7 +141,7 @@ importers:
         version: link:../../packages/agents
       '@vibe-web/server-trpc':
         specifier: workspace:*
-        version: link:../../packages/server-trpc
+        version: link:../../packages/server-rpc
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -186,7 +186,7 @@ importers:
         version: 1.131.35(@tanstack/react-router@1.131.35(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(vite@7.1.4(@types/node@22.17.1)(jiti@2.5.1)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))(webpack@5.101.0)
       '@vibe-web/server-trpc':
         specifier: workspace:*
-        version: link:../../packages/server-trpc
+        version: link:../../packages/server-rpc
       '@vibe-web/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -665,7 +665,7 @@ importers:
         specifier: ^0.13.5
         version: 0.13.5(oxc-resolver@11.6.1)(publint@0.3.12)(typescript@5.9.2)
 
-  packages/server-trpc:
+  packages/server-rpc:
     dependencies:
       '@anthropic-ai/claude-code':
         specifier: ^1.0.113
@@ -920,7 +920,7 @@ importers:
         version: link:../code-inspector-node
       '@vibe-web/server-trpc':
         specifier: workspace:*
-        version: link:../server-trpc
+        version: link:../server-rpc
       '@vitejs/plugin-react-swc':
         specifier: ^4.0.1
         version: 4.0.1(@swc/helpers@0.5.17)(vite@7.1.4(@types/node@22.17.1)(jiti@2.5.1)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))
@@ -1026,7 +1026,7 @@ importers:
         version: link:../code-inspector-web
       '@vibe-web/server-trpc':
         specifier: workspace:*
-        version: link:../server-trpc
+        version: link:../server-rpc
       '@vibe-web/ui':
         specifier: workspace:*
         version: link:../ui
@@ -17112,7 +17112,7 @@ snapshots:
       rolldown-plugin-dts: 0.15.10(oxc-resolver@11.6.1)(rolldown@1.0.0-beta.38)(typescript@5.9.2)
       semver: 7.7.2
       tinyexec: 1.0.1
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
       tree-kill: 1.2.2
       unconfig: 7.3.3
     optionalDependencies:

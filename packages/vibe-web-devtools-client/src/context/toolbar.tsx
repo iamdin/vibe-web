@@ -10,6 +10,7 @@ import invariant from "tiny-invariant";
 
 interface ToolbarContextType {
 	toolbarRef: RefObject<HTMLDivElement>;
+	sessionId: RefObject<string | undefined>;
 	open: boolean;
 	setOpen: (open: boolean) => void;
 }
@@ -26,11 +27,12 @@ export const ToolbarProviders = ({
 	defaultOpen,
 	children,
 }: ToolbarProvidersProps) => {
+	const sessionId = useRef<string | undefined>(undefined);
 	const toolbarRef = useRef<HTMLDivElement>({} as HTMLDivElement);
 	const [open, setOpen] = useState(defaultOpen ?? false);
 
 	return (
-		<ToolbarContext.Provider value={{ toolbarRef, open, setOpen }}>
+		<ToolbarContext.Provider value={{ toolbarRef, sessionId, open, setOpen }}>
 			<InspectorProvider>{children}</InspectorProvider>
 		</ToolbarContext.Provider>
 	);

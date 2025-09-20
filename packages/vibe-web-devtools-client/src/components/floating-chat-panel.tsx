@@ -12,14 +12,16 @@ import {
 } from "@floating-ui/react";
 import { CircleXIcon, SquarePenIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Chat } from "@/components/chat";
 import { useToolbarContext } from "@/context/toolbar";
+import { orpc } from "@/lib/orpc";
 import { Button } from "@vibe-web/ui/components/button";
 
 export function FloatingChat() {
-	const { toolbarRef, open, setOpen } = useToolbarContext();
+	const { toolbarRef, sessionId, open, setOpen } = useToolbarContext();
+	const [chatInstanceKey, setChatInstanceKey] = useState(0);
 
 	const { refs, floatingStyles, context } = useFloating({
 		open,
@@ -40,6 +42,23 @@ export function FloatingChat() {
 	useEffect(() => {
 		if (open && toolbarRef?.current) refs.setReference(toolbarRef.current);
 	}, [open, refs, toolbarRef]);
+
+	const handleNewSession = async () => {
+		try {
+			// Abort current session to prevent leaks; multi-session not supported yet
+			if (sessionId.current) {
+				await orpc.claudeCode.session.abort({ sessionId: sessionId.current });
+				sessionId.current = undefined;
+			}
+
+			const { sessionId: newSessionId } =
+				await orpc.claudeCode.session.create();
+			sessionId.current = newSessionId;
+			setChatInstanceKey((prev) => prev + 1);
+		} catch (error) {
+			console.error("Failed to start a new session", error);
+		}
+	};
 
 	return (
 		<AnimatePresence mode="wait">
@@ -75,13 +94,14 @@ export function FloatingChat() {
 									aria-label="New Session"
 									title="New Session"
 									className="size-7 text-muted-foreground/70"
+									onClick={handleNewSession}
 								>
 									<SquarePenIcon size={16} aria-hidden="true" />
 								</Button>
 							</div>
 						</div>
 
-						<Chat />
+						<Chat key={chatInstanceKey} />
 					</motion.div>
 				</div>
 			)}
