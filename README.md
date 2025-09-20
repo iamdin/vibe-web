@@ -1,6 +1,6 @@
 # Vibe Web
 
-**Supercharge your web development experience and productivity by integrating 
+Supercharge your web development experience and productivity by integrating 
   popular Code Agents directly into your browser.**
 
 A monorepo for building in-browser developer tooling around AI coding agents. It enhances vibe coding and web development by combining a chat interface, DOM inspection, and others so the agent has more accurate context (e.g., file, line, component). No MCP or external context‑bridging tools required. 
@@ -12,7 +12,7 @@ A monorepo for building in-browser developer tooling around AI coding agents. It
 
  A build‑tool plugin that adds an in‑app chat panel and element inspector to your dev server. It connects your running app to an AI coding agent (currently Claude Code). Vite adapter available today; more adapters for other bundlers/dev servers are planned.
 
-<video src="./assets/devtools.mp4" controls></video>
+https://github.com/iamdin/vibe-web/raw/refs/heads/main/assets/devtools.mp4
 
 ### Features
 
