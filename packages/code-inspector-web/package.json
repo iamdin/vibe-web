@@ -7,7 +7,7 @@
 	"scripts": {
 		"stub": "tsdown",
 		"build": "tsdown",
-		"test": "vitest",
+		"test": "vitest run",
 		"typecheck": "tsc --noEmit"
 	},
 	"module": "./src/index.ts",

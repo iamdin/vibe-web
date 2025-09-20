@@ -1,0 +1,27 @@
+name: Code check
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+        shell: bash
+
+      - name: Setup Node & Pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ''
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run test lint typecheck
