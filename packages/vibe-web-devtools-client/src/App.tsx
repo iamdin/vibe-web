@@ -1,10 +1,10 @@
-import { MessageSquareIcon } from "lucide-react";
+import { Button } from "@vibe-web/ui/components/button";
+import { cn } from "@vibe-web/ui/lib/utils";
+import { BotIcon } from "lucide-react";
 
 import { FloatingChat } from "@/components/floating-chat-panel";
 import { useToolbarContext } from "@/context/toolbar";
 import { Inspector } from "@/features/inspector/inspector";
-import { Button } from "@vibe-web/ui/components/button";
-import { cn } from "@vibe-web/ui/lib/utils";
 
 export function App() {
 	const { toolbarRef, open, setOpen } = useToolbarContext();
@@ -20,12 +20,11 @@ export function App() {
 			>
 				<Button
 					variant="ghost"
-					// size="lg"
-					className="rounded-3xl size-8"
+					className="size-10"
 					aria-label={open ? "Close chat" : "Open chat"}
 					onClick={() => setOpen(!open)}
 				>
-					<MessageSquareIcon className="size-4" />
+					<BotIcon className="size-4" />
 				</Button>
 			</div>
 			<FloatingChat />
