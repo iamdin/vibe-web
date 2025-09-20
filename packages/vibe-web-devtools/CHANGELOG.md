@@ -1,5 +1,12 @@
 # vibe-web-devtools
 
+## 0.0.3
+
+### Patch Changes
+
+- fix: plugin run in serve only
+- fix: remove nouse deps
+
 ## 0.0.2
 
 ### Patch Changes
