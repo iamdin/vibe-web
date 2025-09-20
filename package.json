@@ -17,8 +17,8 @@
 		"lint:fix": "biome lint . --fix --unsafe",
 		"format": "biome format . --write",
 		"changeset": "changeset",
-		"version": "changeset version",
-		"publish": "changeset publish",
+		"changeset:version": "changeset version",
+		"changeset:publish": "changeset publish",
 		"prepublish": "turbo lint test build --filter=./packages/* --ui=stream"
 	},
 	"devDependencies": {
