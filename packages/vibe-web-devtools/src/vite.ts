@@ -69,10 +69,13 @@ export default function (): Plugin {
 				id: { exclude: [/node_modules/], include: /\.(jsx|tsx|vue)$/ },
 			},
 			handler(code, id) {
-				return transformHandler(id, code, {
+				const result = transformHandler(id, code, {
 					rootPath: process.cwd(),
 					absolutePath: id.split("?", 2)[0],
 				});
+
+				if (!result) return undefined;
+				return result;
 			},
 		},
 	};

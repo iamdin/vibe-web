@@ -51,8 +51,8 @@ export function transformHandler(
 		(filename.endsWith(".vue") && query.isJsx);
 	if (isJsx) {
 		const result = transform(code, options);
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		return { code: result.code!, map: result.map };
+		if (!result || !result.code) return null;
+		return { code: result.code, map: result.map };
 	}
 
 	const isTemplate =
