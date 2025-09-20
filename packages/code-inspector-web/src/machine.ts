@@ -50,12 +50,12 @@ export const inspectorMachine = setup({
 		pickCurrentTarget: assign(({ event, context }) => {
 			invariant(event.type === "POINTER_DOWN", "Invalid event type");
 
-			const currentTarget = context.currentTarget;
-			if (!currentTarget) return {};
-
 			event.event.preventDefault();
 			event.event.stopPropagation();
 			event.event.stopImmediatePropagation();
+
+			const currentTarget = context.currentTarget;
+			if (!currentTarget) return {};
 
 			if (
 				context.inspectedTargets.some(
