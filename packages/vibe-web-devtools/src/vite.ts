@@ -22,9 +22,9 @@ export default function (): Plugin {
 		enforce: "pre",
 		configureServer(server) {
 			_server = server;
-			server.middlewares.use("/_viweb/rpc", async (req, res, next) => {
+			server.middlewares.use("/_vibe-web/rpc", async (req, res, next) => {
 				const { matched } = await nodeRPCHandler.handle(req, res, {
-					prefix: "/_viweb/rpc",
+					prefix: "/_vibe-web/rpc",
 					context: { claudeCodeAgent },
 				});
 				if (!matched) {
