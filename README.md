@@ -12,7 +12,7 @@ A monorepo for building in-browser developer tooling around AI coding agents. It
 
  A build‑tool plugin that adds an in‑app chat panel and element inspector to your dev server. It connects your running app to an AI coding agent (currently Claude Code). Vite adapter available today; more adapters for other bundlers/dev servers are planned.
 
-https://github.com/iamdin/vibe-web/raw/refs/heads/main/assets/devtools.mp4
+https://github.com/user-attachments/assets/fd57a0ad-eb63-46cf-8166-cc3af18b1967
 
 ### Features
 
