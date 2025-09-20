@@ -27,10 +27,6 @@
 		},
 		"pack": {
 			"dependsOn": ["build"]
-		},
-		"//#check": {},
-		"//#check:fix": {
-			"cache": false
 		}
 	}
 }

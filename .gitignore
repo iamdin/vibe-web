@@ -41,4 +41,5 @@ yarn-error.log*
 *.pem
 
 # Dev
-routeTree.gen.ts
+.nitro/
+**/.nitro/
