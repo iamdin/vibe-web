@@ -89,17 +89,13 @@ export const Reasoning = memo(
 			}
 		}, [isStreaming, isOpen, defaultOpen, setIsOpen, hasAutoClosedRef]);
 
-		const handleOpenChange = (newOpen: boolean) => {
-			setIsOpen(newOpen);
-		};
-
 		return (
 			<ReasoningContext.Provider
 				value={{ isStreaming, isOpen, setIsOpen, duration }}
 			>
 				<Collapsible
 					className={cn("not-prose mb-4", className)}
-					onOpenChange={handleOpenChange}
+					onOpenChange={(details) => setIsOpen(details.open)}
 					open={isOpen}
 					{...props}
 				>
@@ -163,7 +159,7 @@ export const ReasoningContent = memo(
 			)}
 			{...props}
 		>
-			<Response className="grid gap-2">{children}</Response>
+			<Response>{children}</Response>
 		</CollapsibleContent>
 	),
 );

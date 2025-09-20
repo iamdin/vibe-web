@@ -1,21 +1,12 @@
 "use client";
 
-import { cn } from "@vibe-web/ui/lib/utils";
 import { type ComponentProps, memo } from "react";
-import { Streamdown } from "streamdown";
+import ReactMarkdown from "react-markdown";
 
-type ResponseProps = ComponentProps<typeof Streamdown>;
+type ResponseProps = ComponentProps<typeof ReactMarkdown>;
 
 export const Response = memo(
-	({ className, ...props }: ResponseProps) => (
-		<Streamdown
-			className={cn(
-				"size-full [&_code]:break-all [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
-				className,
-			)}
-			{...props}
-		/>
-	),
+	(props: ResponseProps) => <ReactMarkdown {...props} />,
 	(prevProps, nextProps) => prevProps.children === nextProps.children,
 );
 
