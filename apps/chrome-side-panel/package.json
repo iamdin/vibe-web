@@ -7,7 +7,8 @@
 		"dev": "vite build --mode development",
 		"build": "vite build",
 		"preview": "vite preview",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"clean": "git clean -xdf node_modules .turbo dist"
 	},
 	"dependencies": {
 		"@ai-sdk/react": "^2.0.44",

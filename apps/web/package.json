@@ -6,7 +6,7 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"dev": "vite dev --port=3001",
-		"clean": "git clean -xdf node_modules dist .turbo .tanstack",
+		"clean": "git clean -xdf node_modules dist .turbo .tanstack .output .nitro",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

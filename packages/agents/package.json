@@ -4,7 +4,8 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"clean": "git clean -xdf node_modules .turbo"
 	},
 	"exports": {
 		"./claude-code": "./src/claude-code/index.ts"

@@ -26,7 +26,8 @@
 		"build": "tsdown src/index.ts src/background.ts src/content-script.ts src/devtools.ts src/options.ts src/popup.ts src/window.ts src/sidepanel.ts --format esm,cjs --dts",
 		"watch": "npm run build -- --watch",
 		"release": "bumpp --commit --push --tag && npm run build && npm publish",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"clean": "git clean -xdf node_modules .turbo dist"
 	},
 	"type": "module",
 	"exports": {
