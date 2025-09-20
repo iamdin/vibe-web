@@ -36,7 +36,7 @@
 	"devDependencies": {
 		"@types/react": "^19.1.11",
 		"@types/react-dom": "^19.1.9",
-		"tsdown": "^0.13.5",
-		"@vibe-web/ui": "workspace:*"
+		"@vibe-web/ui": "workspace:*",
+		"tsdown": "^0.13.5"
 	}
 }

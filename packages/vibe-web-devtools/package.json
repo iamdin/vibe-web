@@ -3,15 +3,8 @@
 	"version": "0.0.2",
 	"type": "module",
 	"description": "A vite plugin that allow you direct chat with your claude code",
-	"keywords": [
-		"unplugin",
-		"vite",
-		"webpack",
-		"rspack"
-	],
-	"files": [
-		"dist"
-	],
+	"keywords": ["unplugin", "vite", "webpack", "rspack"],
+	"files": ["dist"],
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
@@ -19,10 +12,7 @@
 	},
 	"typesVersions": {
 		"*": {
-			"*": [
-				"./dist/*",
-				"./*"
-			]
+			"*": ["./dist/*", "./*"]
 		}
 	},
 	"publishConfig": {
@@ -86,15 +76,15 @@
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.3",
 		"@types/node": "^22.16.5",
-		"@vitejs/plugin-react-swc": "^4.0.1",
 		"@vibe-web/agents": "workspace:*",
-		"vite-plugin-vibe-web-dev-client": "workspace:*",
 		"@vibe-web/code-inspector-node": "workspace:*",
 		"@vibe-web/server-trpc": "workspace:*",
+		"@vitejs/plugin-react-swc": "^4.0.1",
 		"publint": "^0.3.12",
 		"tailwindcss": "^4.1.12",
 		"tsdown": "^0.13.5",
 		"tsx": "^4.20.5",
+		"vite-plugin-vibe-web-dev-client": "workspace:*",
 		"vitest": "^3.2.4"
 	}
 }

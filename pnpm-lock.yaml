@@ -1073,9 +1073,6 @@ importers:
 
   packages/webext-bridge:
     dependencies:
-      '@types/webextension-polyfill':
-        specifier: ^0.8.3
-        version: 0.8.3
       nanoevents:
         specifier: ^6.0.2
         version: 6.0.2
@@ -1092,6 +1089,9 @@ importers:
       '@types/node':
         specifier: ^22.16.5
         version: 22.17.1
+      '@types/webextension-polyfill':
+        specifier: ^0.8.3
+        version: 0.8.3
       bumpp:
         specifier: ^7.1.1
         version: 7.2.0

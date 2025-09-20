@@ -12,9 +12,9 @@
 	},
 	"devDependencies": {
 		"@tsconfig/node22": "^22.0.2",
+		"@vibe-web/code-inspector-node": "workspace:*",
 		"@vitejs/plugin-vue": "^6.0.1",
 		"@vitejs/plugin-vue-jsx": "^5.0.1",
-		"@vibe-web/code-inspector-node": "workspace:*",
 		"@vue/tsconfig": "^0.7.0",
 		"npm-run-all2": "^8.0.4",
 		"unplugin-vue-inspector": "^2.3.2",

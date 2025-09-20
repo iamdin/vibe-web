@@ -7,34 +7,34 @@ import { useChat } from "@ai-sdk/react";
 import { eventIteratorToStream } from "@orpc/client";
 import type { InspectMetadata } from "@vibe-web/code-inspector-web";
 import {
-  InspectorTrigger,
-  useInspectorActorRef,
-  useInspectorActorSelector,
+	InspectorTrigger,
+	useInspectorActorRef,
+	useInspectorActorSelector,
 } from "@vibe-web/code-inspector-web";
 import { getFilenameFromPath } from "@vibe-web/code-inspector-web/util";
 import {
-  Conversation,
-  ConversationContent,
-  ConversationScrollButton,
+	Conversation,
+	ConversationContent,
+	ConversationScrollButton,
 } from "@vibe-web/ui/ai-elements/conversation";
 import { Loader } from "@vibe-web/ui/ai-elements/loader";
 import {
-  PromptInput,
-  PromptInputSubmit,
-  PromptInputTextarea,
-  PromptInputToolbar,
-  PromptInputTools,
+	PromptInput,
+	PromptInputSubmit,
+	PromptInputTextarea,
+	PromptInputToolbar,
+	PromptInputTools,
 } from "@vibe-web/ui/ai-elements/prompt-input";
 import { Badge } from "@vibe-web/ui/components/badge";
 import { Button } from "@vibe-web/ui/components/button";
 import {
-  Select,
-  SelectContent,
-  SelectControl,
-  SelectItem,
-  SelectTrigger,
-  SelectValueText,
-  createListCollection,
+	Select,
+	SelectContent,
+	SelectControl,
+	SelectItem,
+	SelectTrigger,
+	SelectValueText,
+	createListCollection,
 } from "@vibe-web/ui/components/select";
 import { XIcon } from "lucide-react";
 import { useState } from "react";

@@ -23,9 +23,9 @@
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.3",
 		"@types/ws": "^8.18.1",
+		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/server-trpc": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
-		"@vibe-web/agents": "workspace:*",
 		"tsx": "^4.20.5"
 	}
 }
