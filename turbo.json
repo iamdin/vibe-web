@@ -12,6 +12,9 @@
 			"dependsOn": ["^stub"],
 			"outputs": ["dist"]
 		},
+		"typecheck": {
+			"dependsOn": ["^typecheck"]
+		},
 		"build": {
 			"dependsOn": ["^build"]
 		},

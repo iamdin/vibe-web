@@ -16,6 +16,7 @@
 		"lint": "biome check .",
 		"lint:fix": "biome lint . --fix --unsafe",
 		"format": "biome format . --write",
+    "typecheck": "turbo typecheck",
 		"changeset": "changeset",
 		"changeset:version": "changeset version",
 		"changeset:publish": "changeset publish",

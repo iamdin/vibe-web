@@ -59,6 +59,7 @@
 	"devDependencies": {
 		"@types/babel__core": "^7.20.5",
 		"@types/babel__traverse": "^7.28.0",
+		"@vibe-web/typescript": "workspace:*",
 		"publint": "^0.3.12",
 		"tsdown": "^0.13.5",
 		"vitest": "^3.2.4"

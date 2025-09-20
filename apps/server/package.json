@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
 		"build": "tsc",
-		"start": "node dist/server.js"
+		"start": "node dist/server.js",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@anthropic-ai/claude-code": "^1.0.113",

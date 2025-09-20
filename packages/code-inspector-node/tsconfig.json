@@ -1,0 +1,8 @@
+{
+	"extends": "@vibe-web/typescript/base.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Bundler"
+	},
+	"include": ["src"]
+}

@@ -597,6 +597,9 @@ importers:
       '@types/babel__traverse':
         specifier: ^7.28.0
         version: 7.28.0
+      '@vibe-web/typescript':
+        specifier: workspace:*
+        version: link:../../tools/typescript
       publint:
         specifier: ^0.3.12
         version: 0.3.12

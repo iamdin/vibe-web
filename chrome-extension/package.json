@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "tsdown --watch",
-		"build": "tsdown"
+		"build": "tsdown",
+		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.1.6",

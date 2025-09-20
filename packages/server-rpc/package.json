@@ -15,7 +15,8 @@
 		}
 	},
 	"scripts": {
-		"clean": "git clean -xdf node_modules dist .turbo"
+		"clean": "git clean -xdf node_modules dist .turbo",
+		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"@anthropic-ai/sdk": "^0.61.0",

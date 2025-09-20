@@ -6,7 +6,8 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"dev": "vite dev --port=3001",
-		"clean": "git clean -xdf node_modules dist .turbo .tanstack"
+		"clean": "git clean -xdf node_modules dist .turbo .tanstack",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@ai-sdk/react": "^2.0.44",

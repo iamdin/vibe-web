@@ -10,7 +10,6 @@ import {
 	type Pushable,
 	queuelessPushable as pushable,
 } from "it-queueless-pushable";
-import { z } from "zod/v4";
 import type { ClaudeCodeMetadata } from "./types";
 
 interface SessionState {
