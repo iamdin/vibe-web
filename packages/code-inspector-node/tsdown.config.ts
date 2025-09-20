@@ -6,9 +6,5 @@ export default defineConfig({
 	target: "es2022",
 	platform: "browser",
 	publint: true,
-	exports: {
-		all: true,
-		devExports: false,
-	},
 	unbundle: true,
 });
