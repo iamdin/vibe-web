@@ -103,7 +103,9 @@ export function Chat() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (input.trim()) {
+		if (!input.trim()) return;
+
+		if (inspectedTargets.length > 0) {
 			sendMessage({
 				parts: [
 					{
@@ -121,10 +123,15 @@ export function Chat() {
 					},
 				],
 			});
-			inspectorActorRef.send({ type: "STOP" });
-			inspectorActorRef.send({ type: "CLEAR_INSPECTED_TARGETS" });
-			setInput("");
+		} else {
+			sendMessage({
+				parts: [{ type: "text", text: input }],
+			});
 		}
+
+		inspectorActorRef.send({ type: "STOP" });
+		inspectorActorRef.send({ type: "CLEAR_INSPECTED_TARGETS" });
+		setInput("");
 	};
 
 	return (
