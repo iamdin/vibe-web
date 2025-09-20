@@ -1,0 +1,3 @@
+{
+	"extends": "@vibe-web/typescript/base.json"
+}

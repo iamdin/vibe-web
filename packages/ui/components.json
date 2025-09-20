@@ -1,0 +1,24 @@
+{
+	"$schema": "https://ui.shadcn.com/schema.json",
+	"style": "new-york",
+	"rsc": false,
+	"tsx": true,
+	"tailwind": {
+		"config": "",
+		"css": "src/globals.css",
+		"baseColor": "slate",
+		"cssVariables": true,
+		"prefix": ""
+	},
+	"iconLibrary": "lucide",
+	"aliases": {
+		"components": "@vibe-web/ui/components",
+		"utils": "@vibe-web/ui/lib/utils",
+		"hooks": "@vibe-web/ui/hooks",
+		"lib": "@vibe-web/ui/lib",
+		"ui": "@vibe-web/ui/components"
+	},
+	"registries": {
+		"@shipbase": "https://ui.shipbase.xyz/r/react/{name}.json"
+	}
+}

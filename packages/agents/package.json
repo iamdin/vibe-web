@@ -1,0 +1,25 @@
+{
+	"name": "@vibe-web/agents",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"exports": {
+		"./claude-code": "./src/claude-code/index.ts"
+	},
+	"dependencies": {
+		"it-queueless-pushable": "2.0.2"
+	},
+	"devDependencies": {
+		"@anthropic-ai/claude-code": "^1.0.113",
+		"@vibe-web/typescript": "workspace:*",
+		"ai": "^5.0.44",
+		"uuid": "^13.0.0",
+		"zod": "^4.1.8"
+	},
+	"peerDependencies": {
+		"@anthropic-ai/claude-code": "^1.0.113",
+		"ai": "^5.0.44",
+		"uuid": "^13.0.0",
+		"zod": "^4.1.8"
+	}
+}

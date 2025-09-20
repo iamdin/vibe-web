@@ -1,0 +1,4 @@
+export const INSPECTOR_ATTRIBUTE = "inspector";
+export const INSPECTOR_NAME_ATTRIBUTE = "inspector-name";
+export const INSPECTOR_ATTRIBUTE_DATA_KEY = `data-${INSPECTOR_ATTRIBUTE}`;
+export const INSPECTOR_NAME_ATTRIBUTE_DATA_KEY = `data-${INSPECTOR_NAME_ATTRIBUTE}`;

@@ -1,0 +1,45 @@
+{
+	"name": "@vibe-web/server-trpc",
+	"private": true,
+	"type": "module",
+	"version": "0.0.0",
+	"description": "TRPC for Vibe Coding Devtools",
+	"exports": {
+		"./orpc": "./src/orpc.ts",
+		"./routes": "./src/routes/index.ts",
+		"./agents": "./src/agents/index.ts"
+	},
+	"typesVersions": {
+		"*": {
+			"*": ["./src/*"]
+		}
+	},
+	"scripts": {
+		"clean": "git clean -xdf node_modules dist .turbo"
+	},
+	"devDependencies": {
+		"@anthropic-ai/sdk": "^0.61.0",
+		"@orpc/server": "^1.8.6",
+		"@trpc/server": "^11.5.0",
+		"@types/ws": "^8.18.1",
+		"@vibe-web/typescript": "workspace:*",
+		"@vibe-web/agents": "workspace:*",
+		"ai": "^5.0.44",
+		"superjson": "^2.2.2",
+		"tsdown": "^0.13.5",
+		"ws": "^8.18.3",
+		"zod": "^4.1.8"
+	},
+	"peerDependencies": {
+		"@orpc/server": "^1.8.6",
+		"@trpc/server": "^11.5.0",
+		"ai": "^5.0.30",
+		"superjson": "^2.2.2",
+		"ws": "^8.18.3",
+		"zod": "^3.25.67"
+	},
+	"dependencies": {
+		"@anthropic-ai/claude-code": "^1.0.113",
+		"uuid": "^13.0.0"
+	}
+}

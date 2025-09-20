@@ -1,0 +1,35 @@
+{
+	"name": "vibe-web",
+	"private": true,
+	"scripts": {
+		"dev": "turbo dev",
+		"watch": "turbo watch dev",
+		"stub": "turbo watch stub",
+		"build": "turbo build",
+		"build:extension": "turbo build --filter=./apps/chrome-side-panel --filter=./chrome-extension",
+		"build:packages": "turbo build --filter=./packages/*",
+		"bump": "pnpm taze",
+		"test": "turbo test",
+		"pack": "turbo pack -F ./apps/vscode",
+		"clean": "turbo run clean && git clean -xdf node_modules .turbo",
+		"sherif": "pnpm dlx sherif --fix",
+		"lint": "biome check .",
+		"lint:fix": "biome lint . --fix --unsafe",
+		"format": "biome format . --write",
+		"changeset": "changeset",
+		"version": "changeset version",
+		"publish": "changeset publish",
+		"prepublish": "turbo lint test build --filter=./packages/* --ui=stream"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@changesets/cli": "^2.29.6",
+		"@types/node": "^22.16.5",
+		"publint": "^0.3.12",
+		"taze": "^19.5.0",
+		"turbo": "^2.5.6",
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
+	},
+	"packageManager": "pnpm@10.15.1"
+}

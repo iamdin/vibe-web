@@ -1,0 +1,6 @@
+packages:
+- apps/*
+- chrome-extension
+- examples/*
+- packages/*
+- tools/*

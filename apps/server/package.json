@@ -1,0 +1,29 @@
+{
+	"name": "server",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "tsx watch src/server.ts",
+		"build": "tsc",
+		"start": "node dist/server.js"
+	},
+	"dependencies": {
+		"@anthropic-ai/claude-code": "^1.0.113",
+		"@orpc/server": "^1.8.6",
+		"ai": "^5.0.44",
+		"cors": "^2.8.5",
+		"express": "^5.1.0",
+		"uuid": "^13.0.0",
+		"ws": "^8.18.3",
+		"zod": "^4.1.8"
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.3",
+		"@types/ws": "^8.18.1",
+		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/typescript": "workspace:*",
+		"@vibe-web/agents": "workspace:*",
+		"tsx": "^4.20.5"
+	}
+}
