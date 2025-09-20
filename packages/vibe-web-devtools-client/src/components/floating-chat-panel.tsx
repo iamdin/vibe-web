@@ -24,9 +24,6 @@ export function FloatingChat() {
 	const { refs, floatingStyles, context } = useFloating({
 		open,
 		strategy: "fixed",
-		onOpenChange: (open) => {
-			if (!open) close();
-		},
 		middleware: [
 			offset({ mainAxis: 5, alignmentAxis: 4 }),
 			flip(),

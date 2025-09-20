@@ -20,11 +20,11 @@ export function App() {
 			>
 				<Button
 					variant="ghost"
-					className="size-10"
+					className="size-10 rounded-full"
 					aria-label={open ? "Close chat" : "Open chat"}
 					onClick={() => setOpen(!open)}
 				>
-					<BotIcon className="size-4" />
+					<BotIcon className="size-4 rounded-full" />
 				</Button>
 			</div>
 			<FloatingChat />
