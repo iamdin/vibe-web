@@ -94,10 +94,6 @@ export function Chat() {
 				throw new Error("Unsupported yet");
 			},
 		},
-
-		onFinish(data) {
-			console.log(data);
-		},
 	});
 
 	const handleSubmit = async (e: React.FormEvent) => {

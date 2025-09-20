@@ -42,7 +42,6 @@ const prompt = orpc
 					break;
 			}
 		}
-		console.log("message", message);
 		return ClaudeCodeAgent.toUIMessage(
 			claudeCodeAgent.session.prompt({
 				sessionId: input.sessionId,
