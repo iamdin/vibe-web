@@ -1,6 +1,6 @@
-import { orpc } from "@/lib/orpc";
 import { Button } from "@vibe-web/ui/components/button";
 import { useEffect, useState } from "react";
+import { orpc } from "@/lib/orpc";
 
 export const Route = createFileRoute({
 	component: HomeComponent,
@@ -25,7 +25,7 @@ function HomeComponent() {
 		sub();
 	}, [sessionId]);
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const _handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (input.trim() && sessionId !== undefined) {
 			// Clear input immediately

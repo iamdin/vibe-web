@@ -19,7 +19,9 @@ import {
 
 export function ClaudeCodeBashTool({
 	invocation,
-}: { invocation: UIToolInvocation<typeof claudeCodeTools.Bash> }) {
+}: {
+	invocation: UIToolInvocation<typeof claudeCodeTools.Bash>;
+}) {
 	if (!invocation) return null;
 
 	const { input, output } = invocation;
@@ -221,6 +223,8 @@ export function ClaudeCodeTaskTool({
 													className="text-xs"
 												/>
 											);
+										default:
+											return null;
 									}
 								})
 							: null}

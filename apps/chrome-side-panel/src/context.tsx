@@ -15,7 +15,10 @@ const ORPCContext = createContext<ORPCContextType>({} as ORPCContextType);
 export function ORPCContextProvider({
 	url,
 	children,
-}: { url?: string; children: React.ReactNode }) {
+}: {
+	url?: string;
+	children: React.ReactNode;
+}) {
 	const orpc = useMemo(() => {
 		if (!url) return undefined;
 		return {

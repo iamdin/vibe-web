@@ -1,8 +1,8 @@
-import { Chat } from "@/components/chat";
-import { ORPCContextProvider } from "@/context";
 import { ViwebExtensionMessage } from "@vibe-web/shared/extension/message";
 import { useEffect, useState } from "react";
 import { onMessage } from "webext-bridge/sidepanel";
+import { Chat } from "@/components/chat";
+import { ORPCContextProvider } from "@/context";
 
 export default function SidePanelApp() {
 	const [localServerBaseurl, setLocalServerBaseurl] = useState<

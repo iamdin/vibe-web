@@ -3,7 +3,7 @@ import {
 	INSPECTOR_IGNORE_ATTRIBUTE_DATA_KEY,
 	INSPECTOR_NAME_ATTRIBUTE_DATA_KEY,
 } from "./constants";
-import type { InspectMetadata, InspectedTarget } from "./types";
+import type { InspectedTarget, InspectMetadata } from "./types";
 
 const getInspector = (el: HTMLElement) => {
 	const data = el.getAttribute(INSPECTOR_ATTRIBUTE_DATA_KEY);
