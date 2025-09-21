@@ -14,7 +14,7 @@
 		"clean": "turbo run clean && git clean -xdf node_modules .turbo",
 		"sherif": "pnpm dlx sherif --fix",
 		"lint": "biome check .",
-		"lint:fix": "biome check . --fix --unsafe",
+		"lint:fix": "biome check . --write --unsafe",
 		"format": "biome format . --write",
 		"typecheck": "turbo typecheck",
 		"changeset": "changeset",
@@ -23,7 +23,7 @@
 		"prepublish": "turbo lint test build --filter=./packages/* --ui=stream"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
+		"@biomejs/biome": "2.2.4",
 		"@changesets/cli": "^2.29.6",
 		"@types/node": "^22.16.5",
 		"publint": "^0.3.12",
