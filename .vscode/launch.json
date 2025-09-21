@@ -15,7 +15,7 @@
 				"${workspaceFolder}/playground/formula-vue"
 			],
 			"outFiles": ["${workspaceFolder}/apps/vscode/dist/extension.js"],
-			"preLaunchTask": "Build Extension: vscode-extension",
+			"preLaunchTask": "Build Extension: vscode-extension"
 		}
 	]
 }

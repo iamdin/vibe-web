@@ -1,5 +1,5 @@
-import browser from "webextension-polyfill";
 import type { Runtime } from "webextension-polyfill";
+import browser from "webextension-polyfill";
 import type { InternalMessage } from "../types";
 import { encodeConnectionArgs } from "./connection-args";
 import { createDeliveryLogger } from "./delivery-logger";

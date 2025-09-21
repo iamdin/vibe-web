@@ -1,5 +1,5 @@
-import { createNanoEvents } from "nanoevents";
 import type { Emitter } from "nanoevents";
+import { createNanoEvents } from "nanoevents";
 import uuid from "tiny-uid";
 import type { JsonValue } from "type-fest";
 import type {
