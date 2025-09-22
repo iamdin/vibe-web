@@ -4,23 +4,24 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+    "test": "vitest",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules .turbo"
 	},
 	"exports": {
 		"./claude-code": "./src/claude-code/index.ts"
 	},
-	"dependencies": {
-		"it-queueless-pushable": "2.0.2"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@anthropic-ai/claude-code": "^1.0.113",
 		"@vibe-web/typescript": "workspace:*",
+		"ai-sdk-claude-code": "workspace:*",
 		"ai": "^5.0.44",
 		"zod": "^4.1.8"
 	},
 	"peerDependencies": {
 		"@anthropic-ai/claude-code": "^1.0.113",
+		"ai-sdk-claude-code": "workspace:*",
 		"ai": "^5.0.44",
 		"zod": "^4.1.8"
 	}

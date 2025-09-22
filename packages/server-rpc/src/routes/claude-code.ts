@@ -1,6 +1,6 @@
 import { type } from "@orpc/server";
-import { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
 import type { UIMessage } from "ai";
+import { toUIMessage } from "ai-sdk-claude-code";
 import { z } from "zod/v4";
 import { orpc } from "../orpc";
 
@@ -47,7 +47,7 @@ const prompt = orpc
 					break;
 			}
 		}
-		return ClaudeCodeAgent.toUIMessage(
+		return toUIMessage(
 			claudeCodeAgent.session.prompt({
 				sessionId: input.sessionId,
 				message: {

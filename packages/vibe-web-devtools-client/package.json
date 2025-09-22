@@ -51,6 +51,7 @@
 		"@vibe-web/code-inspector-web": "workspace:*",
 		"@vibe-web/server-trpc": "workspace:*",
 		"@vibe-web/ui": "workspace:*",
+		"ai-sdk-claude-code": "workspace:*",
 		"@vitejs/plugin-react": "^5.0.1",
 		"@vitejs/plugin-react-oxc": "^0.4.1",
 		"@vitejs/plugin-react-swc": "^4.0.1",

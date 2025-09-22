@@ -1,4 +1,3 @@
-import type { claudeCodeTools } from "@vibe-web/agents/claude-code";
 import {
 	CodeBlock,
 	CodeBlockCopyButton,
@@ -9,6 +8,7 @@ import {
 	CollapsibleTrigger,
 } from "@vibe-web/ui/components/collapsible";
 import type { UIToolInvocation } from "ai";
+import type { claudeCodeTools } from "ai-sdk-claude-code";
 import {
 	EditIcon,
 	FileTextIcon,
