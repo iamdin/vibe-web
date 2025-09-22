@@ -1,4 +1,4 @@
-import type { JsonValue, Jsonify } from "type-fest";
+import type { Jsonify, JsonValue } from "type-fest";
 
 export type RuntimeContext =
 	| "devtools"

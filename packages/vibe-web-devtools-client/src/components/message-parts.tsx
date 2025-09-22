@@ -1,7 +1,7 @@
-import type { ClaudeCodeUIMessage } from "@/types";
 import { Message, MessageContent } from "@vibe-web/ui/ai-elements/message";
 import { Badge } from "@vibe-web/ui/components/badge";
 import ReactMarkdown from "react-markdown";
+import type { ClaudeCodeUIMessage } from "@/types";
 import {
 	ClaudeCodeBashTool,
 	ClaudeCodeEditTool,

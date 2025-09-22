@@ -1,11 +1,11 @@
 import {
 	type Options,
 	type Query,
+	query,
 	type SDKMessage,
 	type SDKUserMessage,
-	query,
 } from "@anthropic-ai/claude-code";
-import { type InferUIMessageChunk, type UIMessage, generateId } from "ai";
+import { generateId, type InferUIMessageChunk, type UIMessage } from "ai";
 import {
 	type Pushable,
 	queuelessPushable as pushable,

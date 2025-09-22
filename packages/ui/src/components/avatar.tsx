@@ -1,7 +1,6 @@
+import { cn } from "@vibe-web/ui/lib/utils";
 import { Avatar as AvatarPrimitive } from "radix-ui";
 import type * as React from "react";
-
-import { cn } from "@vibe-web/ui/lib/utils";
 
 function Avatar({
 	className,

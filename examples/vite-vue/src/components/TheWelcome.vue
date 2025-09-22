@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import WelcomeItem from "./WelcomeItem.vue";
-import CommunityIcon from "./icons/IconCommunity.vue";
-import DocumentationIcon from "./icons/IconDocumentation.vue";
-import EcosystemIcon from "./icons/IconEcosystem.vue";
-import SupportIcon from "./icons/IconSupport.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
-
-const openReadmeInEditor = () => fetch("/__open-in-editor?file=README.md");
+const _openReadmeInEditor = () => fetch("/__open-in-editor?file=README.md");
 </script>
 
 <template>

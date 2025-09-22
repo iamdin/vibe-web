@@ -21,7 +21,9 @@ function InspectorRoot({ children }: { children: React.ReactNode }) {
 
 export const InspectorProvider = ({
 	children,
-}: { children: React.ReactNode }) => {
+}: {
+	children: React.ReactNode;
+}) => {
 	return (
 		<InspectorActorProvider>
 			<InspectorRoot>{children}</InspectorRoot>

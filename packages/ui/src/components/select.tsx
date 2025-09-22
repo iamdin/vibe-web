@@ -1,8 +1,7 @@
-import { type HTMLArkProps, ark } from "@ark-ui/react/factory";
+import { ark, type HTMLArkProps } from "@ark-ui/react/factory";
 import { Select as SelectPrimitive, selectAnatomy } from "@ark-ui/react/select";
-import { CheckIcon, ChevronDownIcon } from "lucide-react";
-
 import { cn } from "@vibe-web/ui/lib/utils";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 const parts = selectAnatomy.extendWith("separator").build();
 
@@ -192,11 +191,11 @@ export {
 };
 
 export {
-	createListCollection,
-	useSelect,
 	type CollectionItem,
+	createListCollection,
 	type ListCollection,
 	type SelectHighlightChangeDetails,
 	type SelectOpenChangeDetails,
 	type SelectValueChangeDetails,
+	useSelect,
 } from "@ark-ui/react/select";

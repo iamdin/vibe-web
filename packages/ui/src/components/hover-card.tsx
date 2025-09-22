@@ -1,9 +1,8 @@
 "use client";
 
+import { cn } from "@vibe-web/ui/lib/utils";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 import type * as React from "react";
-
-import { cn } from "@vibe-web/ui/lib/utils";
 
 function HoverCard({
 	...props

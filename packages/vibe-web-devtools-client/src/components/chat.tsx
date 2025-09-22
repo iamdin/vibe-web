@@ -1,8 +1,5 @@
 "use client";
 
-import { useToolbarContext } from "@/context/toolbar";
-import { orpc } from "@/lib/orpc";
-import type { ClaudeCodeUIMessage } from "@/types";
 import { useChat } from "@ai-sdk/react";
 import { eventIteratorToStream } from "@orpc/client";
 import type { InspectMetadata } from "@vibe-web/code-inspector-web";
@@ -28,16 +25,19 @@ import {
 import { Badge } from "@vibe-web/ui/components/badge";
 import { Button } from "@vibe-web/ui/components/button";
 import {
+	createListCollection,
 	Select,
 	SelectContent,
 	SelectControl,
 	SelectItem,
 	SelectTrigger,
 	SelectValueText,
-	createListCollection,
 } from "@vibe-web/ui/components/select";
 import { XIcon } from "lucide-react";
 import { useState } from "react";
+import { useToolbarContext } from "@/context/toolbar";
+import { orpc } from "@/lib/orpc";
+import type { ClaudeCodeUIMessage } from "@/types";
 import { MessageParts } from "./message-parts";
 
 const models = createListCollection<{

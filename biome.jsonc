@@ -1,32 +1,19 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		},
+		"enabled": true
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": [
-			".vscode",
-			".cladue",
-			"packages/webext-bridge",
-			"examples",
-			"routeTree.gen.ts"
-		]
+		"includes": ["**", "!**/routeTree.gen.ts"]
 	},
 	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
-	},
-	"organizeImports": {
 		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		}
 	},
 	"javascript": {
 		"formatter": {
@@ -37,5 +24,33 @@
 		"parser": {
 			"allowComments": true
 		}
+	},
+	"linter": {
+		"domains": {
+			"project": "recommended",
+			"react": "recommended",
+			"test": "recommended",
+			"vue": "recommended"
+		},
+		"enabled": true,
+		"includes": ["**", "!packages/webext-bridge/**", "!examples/**"],
+		"rules": {
+			"a11y": {
+				"useAriaPropsSupportedByRole": "warn",
+				"useSemanticElements": "warn"
+			},
+			"correctness": {
+				"useUniqueElementIds": "off"
+			},
+			"recommended": true,
+			"suspicious": {
+				"noUnknownAtRules": "off"
+			}
+		}
+	},
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": true
 	}
 }

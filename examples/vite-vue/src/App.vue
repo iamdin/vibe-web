@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
 
-const handleClick = () => {
+const _handleClick = () => {
 	alert("黄色按钮被点击了！");
 };
 

@@ -1,15 +1,15 @@
-import Loader from "@/components/loader";
-import type { orpc } from "@/lib/orpc";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
+	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
-	createRootRouteWithContext,
 	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import Loader from "@/components/loader";
+import type { orpc } from "@/lib/orpc";
 
 import appCss from "../index.css?url";
 

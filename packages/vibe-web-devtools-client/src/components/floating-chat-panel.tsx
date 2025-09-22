@@ -10,14 +10,13 @@ import {
 	useInteractions,
 	useRole,
 } from "@floating-ui/react";
+import { Button } from "@vibe-web/ui/components/button";
 import { CircleXIcon, SquarePenIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-
 import { Chat } from "@/components/chat";
 import { useToolbarContext } from "@/context/toolbar";
 import { orpc } from "@/lib/orpc";
-import { Button } from "@vibe-web/ui/components/button";
 
 export function FloatingChat() {
 	const { toolbarRef, sessionId, open, setOpen } = useToolbarContext();

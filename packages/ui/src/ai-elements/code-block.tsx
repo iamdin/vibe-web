@@ -6,9 +6,9 @@ import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import type { ComponentProps, HTMLAttributes, JSX, ReactNode } from "react";
 import {
+	createContext,
 	Fragment,
 	Suspense,
-	createContext,
 	use,
 	useContext,
 	useMemo,

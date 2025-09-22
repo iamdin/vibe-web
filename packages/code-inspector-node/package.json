@@ -3,8 +3,12 @@
 	"version": "0.0.0",
 	"type": "module",
 	"private": true,
-	"keywords": ["inspector"],
-	"files": ["dist"],
+	"keywords": [
+		"inspector"
+	],
+	"files": [
+		"dist"
+	],
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.cts",
@@ -33,7 +37,10 @@
 	},
 	"typesVersions": {
 		"*": {
-			"*": ["./dist/*", "./*"]
+			"*": [
+				"./dist/*",
+				"./*"
+			]
 		}
 	},
 	"publishConfig": {

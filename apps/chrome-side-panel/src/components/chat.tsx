@@ -1,6 +1,5 @@
 "use client";
 
-import { useORPC } from "@/context";
 import { useChat } from "@ai-sdk/react";
 import type { InspectedTargetData } from "@vibe-web/code-inspector-web";
 import { ViwebExtensionMessage } from "@vibe-web/shared/extension/message";
@@ -41,6 +40,7 @@ import { CopyIcon, RefreshCcwIcon } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { onMessage } from "webext-bridge/sidepanel";
+import { useORPC } from "@/context";
 
 const models = [
 	{
@@ -62,7 +62,7 @@ export function Chat() {
 	>([]);
 	const { messages, sendMessage, status, regenerate } = useChat({
 		transport: {
-			async sendMessages(options) {
+			async sendMessages(_options) {
 				// this should not happen, for type safe
 				invariant(orpc, "local server not set correctly");
 				// const event = await orpc.http.chat(

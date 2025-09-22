@@ -1,7 +1,7 @@
-import { FloatingChat } from "@/components/floating-chat-panel";
-import { ToolbarProviders, useToolbarContext } from "@/context/toolbar";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { FloatingChat } from "@/components/floating-chat-panel";
+import { ToolbarProviders, useToolbarContext } from "@/context/toolbar";
 
 import "./src/index.css";
 

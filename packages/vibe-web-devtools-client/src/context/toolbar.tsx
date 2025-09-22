@@ -1,7 +1,7 @@
 import { InspectorProvider } from "@vibe-web/code-inspector-web";
 import {
-	type RefObject,
 	createContext,
+	type RefObject,
 	useContext,
 	useRef,
 	useState,
