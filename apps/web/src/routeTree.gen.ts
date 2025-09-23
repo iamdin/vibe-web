@@ -13,36 +13,86 @@ import type {
   CreateServerFileRoute,
   ServerFileRoutesByPath,
 } from '@tanstack/react-start/server'
+import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as IndexRouteImport } from './routes/index'
+import { ServerRoute as ApiHelloServerRouteImport } from './routes/api/hello'
+import { ServerRoute as ApiRpcSplatServerRouteImport } from './routes/api/rpc.$'
 
+const rootServerRouteImport = createServerRootRoute()
+
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHelloServerRoute = ApiHelloServerRouteImport.update({
+  id: '/api/hello',
+  path: '/api/hello',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
+const ApiRpcSplatServerRoute = ApiRpcSplatServerRouteImport.update({
+  id: '/api/rpc/$',
+  path: '/api/rpc/$',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/chat'
+  id: '__root__' | '/' | '/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
+}
+export interface FileServerRoutesByFullPath {
+  '/api/hello': typeof ApiHelloServerRoute
+  '/api/rpc/$': typeof ApiRpcSplatServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/hello': typeof ApiHelloServerRoute
+  '/api/rpc/$': typeof ApiRpcSplatServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/hello': typeof ApiHelloServerRoute
+  '/api/rpc/$': typeof ApiRpcSplatServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/hello' | '/api/rpc/$'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/hello' | '/api/rpc/$'
+  id: '__root__' | '/api/hello' | '/api/rpc/$'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiHelloServerRoute: typeof ApiHelloServerRoute
+  ApiRpcSplatServerRoute: typeof ApiRpcSplatServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -53,6 +103,59 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hello': {
+      id: '/api/hello'
+      path: ''
+      fullPath: '/api/hello'
+      preLoaderRoute: unknown
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: ''
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: unknown
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: unknown
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: unknown
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/api/hello': {
+      id: '/api/hello'
+      path: '/api/hello'
+      fullPath: '/api/hello'
+      preLoaderRoute: typeof ApiHelloServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: '/api/rpc/$'
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: typeof ApiRpcSplatServerRouteImport
+      parentRoute: typeof rootServerRouteImport
     }
   }
 }
@@ -74,10 +177,69 @@ declare module './routes/index' {
     unknown
   >
 }
+declare module './routes/chat' {
+  const createFileRoute: CreateFileRoute<
+    '/chat',
+    FileRoutesByPath['/chat']['parentRoute'],
+    FileRoutesByPath['/chat']['id'],
+    FileRoutesByPath['/chat']['path'],
+    FileRoutesByPath['/chat']['fullPath']
+  >
+
+  const createServerFileRoute: CreateServerFileRoute<
+    ServerFileRoutesByPath['/chat']['parentRoute'],
+    ServerFileRoutesByPath['/chat']['id'],
+    ServerFileRoutesByPath['/chat']['path'],
+    ServerFileRoutesByPath['/chat']['fullPath'],
+    unknown
+  >
+}
+declare module './routes/api/hello' {
+  const createFileRoute: CreateFileRoute<
+    '/api/hello',
+    FileRoutesByPath['/api/hello']['parentRoute'],
+    FileRoutesByPath['/api/hello']['id'],
+    FileRoutesByPath['/api/hello']['path'],
+    FileRoutesByPath['/api/hello']['fullPath']
+  >
+
+  const createServerFileRoute: CreateServerFileRoute<
+    ServerFileRoutesByPath['/api/hello']['parentRoute'],
+    ServerFileRoutesByPath['/api/hello']['id'],
+    ServerFileRoutesByPath['/api/hello']['path'],
+    ServerFileRoutesByPath['/api/hello']['fullPath'],
+    unknown
+  >
+}
+declare module './routes/api/rpc.$' {
+  const createFileRoute: CreateFileRoute<
+    '/api/rpc/$',
+    FileRoutesByPath['/api/rpc/$']['parentRoute'],
+    FileRoutesByPath['/api/rpc/$']['id'],
+    FileRoutesByPath['/api/rpc/$']['path'],
+    FileRoutesByPath['/api/rpc/$']['fullPath']
+  >
+
+  const createServerFileRoute: CreateServerFileRoute<
+    ServerFileRoutesByPath['/api/rpc/$']['parentRoute'],
+    ServerFileRoutesByPath['/api/rpc/$']['id'],
+    ServerFileRoutesByPath['/api/rpc/$']['path'],
+    ServerFileRoutesByPath['/api/rpc/$']['fullPath'],
+    unknown
+  >
+}
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiHelloServerRoute: ApiHelloServerRoute,
+  ApiRpcSplatServerRoute: ApiRpcSplatServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

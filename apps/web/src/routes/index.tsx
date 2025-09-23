@@ -1,41 +1,69 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@vibe-web/ui/components/button";
-import { useEffect, useState } from "react";
-import { orpc } from "@/lib/orpc";
 
 export const Route = createFileRoute({
-	component: HomeComponent,
+	component: Component,
 });
 
-function HomeComponent() {
-	const [input, setInput] = useState("");
-
-	const [sessionId, setSessionId] = useState<string>();
-
-	const handleNewSession = async () => {
-		const { sessionId } = await orpc.claudeCode.session.create.call();
-		setSessionId(sessionId);
-		console.log(sessionId);
-	};
-
-	useEffect(() => {
-		async function sub() {
-			if (!sessionId) return;
-		}
-
-		sub();
-	}, [sessionId]);
-
-	const _handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (input.trim() && sessionId !== undefined) {
-			// Clear input immediately
-			setInput("");
-		}
-	};
-
+function Component() {
 	return (
-		<div>
-			<Button onClick={handleNewSession}>new session</Button>
+		<div className="flex h-full items-center justify-center">
+			<div className="max-w-2xl text-center space-y-6">
+				<div className="space-y-4">
+					<h1 className="text-4xl font-bold tracking-tight">
+						Welcome to Claude Code
+					</h1>
+					<p className="text-xl text-muted-foreground">
+						Your AI-powered coding companion. Get help with development tasks,
+						code reviews, debugging, and more.
+					</p>
+				</div>
+
+				<div className="grid gap-4 md:grid-cols-2 mt-8">
+					<div className="p-6 border rounded-lg space-y-2">
+						<h3 className="font-semibold">Code Analysis</h3>
+						<p className="text-sm text-muted-foreground">
+							Get insights into your codebase with intelligent analysis and
+							suggestions.
+						</p>
+					</div>
+					<div className="p-6 border rounded-lg space-y-2">
+						<h3 className="font-semibold">Interactive Chat</h3>
+						<p className="text-sm text-muted-foreground">
+							Ask questions about your code and get instant, contextual
+							responses.
+						</p>
+					</div>
+					<div className="p-6 border rounded-lg space-y-2">
+						<h3 className="font-semibold">Code Generation</h3>
+						<p className="text-sm text-muted-foreground">
+							Generate code snippets, functions, and components with AI
+							assistance.
+						</p>
+					</div>
+					<div className="p-6 border rounded-lg space-y-2">
+						<h3 className="font-semibold">Debugging Help</h3>
+						<p className="text-sm text-muted-foreground">
+							Get help identifying and fixing bugs in your codebase.
+						</p>
+					</div>
+				</div>
+
+				<div className="flex gap-4 justify-center mt-8">
+					<Button asChild size="lg">
+						<Link to="/chat">Start Chatting</Link>
+					</Button>
+					<Button variant="outline" size="lg" asChild>
+						<a
+							href="https://docs.claude.com"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							View Documentation
+						</a>
+					</Button>
+				</div>
+			</div>
 		</div>
-	);
+	)
 }

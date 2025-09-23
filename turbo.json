@@ -13,7 +13,8 @@
 			"outputs": ["dist"]
 		},
 		"typecheck": {
-			"dependsOn": ["^build"]
+			"outputs": [".tsbuildinfo", "dist/**"],
+			"cache": true
 		},
 		"build": {
 			"dependsOn": ["^build"]
