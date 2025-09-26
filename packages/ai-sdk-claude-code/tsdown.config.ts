@@ -5,5 +5,5 @@ export default defineConfig({
 	format: ["cjs", "esm"],
 	dts: true,
 	sourcemap: true,
-  publint: true
+	publint: true,
 });

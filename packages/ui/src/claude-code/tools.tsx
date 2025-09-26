@@ -1,14 +1,10 @@
-import {
-	CodeBlock,
-	CodeBlockCopyButton,
-} from "@vibe-web/ui/ai-elements/code-block";
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "@vibe-web/ui/components/collapsible";
-import type { UIToolInvocation } from "ai";
-import type { claudeCodeTools } from "ai-sdk-claude-code";
+import type {
+	BashUIToolInvocation,
+	EditUIToolInvocation,
+	GrepUIToolInvocation,
+	ReadUIToolInvocation,
+	TaskUIToolInvocation,
+} from "ai-sdk-claude-code";
 import {
 	EditIcon,
 	FileTextIcon,
@@ -16,11 +12,17 @@ import {
 	SearchIcon,
 	TerminalIcon,
 } from "lucide-react";
+import { CodeBlock, CodeBlockCopyButton } from "../ai-elements/code-block";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "../components/collapsible";
 
 export function ClaudeCodeBashTool({
 	invocation,
 }: {
-	invocation: UIToolInvocation<typeof claudeCodeTools.Bash>;
+	invocation: BashUIToolInvocation;
 }) {
 	if (!invocation) return null;
 
@@ -65,7 +67,7 @@ export function ClaudeCodeBashTool({
 export function ClaudeCodeReadTool({
 	invocation,
 }: {
-	invocation: UIToolInvocation<typeof claudeCodeTools.Read>;
+	invocation: ReadUIToolInvocation;
 }) {
 	if (!invocation) return null;
 
@@ -101,7 +103,7 @@ export function ClaudeCodeReadTool({
 export function ClaudeCodeGrepTool({
 	invocation,
 }: {
-	invocation: UIToolInvocation<typeof claudeCodeTools.Grep>;
+	invocation: GrepUIToolInvocation;
 }) {
 	if (!invocation) return null;
 	const { input, output } = invocation;
@@ -131,7 +133,7 @@ export function ClaudeCodeGrepTool({
 export function ClaudeCodeEditTool({
 	invocation,
 }: {
-	invocation: UIToolInvocation<typeof claudeCodeTools.Edit>;
+	invocation: EditUIToolInvocation;
 }) {
 	if (!invocation) return null;
 
@@ -180,7 +182,7 @@ export function ClaudeCodeEditTool({
 export function ClaudeCodeTaskTool({
 	invocation,
 }: {
-	invocation: UIToolInvocation<typeof claudeCodeTools.Task>;
+	invocation: TaskUIToolInvocation;
 }) {
 	if (!invocation) return null;
 	const { input, output } = invocation;

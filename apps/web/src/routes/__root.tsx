@@ -8,12 +8,10 @@ import {
 	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Button } from "@vibe-web/ui/components/button";
-import { useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import Loader from "@/components/loader";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import type { orpc, orpc as orpcType } from "@/lib/orpc";
+import type { orpc } from "@/lib/orpc";
 
 import appCss from "../index.css?url";
 
@@ -55,14 +53,14 @@ function RootDocument() {
 				<HeadContent />
 			</head>
 			<body>
-				<SidebarProvider>
-					<div className="flex h-svh w-full">
-						<AppSidebar />
-						<main className="flex-1 overflow-hidden">
-							{isFetching ? <Loader /> : <Outlet />}
-						</main>
-					</div>
-				</SidebarProvider>
+				{/* <SidebarProvider> */}
+				<div className="flex h-svh w-full">
+					{/* <AppSidebar /> */}
+					<main className="flex-1 overflow-hidden">
+						{isFetching ? <Loader /> : <Outlet />}
+					</main>
+				</div>
+				{/* </SidebarProvider> */}
 				<TanStackRouterDevtools position="bottom-left" />
 				<ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
 				<Scripts />

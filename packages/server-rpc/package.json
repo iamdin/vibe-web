@@ -43,7 +43,7 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/claude-code": "^1.0.113",
-    "ai-sdk-claude-code": "workspace:*",
+		"ai-sdk-claude-code": "workspace:*",
 		"uuid": "^13.0.0"
 	}
 }

@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const KillShell = tool({
@@ -16,3 +16,5 @@ export const KillShell = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#killbash-2
 	outputSchema: z.string(),
 });
+
+export type KillShellUIToolInvocation = UIToolInvocation<typeof KillShell>;

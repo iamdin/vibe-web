@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const Task = tool({
@@ -32,3 +32,5 @@ export const Task = tool({
 		),
 	]),
 });
+
+export type TaskUIToolInvocation = UIToolInvocation<typeof Task>;

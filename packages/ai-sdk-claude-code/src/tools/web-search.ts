@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const WebSearch = tool({
@@ -24,3 +24,5 @@ export const WebSearch = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#websearch-2
 	outputSchema: z.string(),
 });
+
+export type WebSearchUIToolInvocation = UIToolInvocation<typeof WebSearch>;

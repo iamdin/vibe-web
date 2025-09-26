@@ -9,13 +9,14 @@ export default defineConfig({
 		tsconfigPaths({ projects: ["./tsconfig.json"] }),
 		tailwindcss(),
 		tanstackStart({
+			target: "static",
 			spa: {
 				enabled: true,
 			},
-			customViteReactPlugin: true,
 			tsr: {
 				verboseFileRoutes: false,
 			},
+			customViteReactPlugin: true,
 		}),
 		viteReact(),
 	],

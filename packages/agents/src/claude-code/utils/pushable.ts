@@ -21,20 +21,20 @@ export class Pushable<T> implements AsyncIterable<T> {
 		}
 	}
 
-  next(): Promise<IteratorResult<T, void>>   {
-    if (this.queue.length > 0) {
-      const value = this.queue.shift()!;
-      return Promise.resolve({ value, done: false });
-    }
-    if (this.done) {
-      return Promise.resolve({ value: undefined, done: true });
-    }
-    return new Promise<IteratorResult<T>>((resolve) => {
-      this.resolvers.push(resolve);
-    });
-  }
+	next(): Promise<IteratorResult<T, void>> {
+		if (this.queue.length > 0) {
+			const value = this.queue.shift()!;
+			return Promise.resolve({ value, done: false });
+		}
+		if (this.done) {
+			return Promise.resolve({ value: undefined, done: true });
+		}
+		return new Promise<IteratorResult<T>>((resolve) => {
+			this.resolvers.push(resolve);
+		});
+	}
 
 	[Symbol.asyncIterator](): AsyncIterator<T, void, unknown> {
-		return this
+		return this;
 	}
 }

@@ -3,6 +3,7 @@ import { RPCLink } from "@orpc/client/fetch";
 import type { RouterClient } from "@orpc/server";
 import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
+import { createIsomorphicFn } from "@tanstack/react-start";
 import type { Routes } from "@vibe-web/server-trpc/routes";
 import { toast } from "sonner";
 
@@ -21,10 +22,19 @@ export const queryClient = new QueryClient({
 	}),
 });
 
-export const link = new RPCLink({
-	url: `${import.meta.env.VITE_SERVER_URL}/api/rpc`,
-});
+const getClientLink = createIsomorphicFn()
+	.client(() => {
+		return new RPCLink({
+			url: `${import.meta.env.VITE_SERVER_URL}/api/rpc`,
+		});
+	})
+	.server(
+		() =>
+			new RPCLink({
+				url: `${import.meta.env.VITE_SERVER_URL}/api/rpc`,
+			}),
+	);
 
-export const client: RouterClient<Routes> = createORPCClient(link);
+export const client: RouterClient<Routes> = createORPCClient(getClientLink());
 
 export const orpc = createTanstackQueryUtils(client);

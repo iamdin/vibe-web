@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const BashOutput = tool({
@@ -20,3 +20,5 @@ export const BashOutput = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#bashoutput-2
 	outputSchema: z.string(),
 });
+
+export type BashOutputUIToolInvocation = UIToolInvocation<typeof BashOutput>;

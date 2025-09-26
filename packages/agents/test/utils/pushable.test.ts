@@ -75,7 +75,10 @@ describe("Pushable", () => {
 
 		await expect(pushable.next()).resolves.toEqual({ value: 7, done: false });
 		await expect(pushable.next()).resolves.toEqual({ value: 8, done: false });
-		await expect(pushable.next()).resolves.toEqual({ value: undefined, done: true });
+		await expect(pushable.next()).resolves.toEqual({
+			value: undefined,
+			done: true,
+		});
 	});
 
 	it("supports for-await-of consumption", async () => {

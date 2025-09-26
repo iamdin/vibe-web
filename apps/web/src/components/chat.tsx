@@ -22,6 +22,7 @@ import {
 	SelectTrigger,
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
+import { cn } from "@vibe-web/ui/lib/utils";
 import { useRef, useState } from "react";
 import { MessageParts } from "@/components/message-parts";
 import { orpc } from "@/lib/orpc";
@@ -43,7 +44,7 @@ const models = createListCollection<{
 	],
 });
 
-export function Chat() {
+export function Chat({ className }: { className?: string }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 	const sessionId = useRef<string>(undefined);
@@ -83,7 +84,7 @@ export function Chat() {
 		setInput("");
 	};
 
-	const handleNewSession = async () => {
+	const _handleNewSession = async () => {
 		try {
 			// Abort current session to prevent leaks; multi-session not supported yet
 			if (sessionId.current) {
@@ -102,7 +103,7 @@ export function Chat() {
 	};
 
 	return (
-		<div className="flex flex-col flex-1 min-h-0">
+		<div className={cn("flex flex-col flex-1 min-h-0", className)}>
 			<Conversation>
 				<ConversationContent>
 					{messages.map((message) => (

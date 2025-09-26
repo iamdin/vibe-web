@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const ExitPlanMode = tool({
@@ -16,3 +16,7 @@ export const ExitPlanMode = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#exitplanmode-2
 	outputSchema: z.string(),
 });
+
+export type ExitPlanModeUIToolInvocation = UIToolInvocation<
+	typeof ExitPlanMode
+>;

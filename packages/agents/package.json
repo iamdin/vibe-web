@@ -4,7 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-    "test": "vitest",
+		"test": "vitest",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules .turbo"
 	},

@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const Bash = tool({
@@ -29,3 +29,5 @@ export const Bash = tool({
 	// TODO real output is content string, but doc define is object
 	outputSchema: z.string(),
 });
+
+export type BashUIToolInvocation = UIToolInvocation<typeof Bash>;

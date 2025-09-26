@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const WebFetch = tool({
@@ -20,3 +20,5 @@ export const WebFetch = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#webfetch-2
 	outputSchema: z.string(),
 });
+
+export type WebFetchUIToolInvocation = UIToolInvocation<typeof WebFetch>;

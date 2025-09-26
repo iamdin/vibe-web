@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const TodoWrite = tool({
@@ -31,3 +31,5 @@ export const TodoWrite = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#todowrite-2
 	outputSchema: z.string(),
 });
+
+export type TodoWriteUIToolInvocation = UIToolInvocation<typeof TodoWrite>;

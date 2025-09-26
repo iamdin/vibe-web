@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const Grep = tool({
@@ -60,3 +60,5 @@ export const Grep = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#grep-2
 	outputSchema: z.string(),
 });
+
+export type GrepUIToolInvocation = UIToolInvocation<typeof Grep>;

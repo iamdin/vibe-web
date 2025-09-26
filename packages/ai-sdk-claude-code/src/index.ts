@@ -16,6 +16,31 @@ import { WebFetch } from "./tools/web-fetch";
 import { WebSearch } from "./tools/web-search";
 import { Write } from "./tools/write";
 
+export { Bash, type BashUIToolInvocation } from "./tools/bash";
+export {
+	BashOutput,
+	type BashOutputUIToolInvocation,
+} from "./tools/bash-output";
+export { Edit, type EditUIToolInvocation } from "./tools/edit";
+export {
+	ExitPlanMode,
+	type ExitPlanModeUIToolInvocation,
+} from "./tools/exit-plan-mode";
+export { Glob, type GlobUIToolInvocation } from "./tools/glob";
+export { Grep, type GrepUIToolInvocation } from "./tools/grep";
+export { KillShell, type KillShellUIToolInvocation } from "./tools/kill-shell";
+export { MultiEdit, type MultiEditUIToolInvocation } from "./tools/multi-edit";
+export {
+	NotebookEdit,
+	type NotebookEditUIToolInvocation,
+} from "./tools/notebook-edit";
+export { Read, type ReadUIToolInvocation } from "./tools/read";
+export { Task, type TaskUIToolInvocation } from "./tools/task";
+export { TodoWrite, type TodoWriteUIToolInvocation } from "./tools/todo-write";
+export { WebFetch, type WebFetchUIToolInvocation } from "./tools/web-fetch";
+export { WebSearch, type WebSearchUIToolInvocation } from "./tools/web-search";
+export { Write, type WriteUIToolInvocation } from "./tools/write";
+
 export const claudeCodeTools = {
 	Bash,
 	Task,

@@ -1,10 +1,12 @@
 {
-	"name": "server",
+	"name": "vibe-web",
 	"type": "module",
-	"private": true,
+	"bin": {
+		"vibe-web": "./dist/server.js"
+	},
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
-		"build": "tsc",
+		"build": "tsdown --entry src/server.ts",
 		"start": "node dist/server.js",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules .turbo dist"
@@ -26,6 +28,7 @@
 		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/server-trpc": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
-		"tsx": "^4.20.5"
+		"tsx": "^4.20.5",
+		"tsdown": "^0.13.5"
 	}
 }

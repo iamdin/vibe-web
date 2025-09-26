@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { tool, type UIToolInvocation } from "ai";
 import { z } from "zod";
 
 export const Glob = tool({
@@ -20,3 +20,5 @@ export const Glob = tool({
 	// Docs: https://docs.claude.com/en/docs/claude-code/sdk/sdk-typescript#glob-2
 	outputSchema: z.string(),
 });
+
+export type GlobUIToolInvocation = UIToolInvocation<typeof Glob>;
