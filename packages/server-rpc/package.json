@@ -41,7 +41,7 @@
 		"zod": "^3.25.67"
 	},
 	"dependencies": {
-		"@anthropic-ai/claude-code": "^1.0.113",
+		"@anthropic-ai/claude-code": "^1.0.127",
 		"@orpc/contract": "^1.9.1",
 		"ai-sdk-claude-code": "workspace:*",
 		"uuid": "^13.0.0"
