@@ -40,11 +40,13 @@ export async function* toUIMessage<T extends UIMessage>(
 								toolName: part.name,
 								input: part.input,
 								providerExecuted: true,
-								providerMetadata: {
-									claudeCode: {
-										parentToolUseId: message.parent_tool_use_id,
-									},
-								},
+								providerMetadata: message.parent_tool_use_id
+									? {
+											claudeCode: {
+												parentToolUseId: message.parent_tool_use_id,
+											},
+										}
+									: undefined,
 							};
 							break;
 						}
@@ -79,11 +81,13 @@ export async function* toUIMessage<T extends UIMessage>(
 									toolCallId: part.tool_use_id,
 									output: part.content,
 									providerExecuted: true,
-									providerMetadata: {
-										claudeCode: {
-											parentToolUseId: message.parent_tool_use_id,
-										},
-									},
+									providerMetadata: message.parent_tool_use_id
+										? {
+												claudeCode: {
+													parentToolUseId: message.parent_tool_use_id,
+												},
+											}
+										: undefined,
 								};
 							}
 						}

@@ -758,6 +758,9 @@ importers:
       ai-sdk-claude-code:
         specifier: workspace:*
         version: link:../ai-sdk-claude-code
+      stream-json:
+        specifier: ^1.9.1
+        version: 1.9.1
       uuid:
         specifier: ^13.0.0
         version: 13.0.0
@@ -771,6 +774,9 @@ importers:
       '@trpc/server':
         specifier: ^11.5.0
         version: 11.5.0(typescript@5.9.2)
+      '@types/stream-json':
+        specifier: ^1.7.8
+        version: 1.7.8
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -4188,6 +4194,12 @@ packages:
 
   '@types/statuses@2.0.6':
     resolution: {integrity: sha512-xMAgYwceFhRA2zY+XbEA7mxYbA093wdiW8Vu6gZPGWy9cmOyU9XesH1tNcEWsKFd5Vzrqx5T3D38PWx1FIIXkA==}
+
+  '@types/stream-chain@2.1.0':
+    resolution: {integrity: sha512-guDyAl6s/CAzXUOWpGK2bHvdiopLIwpGu8v10+lb9hnQOyo4oj/ZUQFOvqFjKGsE3wJP1fpIesCcMvbXuWsqOg==}
+
+  '@types/stream-json@1.7.8':
+    resolution: {integrity: sha512-MU1OB1eFLcYWd1LjwKXrxdoPtXSRzRmAnnxs4Js/ayB5O/NvHraWwuOaqMWIebpYwM6khFlsJOHEhI9xK/ab4Q==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -7837,6 +7849,12 @@ packages:
 
   std-env@3.9.0:
     resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
+
+  stream-chain@2.2.5:
+    resolution: {integrity: sha512-1TJmBx6aSWqZ4tx7aTpBDXK0/e2hhcNSTV8+CbFJtDjbb+I1mZ8lHit0Grw9GRT+6JbIrrDd8esncgBi8aBXGA==}
+
+  stream-json@1.9.1:
+    resolution: {integrity: sha512-uWkjJ+2Nt/LO9Z/JyKZbMusL8Dkh97uUBTv3AJQ74y07lVahLY4eEFsPsE97pxYBwr8nnjMAIch5eqI0gPShyw==}
 
   streamx@2.22.1:
     resolution: {integrity: sha512-znKXEBxfatz2GBNK02kRnCXjV+AA4kjZIUxeWSr3UGirZMJfTE9uiwKHobnbgxWyL/JWro8tTq+vOqAK1/qbSA==}
@@ -12406,6 +12424,15 @@ snapshots:
 
   '@types/statuses@2.0.6': {}
 
+  '@types/stream-chain@2.1.0':
+    dependencies:
+      '@types/node': 22.17.1
+
+  '@types/stream-json@1.7.8':
+    dependencies:
+      '@types/node': 22.17.1
+      '@types/stream-chain': 2.1.0
+
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
@@ -16792,6 +16819,12 @@ snapshots:
   statuses@2.0.2: {}
 
   std-env@3.9.0: {}
+
+  stream-chain@2.2.5: {}
+
+  stream-json@1.9.1:
+    dependencies:
+      stream-chain: 2.2.5
 
   streamx@2.22.1:
     dependencies:

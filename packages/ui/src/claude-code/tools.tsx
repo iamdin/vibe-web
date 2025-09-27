@@ -1,12 +1,17 @@
 import type { ToolUIPart, UIDataTypes, UIMessage } from "ai";
 import type { ClaudeCodeTools } from "ai-sdk-claude-code";
+import { ClaudeCodeBashOutputTool } from "./bash-output-tool";
 import { ClaudeCodeBashTool } from "./bash-tool";
 import { ClaudeCodeEditTool } from "./edit-tool";
+import { ClaudeCodeGlobTool } from "./glob-tool";
 import { ClaudeCodeGrepTool } from "./grep-tool";
+import { ClaudeCodeMultiEditTool } from "./multi-edit-tool";
 import { ClaudeCodeReadTool } from "./read-tool";
 import { ClaudeCodeTaskTool } from "./task-tool";
+import { ClaudeCodeTodoWriteTool } from "./todo-write-tool";
 import { ClaudeCodeWebFetchTool } from "./web-fetch-tool";
 import { ClaudeCodeWebSearchTool } from "./web-search-tool";
+import { ClaudeCodeWriteTool } from "./write-tool";
 
 function ClaudeCodeToolUIPart({
 	message,
@@ -39,26 +44,25 @@ function ClaudeCodeToolUIPartComponent({
 	message: UIMessage<unknown, UIDataTypes, ClaudeCodeTools>;
 	part: ToolUIPart<ClaudeCodeTools>;
 }) {
-	// task tool renders nested tools
-	if (part.type === "tool-Task") {
-		return (
-			<ClaudeCodeTaskTool
-				message={message}
-				invocation={part}
-				renderToolComponent={(childPart) => (
-					<ClaudeCodeToolUIPartComponent
-						key={childPart.toolCallId}
-						message={message}
-						part={childPart}
-					/>
-				)}
-			/>
-		);
-	}
-
 	switch (part.type) {
+		case "tool-Task":
+			return (
+				<ClaudeCodeTaskTool
+					message={message}
+					invocation={part}
+					renderToolPart={(childPart) => (
+						<ClaudeCodeToolUIPartComponent
+							key={childPart.toolCallId}
+							message={message}
+							part={childPart}
+						/>
+					)}
+				/>
+			);
 		case "tool-Bash":
 			return <ClaudeCodeBashTool invocation={part} />;
+		case "tool-BashOutput":
+			return <ClaudeCodeBashOutputTool invocation={part} />;
 		case "tool-Read":
 			return <ClaudeCodeReadTool invocation={part} />;
 		case "tool-Grep":
@@ -69,18 +73,31 @@ function ClaudeCodeToolUIPartComponent({
 			return <ClaudeCodeWebFetchTool invocation={part} />;
 		case "tool-WebSearch":
 			return <ClaudeCodeWebSearchTool invocation={part} />;
+		case "tool-TodoWrite":
+			return <ClaudeCodeTodoWriteTool invocation={part} />;
+		case "tool-Glob":
+			return <ClaudeCodeGlobTool invocation={part} />;
+		case "tool-MultiEdit":
+			return <ClaudeCodeMultiEditTool invocation={part} />;
+		case "tool-Write":
+			return <ClaudeCodeWriteTool invocation={part} />;
 		default:
 			return null;
 	}
 }
 
 export {
+	ClaudeCodeBashOutputTool,
 	ClaudeCodeBashTool,
 	ClaudeCodeEditTool,
+	ClaudeCodeGlobTool,
 	ClaudeCodeGrepTool,
+	ClaudeCodeMultiEditTool,
 	ClaudeCodeReadTool,
 	ClaudeCodeTaskTool,
+	ClaudeCodeTodoWriteTool,
 	ClaudeCodeToolUIPart,
 	ClaudeCodeWebFetchTool,
 	ClaudeCodeWebSearchTool,
+	ClaudeCodeWriteTool,
 };

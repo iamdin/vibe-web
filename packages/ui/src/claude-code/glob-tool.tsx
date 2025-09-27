@@ -1,12 +1,12 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type { BashUIToolInvocation } from "ai-sdk-claude-code";
-import { SquareTerminalIcon } from "lucide-react";
+import type { GlobUIToolInvocation } from "ai-sdk-claude-code";
+import { FolderSearchIcon } from "lucide-react";
 
-export function ClaudeCodeBashTool({
+export function ClaudeCodeGlobTool({
 	invocation,
 }: {
-	invocation: BashUIToolInvocation;
+	invocation: GlobUIToolInvocation;
 }) {
 	const hasParentToolUseId =
 		invocation.state !== "input-streaming" &&
@@ -15,27 +15,17 @@ export function ClaudeCodeBashTool({
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
-	// Create terminal-like output
-	const terminalOutput = input?.command
-		? `$ ${input.command}${output ? `\n${output}` : ""}`
-		: output || "";
-
 	return (
 		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
-			<ToolHeader icon={SquareTerminalIcon}>
+			<ToolHeader icon={FolderSearchIcon}>
 				<span className="truncate font-medium text-sm">
-					Bash {input?.description}
+					Glob for {input?.pattern ? `"${input.pattern}"` : ""}
+					{input?.path ? ` in ${input.path}` : ""}
 				</span>
 			</ToolHeader>
 			<ToolContent>
-				{input?.command || output ? (
-					<div className="relative">
-						<CodeBlock
-							code={terminalOutput}
-							language="bash"
-							className="text-sm"
-						/>
-					</div>
+				{typeof output === "string" ? (
+					<CodeBlock code={output} language="text" className="text-sm" />
 				) : null}
 			</ToolContent>
 		</Tool>

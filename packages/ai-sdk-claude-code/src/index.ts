@@ -64,4 +64,5 @@ export const claudeCodeTools = {
 
 export type ClaudeCodeTools = InferUITools<typeof claudeCodeTools>;
 
+export { Pushable, pushable } from "./utils/pushable";
 export { toUIMessage } from "./utils/to-ui-message";

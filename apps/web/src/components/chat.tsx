@@ -52,19 +52,26 @@ export function Chat({ className }: { className?: string }) {
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
 		transport: {
 			async sendMessages(options) {
-				if (!sessionId.current) {
-					const result = await orpcClient.claudeCode.session.create();
-					sessionId.current = result.sessionId;
+				try {
+					console.log("sendMessages", sessionId);
+					if (!sessionId.current) {
+						const result = await orpcClient.claudeCode.session.create();
+						console.log("creating session", result);
+						sessionId.current = result.sessionId;
+					}
+					const message = options.messages.at(-1);
+					if (!message) {
+						throw new Error("message is required");
+					}
+					const event = await orpcClient.claudeCode.prompt(
+						{ sessionId: sessionId.current, message },
+						{ signal: options.abortSignal },
+					);
+					return eventIteratorToStream(event);
+				} catch (error) {
+					console.error("Failed to send messages", error);
+					throw error;
 				}
-				const message = options.messages.at(-1);
-				if (!message) {
-					throw new Error("message is required");
-				}
-				const event = await orpcClient.claudeCode.prompt(
-					{ sessionId: sessionId.current, message },
-					{ signal: options.abortSignal },
-				);
-				return eventIteratorToStream(event);
 			},
 			reconnectToStream() {
 				throw new Error("Unsupported yet");
@@ -85,24 +92,6 @@ export function Chat({ className }: { className?: string }) {
 		});
 
 		setInput("");
-	};
-
-	const _handleNewSession = async () => {
-		try {
-			// Abort current session to prevent leaks; multi-session not supported yet
-			if (sessionId.current) {
-				await orpcClient.claudeCode.session.abort({
-					sessionId: sessionId.current,
-				});
-				sessionId.current = undefined;
-			}
-
-			const { sessionId: newSessionId } =
-				await orpcClient.claudeCode.session.create();
-			sessionId.current = newSessionId;
-		} catch (error) {
-			console.error("Failed to start a new session", error);
-		}
 	};
 
 	return (

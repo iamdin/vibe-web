@@ -23,6 +23,7 @@
 		"@anthropic-ai/sdk": "^0.61.0",
 		"@orpc/server": "^1.8.6",
 		"@trpc/server": "^11.5.0",
+		"@types/stream-json": "^1.7.8",
 		"@types/ws": "^8.18.1",
 		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
@@ -44,6 +45,7 @@
 		"@anthropic-ai/claude-code": "^1.0.127",
 		"@orpc/contract": "^1.9.1",
 		"ai-sdk-claude-code": "workspace:*",
+		"stream-json": "^1.9.1",
 		"uuid": "^13.0.0"
 	}
 }
