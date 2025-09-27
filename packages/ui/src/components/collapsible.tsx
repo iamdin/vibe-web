@@ -1,6 +1,9 @@
 "use client";
 
-import { Collapsible as CollapsiblePrimitive } from "@ark-ui/react/collapsible";
+import {
+	Collapsible as CollapsiblePrimitive,
+	useCollapsible,
+} from "@ark-ui/react/collapsible";
 
 import { cn } from "@vibe-web/ui/lib/utils";
 
@@ -43,4 +46,10 @@ export {
 	CollapsibleContext,
 	CollapsibleIndicator,
 	CollapsibleTrigger,
+	useCollapsible,
 };
+
+export type {
+	CollapsibleContentProps,
+	CollapsibleRootProps as CollapsibleProps,
+} from "@ark-ui/react/collapsible";

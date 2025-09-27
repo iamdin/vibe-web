@@ -25,7 +25,7 @@ import {
 import { cn } from "@vibe-web/ui/lib/utils";
 import { useRef, useState } from "react";
 import { MessageParts } from "@/components/message-parts";
-import { orpc } from "@/lib/orpc";
+import { orpcClient } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
 
 const models = createListCollection<{
@@ -53,14 +53,14 @@ export function Chat({ className }: { className?: string }) {
 		transport: {
 			async sendMessages(options) {
 				if (!sessionId.current) {
-					const result = await orpc.claudeCode.session.create.call();
+					const result = await orpcClient.claudeCode.session.create();
 					sessionId.current = result.sessionId;
 				}
 				const message = options.messages.at(-1);
 				if (!message) {
 					throw new Error("message is required");
 				}
-				const event = await orpc.claudeCode.prompt.call(
+				const event = await orpcClient.claudeCode.prompt(
 					{ sessionId: sessionId.current, message },
 					{ signal: options.abortSignal },
 				);
@@ -69,6 +69,9 @@ export function Chat({ className }: { className?: string }) {
 			reconnectToStream() {
 				throw new Error("Unsupported yet");
 			},
+		},
+		onFinish: ({ messages }) => {
+			console.log("onFinish", messages);
 		},
 	});
 
@@ -88,14 +91,14 @@ export function Chat({ className }: { className?: string }) {
 		try {
 			// Abort current session to prevent leaks; multi-session not supported yet
 			if (sessionId.current) {
-				await orpc.claudeCode.session.abort.call({
+				await orpcClient.claudeCode.session.abort({
 					sessionId: sessionId.current,
 				});
 				sessionId.current = undefined;
 			}
 
 			const { sessionId: newSessionId } =
-				await orpc.claudeCode.session.create.call();
+				await orpcClient.claudeCode.session.create();
 			sessionId.current = newSessionId;
 		} catch (error) {
 			console.error("Failed to start a new session", error);

@@ -9,5 +9,4 @@ export const Response = memo(
 	(props: ResponseProps) => <ReactMarkdown {...props} />,
 	(prevProps, nextProps) => prevProps.children === nextProps.children,
 );
-
 Response.displayName = "Response";

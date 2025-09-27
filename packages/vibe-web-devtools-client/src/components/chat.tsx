@@ -38,7 +38,7 @@ import { useState } from "react";
 import { useToolbarContext } from "@/context/toolbar";
 import { orpc } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
-import { MessageParts } from "./message-parts";
+import { ClaudeCodeMessageParts } from "./message-parts";
 
 const models = createListCollection<{
 	label: "Opus" | "Sonnet";
@@ -136,7 +136,7 @@ export function Chat() {
 			<Conversation>
 				<ConversationContent>
 					{messages.map((message) => (
-						<MessageParts key={message.id} message={message} />
+						<ClaudeCodeMessageParts key={message.id} message={message} />
 					))}
 					{status === "submitted" && <Loader />}
 				</ConversationContent>

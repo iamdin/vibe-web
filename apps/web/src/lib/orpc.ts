@@ -4,7 +4,7 @@ import type { RouterClient } from "@orpc/server";
 import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createIsomorphicFn } from "@tanstack/react-start";
-import type { Routes } from "@vibe-web/server-trpc/routes";
+import type { Router } from "@vibe-web/server-trpc/routes";
 import { toast } from "sonner";
 
 export const queryClient = new QueryClient({
@@ -35,6 +35,10 @@ const getClientLink = createIsomorphicFn()
 			}),
 	);
 
-export const client: RouterClient<Routes> = createORPCClient(getClientLink());
+export const orpcClient: RouterClient<Router> = createORPCClient(
+	getClientLink(),
+);
 
-export const orpc = createTanstackQueryUtils(client);
+export const orpc = createTanstackQueryUtils({
+	orpcClient,
+});

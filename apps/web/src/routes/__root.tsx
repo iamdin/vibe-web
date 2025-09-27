@@ -8,9 +8,7 @@ import {
 	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { AppSidebar } from "@/components/app-sidebar";
 import Loader from "@/components/loader";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import type { orpc } from "@/lib/orpc";
 
 import appCss from "../index.css?url";

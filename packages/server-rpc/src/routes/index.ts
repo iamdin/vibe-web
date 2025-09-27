@@ -1,9 +1,9 @@
-import { orpc } from "../orpc";
-import { claudeCode } from "./claude-code";
+import { os } from "@orpc/server";
+import { type ClaudeCodeContext, claudeCodeRouter } from "./claude-code";
 
-export const routes = {
-	healthCheck: orpc.handler(() => ({ ok: true })),
-	claudeCode,
-};
+const orpc = os.$context<ClaudeCodeContext>();
 
-export type Routes = typeof routes;
+export const router = orpc.router({
+	claudeCode: claudeCodeRouter,
+});
+export type Router = typeof router;

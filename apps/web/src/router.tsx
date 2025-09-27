@@ -4,8 +4,6 @@ import Loader from "./components/loader";
 import { orpc, queryClient } from "./lib/orpc";
 import { routeTree } from "./routeTree.gen";
 
-import "./index.css";
-
 export const createRouter = () => {
 	const router = createTanStackRouter({
 		routeTree,

@@ -1,80 +1,72 @@
 "use client";
 
-import { Badge } from "@vibe-web/ui/components/badge";
+import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import {
 	Collapsible,
 	CollapsibleContent,
+	type CollapsibleProps,
 	CollapsibleTrigger,
 } from "@vibe-web/ui/components/collapsible";
 import { cn } from "@vibe-web/ui/lib/utils";
 import type { ToolUIPart } from "ai";
+import type { LucideIcon } from "lucide-react";
+import { ChevronRightIcon, WrenchIcon } from "lucide-react";
 import {
-	CheckCircleIcon,
-	ChevronDownIcon,
-	CircleIcon,
-	ClockIcon,
-	WrenchIcon,
-	XCircleIcon,
-} from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
-import { CodeBlock } from "./code-block";
-export type ToolProps = ComponentProps<typeof Collapsible>;
+	type ComponentProps,
+	type ReactNode,
+	useEffect,
+	useState,
+} from "react";
 
-export const Tool = ({ className, ...props }: ToolProps) => (
-	<Collapsible
-		className={cn("not-prose mb-4 w-full rounded-md border", className)}
-		{...props}
-	/>
-);
-
-export type ToolHeaderProps = {
-	type: ToolUIPart["type"];
-	state: ToolUIPart["state"];
-	className?: string;
+export type ToolProps = CollapsibleProps & {
+	state?: ToolUIPart["state"];
 };
 
-const getStatusBadge = (status: ToolUIPart["state"]) => {
-	const labels = {
-		"input-streaming": "Pending",
-		"input-available": "Running",
-		"output-available": "Completed",
-		"output-error": "Error",
-	} as const;
+export const Tool = ({ className, state, ...props }: ToolProps) => {
+	const [open, setOpen] = useState(false);
 
-	const icons = {
-		"input-streaming": <CircleIcon className="size-4" />,
-		"input-available": <ClockIcon className="size-4 animate-pulse" />,
-		"output-available": <CheckCircleIcon className="size-4 text-green-600" />,
-		"output-error": <XCircleIcon className="size-4 text-red-600" />,
-	} as const;
+	useEffect(() => {
+		if (state) {
+			setOpen(state === "input-available");
+		}
+	}, [state]);
 
 	return (
-		<Badge className="gap-1.5 rounded-full text-xs" variant="secondary">
-			{icons[status]}
-			{labels[status]}
-		</Badge>
+		<Collapsible
+			open={open}
+			onOpenChange={(details) => setOpen(details.open)}
+			className={cn("not-prose w-full py-2", className)}
+			{...props}
+		/>
 	);
+};
+
+export type ToolHeaderProps = {
+	icon?: LucideIcon;
+	className?: string;
+	children?: ReactNode;
 };
 
 export const ToolHeader = ({
 	className,
-	type,
-	state,
+	icon: Icon = WrenchIcon,
+	children,
 	...props
 }: ToolHeaderProps) => (
 	<CollapsibleTrigger
 		className={cn(
-			"flex w-full items-center justify-between gap-4 p-3",
+			"flex w-full items-center justify-between group gap-4 cursor-pointer",
 			className,
 		)}
 		{...props}
 	>
 		<div className="flex items-center gap-2">
-			<WrenchIcon className="size-4 text-muted-foreground" />
-			<span className="font-medium text-sm">{type}</span>
-			{getStatusBadge(state)}
+			<div className="size-4 text-muted-foreground relative">
+				<Icon className="size-4 group-data-[state=open]:opacity-0 group-data-[state=open]:scale-75 group-hover:opacity-0 group-hover:scale-75 transition-all duration-200" />
+				<ChevronRightIcon className="size-4 absolute inset-0 opacity-0 scale-75 group-data-[state=open]:opacity-100 group-data-[state=open]:scale-100 group-data-[state=open]:rotate-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200" />
+			</div>
+			{children}
 		</div>
-		<ChevronDownIcon className="size-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
 	</CollapsibleTrigger>
 );
 
@@ -83,7 +75,7 @@ export type ToolContentProps = ComponentProps<typeof CollapsibleContent>;
 export const ToolContent = ({ className, ...props }: ToolContentProps) => (
 	<CollapsibleContent
 		className={cn(
-			"data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 text-popover-foreground outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
+			"data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in border-l border-border ml-2 p-2",
 			className,
 		)}
 		{...props}
@@ -91,23 +83,21 @@ export const ToolContent = ({ className, ...props }: ToolContentProps) => (
 );
 
 export type ToolInputProps = ComponentProps<"div"> & {
-	input: ToolUIPart["input"];
+	input: unknown;
 };
 
 export const ToolInput = ({ className, input, ...props }: ToolInputProps) => (
-	<div className={cn("space-y-2 overflow-hidden p-4", className)} {...props}>
+	<div className={cn("space-y-2 px-4 pb-4", className)} {...props}>
 		<h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
 			Parameters
 		</h4>
-		<div className="rounded-md bg-muted/50">
-			<CodeBlock code={JSON.stringify(input, null, 2)} language="json" />
-		</div>
+		<CodeBlock code={JSON.stringify(input, null, 2)} language="json" />
 	</div>
 );
 
 export type ToolOutputProps = ComponentProps<"div"> & {
-	output: ToolUIPart["output"];
-	errorText: ToolUIPart["errorText"];
+	output: unknown;
+	errorText: string | undefined;
 };
 
 export const ToolOutput = ({
@@ -131,16 +121,14 @@ export const ToolOutput = ({
 	}
 
 	return (
-		<div className={cn("space-y-2 p-4", className)} {...props}>
+		<div className={cn("space-y-2 px-4 pb-4", className)} {...props}>
 			<h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
 				{errorText ? "Error" : "Result"}
 			</h4>
 			<div
 				className={cn(
-					"overflow-x-auto rounded-md text-xs [&_table]:w-full",
-					errorText
-						? "bg-destructive/10 text-destructive"
-						: "bg-muted/50 text-foreground",
+					"overflow-x-auto text-xs [&_table]:w-full",
+					errorText ? "text-destructive" : "text-foreground",
 				)}
 			>
 				{errorText && <div>{errorText}</div>}
@@ -149,3 +137,5 @@ export const ToolOutput = ({
 		</div>
 	);
 };
+
+export { useCollapsible } from "@vibe-web/ui/components/collapsible";

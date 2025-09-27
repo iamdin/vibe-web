@@ -3,14 +3,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { RPCHandler as NodeRPCHandler } from "@orpc/server/node";
 import { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
-import { routes } from "@vibe-web/server-trpc/routes";
+import { router } from "@vibe-web/server-trpc/routes";
 import cors from "cors";
 import express from "express";
 
 const app = express().use(cors());
 
 const claudeCodeAgent = new ClaudeCodeAgent();
-const nodeRPCHandler = new NodeRPCHandler(routes, {
+const nodeRPCHandler = new NodeRPCHandler(router, {
 	eventIteratorKeepAliveComment: "ping",
 });
 

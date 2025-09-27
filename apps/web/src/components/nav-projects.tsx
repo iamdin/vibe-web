@@ -50,7 +50,7 @@ export function NavProjects({
 										{project.pages.map((page) => (
 											<SidebarMenuSubItem key={page.name}>
 												<SidebarMenuSubButton asChild>
-													<a href="#" className="w-full">
+													<a href="#/" className="w-full">
 														<span className="truncate">{page.name}</span>
 													</a>
 												</SidebarMenuSubButton>

@@ -10,6 +10,9 @@ export default defineConfig({
 		tailwindcss(),
 		tanstackStart({
 			target: "static",
+			client: {
+				entry: "./client.tsx",
+			},
 			spa: {
 				enabled: true,
 			},

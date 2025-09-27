@@ -1,7 +1,7 @@
 import { Button } from "@vibe-web/ui/components/button";
 import { useState } from "react";
 import { Chat } from "@/components/chat";
-import { orpc } from "@/lib/orpc";
+import { orpcClient } from "@/lib/orpc";
 
 export const Route = createFileRoute({
 	component: Component,
@@ -14,14 +14,14 @@ function Component() {
 		try {
 			// Abort current session to prevent leaks; multi-session not supported yet
 			if (sessionId) {
-				await orpc.claudeCode.session.abort.call({
+				await orpcClient.claudeCode.session.abort({
 					sessionId: sessionId,
 				});
 				setSessionId(undefined);
 			}
 
 			const { sessionId: newSessionId } =
-				await orpc.claudeCode.session.create.call();
+				await orpcClient.claudeCode.session.create();
 			setSessionId(newSessionId);
 		} catch (error) {
 			console.error("Failed to start a new session", error);

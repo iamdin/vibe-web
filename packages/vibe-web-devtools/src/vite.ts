@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { RPCHandler as NodeRPCHandler } from "@orpc/server/node";
 import { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
-import { routes } from "@vibe-web/server-trpc/routes";
+import { router } from "@vibe-web/server-trpc/routes";
 import invariant from "tiny-invariant";
 import type { Plugin, ViteDevServer } from "vite";
 import { transformHandler } from "./transform";
@@ -13,7 +13,7 @@ export default function (): Plugin {
 	let _server: ViteDevServer;
 
 	const claudeCodeAgent = new ClaudeCodeAgent();
-	const nodeRPCHandler = new NodeRPCHandler(routes, {
+	const nodeRPCHandler = new NodeRPCHandler(router, {
 		eventIteratorKeepAliveComment: "ping",
 	});
 
@@ -23,9 +23,9 @@ export default function (): Plugin {
 		apply: "serve",
 		configureServer(server) {
 			_server = server;
-			server.middlewares.use("/_vibe-web/rpc", async (req, res, next) => {
+			server.middlewares.use("/_vibe-web_", async (req, res, next) => {
 				const { matched } = await nodeRPCHandler.handle(req, res, {
-					prefix: "/_vibe-web/rpc",
+					prefix: "/_vibe-web_",
 					context: { claudeCodeAgent },
 				});
 				if (!matched) {

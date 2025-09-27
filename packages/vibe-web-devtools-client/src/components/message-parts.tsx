@@ -1,23 +1,32 @@
 import { Message, MessageContent } from "@vibe-web/ui/ai-elements/message";
+import { ClaudeCodeToolUIPart } from "@vibe-web/ui/claude-code/tools";
 import { Badge } from "@vibe-web/ui/components/badge";
+import { isToolUIPart } from "ai";
 import ReactMarkdown from "react-markdown";
 import type { ClaudeCodeUIMessage } from "@/types";
-import {
-	ClaudeCodeBashTool,
-	ClaudeCodeEditTool,
-	ClaudeCodeGrepTool,
-	ClaudeCodeReadTool,
-	ClaudeCodeTaskTool,
-} from "./claude-code-tool";
 
-export function MessageParts({ message }: { message: ClaudeCodeUIMessage }) {
+export function ClaudeCodeMessageParts({
+	message,
+}: {
+	message: ClaudeCodeUIMessage;
+}) {
 	return (
 		<div className="text-sm">
-			{message.parts.map((part, i) => {
+			{message.parts.map((part, index) => {
+				if (isToolUIPart(part)) {
+					return (
+						<ClaudeCodeToolUIPart
+							key={part.toolCallId}
+							message={message}
+							part={part}
+						/>
+					);
+				}
+
 				switch (part.type) {
 					case "text": {
 						return (
-							<Message key={`${message.id}-${i}`} from={message.role}>
+							<Message key={`${message.id}-${index}`} from={message.role}>
 								<MessageContent>
 									{message.role === "assistant" ? (
 										<ReactMarkdown>{part.text}</ReactMarkdown>
@@ -32,13 +41,10 @@ export function MessageParts({ message }: { message: ClaudeCodeUIMessage }) {
 						return (
 							<Message
 								className="pb-0"
-								key={`${message.id}-${i}`}
+								key={`${message.id}-${index}`}
 								from={message.role}
 							>
-								<div
-									className="flex flex-wrap gap-2"
-									key={`${message.id}-${i}`}
-								>
+								<div className="flex flex-wrap gap-2">
 									{part.data.map((inspector) => (
 										<Badge key={inspector.file}>{inspector.component}</Badge>
 									))}
@@ -46,26 +52,6 @@ export function MessageParts({ message }: { message: ClaudeCodeUIMessage }) {
 							</Message>
 						);
 					}
-					case "tool-Bash":
-						return (
-							<ClaudeCodeBashTool key={part.toolCallId} invocation={part} />
-						);
-					case "tool-Read":
-						return (
-							<ClaudeCodeReadTool key={part.toolCallId} invocation={part} />
-						);
-					case "tool-Grep":
-						return (
-							<ClaudeCodeGrepTool key={part.toolCallId} invocation={part} />
-						);
-					case "tool-Edit":
-						return (
-							<ClaudeCodeEditTool key={part.toolCallId} invocation={part} />
-						);
-					case "tool-Task":
-						return (
-							<ClaudeCodeTaskTool key={part.toolCallId} invocation={part} />
-						);
 					default:
 						return null;
 				}
