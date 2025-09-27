@@ -13,11 +13,11 @@ import { type ReactNode, useMemo } from "react";
 export function ClaudeCodeTaskTool({
 	message,
 	invocation,
-	renderToolComponent,
+	renderToolPart,
 }: {
 	message: UIMessage<unknown, UIDataTypes, ClaudeCodeTools>;
 	invocation: TaskUIToolInvocation;
-	renderToolComponent?: (part: ToolUIPart<ClaudeCodeTools>) => ReactNode;
+	renderToolPart?: (part: ToolUIPart<ClaudeCodeTools>) => ReactNode;
 }) {
 	const hasParentToolUseId =
 		invocation.state !== "input-streaming" &&
@@ -51,9 +51,7 @@ export function ClaudeCodeTaskTool({
 			</ToolHeader>
 			<ToolContent className="space-y-2">
 				<Response>{input?.prompt}</Response>
-				{childrenToolUIParts.map((part) => {
-					return renderToolComponent ? renderToolComponent(part) : null;
-				})}
+				{childrenToolUIParts.map((part) => renderToolPart?.(part))}
 				{Array.isArray(output)
 					? output.map((part) => {
 							switch (part.type) {

@@ -15,6 +15,8 @@ export function ClaudeCodeEditTool({
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input } = invocation;
 
+	const language = input?.file_path?.match(/\.(\w+)$/)?.[1] || "text";
+
 	return (
 		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
 			<ToolHeader icon={EditIcon}>
@@ -22,30 +24,30 @@ export function ClaudeCodeEditTool({
 					Edit {input?.file_path}
 				</span>
 			</ToolHeader>
-			<ToolContent>
+			<ToolContent className="space-y-2">
 				{input?.old_string ? (
-					<div className="space-y-2 px-4 pb-4">
+					<>
 						<h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
 							Old String
 						</h4>
 						<CodeBlock
 							code={input.old_string}
-							language="text"
+							language={language}
 							className="text-xs"
 						/>
-					</div>
+					</>
 				) : null}
 				{input?.new_string ? (
-					<div className="space-y-2 px-4 pb-4">
+					<>
 						<h4 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
 							New String
 						</h4>
 						<CodeBlock
 							code={input.new_string}
-							language="text"
+							language={language}
 							className="text-xs"
 						/>
-					</div>
+					</>
 				) : null}
 			</ToolContent>
 		</Tool>

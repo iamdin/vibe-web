@@ -1,31 +1,36 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type { GrepUIToolInvocation } from "ai-sdk-claude-code";
-import { SearchIcon } from "lucide-react";
+import type { WriteUIToolInvocation } from "ai-sdk-claude-code";
+import { FileTextIcon } from "lucide-react";
 
-export function ClaudeCodeGrepTool({
+export function ClaudeCodeWriteTool({
 	invocation,
 }: {
-	invocation: GrepUIToolInvocation;
+	invocation: WriteUIToolInvocation;
 }) {
 	const hasParentToolUseId =
 		invocation.state !== "input-streaming" &&
 		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
 
 	if (!invocation || invocation.state === "input-streaming") return null;
-	const { input, output } = invocation;
+	const { input } = invocation;
+
+	const language = input?.file_path?.match(/\.(\w+)$/)?.[1] || "text";
 
 	return (
 		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
-			<ToolHeader icon={SearchIcon}>
+			<ToolHeader icon={FileTextIcon}>
 				<span className="truncate font-medium text-sm">
-					Grep for {input?.pattern ? `"${input.pattern}"` : ""}
-					{input?.path ? ` in ${input.path}` : ""}
+					Write {input?.file_path}
 				</span>
 			</ToolHeader>
 			<ToolContent>
-				{typeof output === "string" ? (
-					<CodeBlock code={output} language="json" className="text-sm" />
+				{input?.content ? (
+					<CodeBlock
+						code={input.content}
+						language={language}
+						className="text-xs"
+					/>
 				) : null}
 			</ToolContent>
 		</Tool>
