@@ -1,10 +1,6 @@
-import {
-	CodeBlock,
-} from "@vibe-web/ui/ai-elements/code-block";
+import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type {
-	BashUIToolInvocation,
-} from "ai-sdk-claude-code";
+import type { BashUIToolInvocation } from "ai-sdk-claude-code";
 import { TerminalIcon } from "lucide-react";
 
 export function ClaudeCodeBashTool({

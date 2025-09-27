@@ -6,12 +6,9 @@ import {
 	type UIDataTypes,
 	type UIMessage,
 } from "ai";
-import type {
-	ClaudeCodeTools,
-	TaskUIToolInvocation,
-} from "ai-sdk-claude-code";
+import type { ClaudeCodeTools, TaskUIToolInvocation } from "ai-sdk-claude-code";
 import { ListChecksIcon } from "lucide-react";
-import { useMemo, type ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 
 export function ClaudeCodeTaskTool({
 	message,

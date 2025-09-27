@@ -1,8 +1,6 @@
 import { Response } from "@vibe-web/ui/ai-elements/response";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type {
-	WebSearchUIToolInvocation,
-} from "ai-sdk-claude-code";
+import type { WebSearchUIToolInvocation } from "ai-sdk-claude-code";
 import { SearchIcon } from "lucide-react";
 
 export function ClaudeCodeWebSearchTool({

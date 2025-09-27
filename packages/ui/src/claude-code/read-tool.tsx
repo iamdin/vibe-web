@@ -3,9 +3,7 @@ import {
 	CodeBlockCopyButton,
 } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type {
-	ReadUIToolInvocation,
-} from "ai-sdk-claude-code";
+import type { ReadUIToolInvocation } from "ai-sdk-claude-code";
 import { FileTextIcon } from "lucide-react";
 
 export function ClaudeCodeReadTool({

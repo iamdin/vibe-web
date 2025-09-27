@@ -1,8 +1,6 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type {
-	EditUIToolInvocation,
-} from "ai-sdk-claude-code";
+import type { EditUIToolInvocation } from "ai-sdk-claude-code";
 import { EditIcon } from "lucide-react";
 
 export function ClaudeCodeEditTool({

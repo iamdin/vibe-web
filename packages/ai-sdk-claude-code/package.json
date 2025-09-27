@@ -24,14 +24,14 @@
 		}
 	},
 	"devDependencies": {
-		"@anthropic-ai/claude-code": "^1.0.113",
+		"@anthropic-ai/claude-code": "^1.0.127",
 		"@vibe-web/typescript": "workspace:*",
 		"ai": "^5.0.44",
 		"zod": "^4.1.8",
 		"tsdown": "^0.13.5"
 	},
 	"peerDependencies": {
-		"@anthropic-ai/claude-code": "^1.0.113",
+		"@anthropic-ai/claude-code": "^1.0.127",
 		"ai": "^5.0.44",
 		"zod": "^4.1.8"
 	}

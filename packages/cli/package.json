@@ -12,7 +12,7 @@
 		"clean": "git clean -xdf node_modules .turbo dist"
 	},
 	"dependencies": {
-		"@anthropic-ai/claude-code": "^1.0.113",
+		"@anthropic-ai/claude-code": "^1.0.127",
 		"@orpc/server": "^1.8.6",
 		"ai": "^5.0.44",
 		"cors": "^2.8.5",

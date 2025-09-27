@@ -106,8 +106,8 @@ importers:
         specifier: ^2.0.44
         version: 2.0.44(react@19.1.1)(zod@4.1.8)
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@orpc/client':
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)
@@ -559,8 +559,8 @@ importers:
   packages/agents:
     devDependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -577,8 +577,8 @@ importers:
   packages/ai-sdk-claude-code:
     devDependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -595,8 +595,8 @@ importers:
   packages/cli:
     dependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@orpc/server':
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)(crossws@0.3.5)(ws@8.18.3)
@@ -750,8 +750,8 @@ importers:
   packages/server-rpc:
     dependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@orpc/contract':
         specifier: ^1.9.1
         version: 1.9.1(@opentelemetry/api@1.9.0)
@@ -881,8 +881,8 @@ importers:
   packages/vibe-web-devtools:
     dependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^1.0.113
-        version: 1.0.113
+        specifier: ^1.0.127
+        version: 1.0.127
       '@babel/core':
         specifier: ^7.28.3
         version: 7.28.3
@@ -1181,8 +1181,8 @@ packages:
   '@antfu/utils@0.7.10':
     resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
 
-  '@anthropic-ai/claude-code@1.0.113':
-    resolution: {integrity: sha512-K/+N/rECfWa1ZauWLD6C/CnX6bxxAck5CFDuK58JjRN8v6QDuJVX7HZcNCanB0ucxEkaczAwvWnEM+UjFQsdqw==}
+  '@anthropic-ai/claude-code@1.0.127':
+    resolution: {integrity: sha512-5L0nzdNjH4jAj/sw7pP/J48/XwJ8sYFUvbkeStm+1lOyJOkAtWVBErdfju0D4j4zKUQfFrZewt4m/Hagd6W1Pw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -8885,7 +8885,7 @@ snapshots:
 
   '@antfu/utils@0.7.10': {}
 
-  '@anthropic-ai/claude-code@1.0.113':
+  '@anthropic-ai/claude-code@1.0.127':
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5
