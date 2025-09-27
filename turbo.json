@@ -14,6 +14,7 @@
 		},
 		"typecheck": {
 			"outputs": [".tsbuildinfo", "dist/**"],
+			"dependsOn": ["^build"],
 			"cache": true
 		},
 		"build": {
