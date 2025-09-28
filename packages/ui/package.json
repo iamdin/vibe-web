@@ -40,7 +40,9 @@
 		"use-stick-to-bottom": "^1.1.1"
 	},
 	"dependencies": {
-		"react-markdown": "^10.1.0",
-		"ai-sdk-claude-code": "workspace:*"
+		"@fontsource-variable/geist": "^5.2.8",
+		"@fontsource-variable/geist-mono": "^5.2.7",
+		"ai-sdk-claude-code": "workspace:*",
+		"react-markdown": "^10.1.0"
 	}
 }

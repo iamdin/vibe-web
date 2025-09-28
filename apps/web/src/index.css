@@ -1,6 +1,4 @@
 @import "@vibe-web/ui/globals.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
 
 @source "../node_modules/@vibe-web/ui";
 
@@ -41,9 +39,6 @@
 }
 
 @theme inline {
-	--font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-	--font-mono: "Geist Mono Variable", ui-monospace, monospace;
-
 	--color-sidebar: var(--sidebar);
 
 	--color-sidebar-foreground: var(--sidebar-foreground);

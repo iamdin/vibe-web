@@ -108,12 +108,6 @@ importers:
       '@anthropic-ai/claude-code':
         specifier: ^1.0.127
         version: 1.0.127
-      '@fontsource-variable/geist':
-        specifier: ^5.2.8
-        version: 5.2.8
-      '@fontsource-variable/geist-mono':
-        specifier: ^5.2.7
-        version: 5.2.7
       '@orpc/client':
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)
@@ -819,6 +813,12 @@ importers:
 
   packages/ui:
     dependencies:
+      '@fontsource-variable/geist':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource-variable/geist-mono':
+        specifier: ^5.2.7
+        version: 5.2.7
       ai-sdk-claude-code:
         specifier: workspace:*
         version: link:../ai-sdk-claude-code
