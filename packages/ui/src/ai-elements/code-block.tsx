@@ -42,8 +42,8 @@ async function highlight(
 // Fallback component for loading state
 function CodeBlockFallback({ code }: { code: string }) {
 	return (
-		<div className="[&>pre]:m-0 [&>pre]:p-4 [&>pre]:bg-background [&>pre]:text-foreground [&>pre]:font-mono [&>pre]:text-sm [&>pre]:overflow-auto">
-			<pre className="font-mono text-sm p-4">{code}</pre>
+		<div className="overflow-auto p-2 font-mono">
+			<pre className="font-mono text-sm">{code}</pre>
 		</div>
 	);
 }
@@ -104,7 +104,7 @@ export function CodeBlock({
 				<Suspense fallback={<p>Loading...</p>}>
 					<HighlightedCode
 						promises={highlightPromise}
-						className="overflow-auto p-2"
+						className="overflow-auto p-2 font-mono"
 					/>
 				</Suspense>
 				{children && (
