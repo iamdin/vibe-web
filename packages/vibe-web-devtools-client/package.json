@@ -25,6 +25,7 @@
 		"@ark-ui/react": "^5.23.0",
 		"@floating-ui/react": "^0.27.16",
 		"@xstate/react": "^6.0.0",
+		"@xstate/store": "^3.9.2",
 		"ai": "^5.0.44",
 		"birpc": "^2.6.1",
 		"class-variance-authority": "^0.7.1",

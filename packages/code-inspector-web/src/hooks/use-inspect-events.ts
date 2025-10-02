@@ -1,25 +1,25 @@
+import { useSelector } from "@xstate/store/react";
 import { useEffect } from "react";
-import { useInspectorActorRef, useInspectorActorSelector } from "../context";
+import { inspectorStore } from "../context";
 import { shouldIgnoreInspectorEvent } from "../util";
 
 export function useInspectorEvents() {
-	const actorRef = useInspectorActorRef();
-	const inspectState = useInspectorActorSelector((state) => state.value);
+	const inspectState = useSelector(inspectorStore, (snapshot) => snapshot.context.state);
 
 	useEffect(() => {
 		if (inspectState === "idle") return;
 
 		const handlePointerMove = (event: PointerEvent) => {
 			if (shouldIgnoreInspectorEvent(event)) return;
-			actorRef.send({ type: "POINTER_MOVE", event });
+			inspectorStore.trigger.POINTER_MOVE({ event });
 		};
 		const handlePointerDown = (event: PointerEvent) => {
 			if (shouldIgnoreInspectorEvent(event)) return;
-			actorRef.send({ type: "POINTER_DOWN", event });
+			inspectorStore.trigger.POINTER_DOWN({ event });
 		};
 		const handlePointerLeave = (event: PointerEvent) => {
 			if (shouldIgnoreInspectorEvent(event)) return;
-			actorRef.send({ type: "POINTER_LEAVE" });
+			inspectorStore.trigger.POINTER_LEAVE();
 		};
 
 		document.addEventListener("pointermove", handlePointerMove, {
@@ -43,5 +43,5 @@ export function useInspectorEvents() {
 				capture: true,
 			});
 		};
-	}, [actorRef, inspectState]);
+	}, [inspectState]);
 }

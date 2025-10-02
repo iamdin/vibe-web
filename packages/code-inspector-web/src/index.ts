@@ -1,15 +1,14 @@
 export { InspectorIndicator } from "./components/indicator";
 export { InspectorTrigger } from "./components/trigger";
-export {
-	InspectorProvider,
-	useInspectorActorRef,
-	useInspectorActorSelector,
-} from "./context";
+export { InspectorProvider, inspectorStore } from "./context";
 export {
 	type InspectorRpcDispatch,
 	type InspectorRpcListener,
-	useInspectorRpcHandler,
+	useInspectorRpcServer,
+	useInspectorRpcClient,
 } from "./hooks/use-rpc-handler";
+export { useInspectorHost } from "./hooks/use-inspector-host";
+export { inspectorStoreSimple } from "./store";
 export type {
 	InspectedTarget,
 	InspectedTargetData,

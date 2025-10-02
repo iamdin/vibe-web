@@ -1,7 +1,7 @@
 import {
 	type InspectorRpcDispatch,
 	type InspectorRpcListener,
-	useInspectorRpcHandler,
+	useInspectorRpcServer,
 } from "@vibe-web/code-inspector-web";
 import { type BirpcReturn, createBirpc } from "birpc";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
@@ -25,7 +25,7 @@ export function ClientRpcProvider({ children }: React.PropsWithChildren) {
 	const rpcRef = useRef({} as BirpcReturn<RemoteFunctions, LocalFunctions>);
 	const [connected, setConnected] = useState(false);
 
-	const inspectorHandler = useInspectorRpcHandler(() => rpcRef.current, {
+	const inspectorHandler = useInspectorRpcServer(() => rpcRef.current, {
 		enable: connected,
 	});
 

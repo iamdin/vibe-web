@@ -1,15 +1,18 @@
 import { Button } from "@vibe-web/ui/components/button";
+import { useSelector } from "@xstate/store/react";
 import { MousePointerClickIcon } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useInspectorActorRef, useInspectorActorSelector } from "../context";
+import { inspectorStore } from "../context";
 
 export const InspectorTrigger = ({
 	className,
 	...props
 }: ComponentProps<typeof Button>) => {
-	const state = useInspectorActorSelector((state) => state.value);
-	const isIdle = useInspectorActorSelector((state) => state.matches("idle"));
-	const actorRef = useInspectorActorRef();
+	const state = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.state,
+	);
+	const isIdle = state === "idle";
 
 	return (
 		<Button
@@ -18,8 +21,8 @@ export const InspectorTrigger = ({
 			className={className}
 			{...props}
 			onClick={() => {
-				if (isIdle) actorRef.send({ type: "START" });
-				else actorRef.send({ type: "STOP" });
+				if (isIdle) inspectorStore.trigger.START();
+				else inspectorStore.trigger.STOP()
 			}}
 		>
 			<MousePointerClickIcon />
