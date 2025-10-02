@@ -3,11 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { eventIteratorToStream } from "@orpc/client";
 import type { InspectMetadata } from "@vibe-web/code-inspector-web";
-import {
-	InspectorTrigger,
-	useInspectorActorRef,
-	useInspectorActorSelector,
-} from "@vibe-web/code-inspector-web";
+import { InspectorTrigger, inspectorStore } from "@vibe-web/code-inspector-web";
 import { getFilenameFromPath } from "@vibe-web/code-inspector-web/util";
 import {
 	Conversation,
@@ -34,6 +30,7 @@ import {
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
 import { cn } from "@vibe-web/ui/lib/utils";
+import { useSelector } from "@xstate/store/react";
 import { XIcon } from "lucide-react";
 import { useState } from "react";
 import { ClaudeCodeMessageParts } from "@/components/message-parts";
@@ -70,9 +67,9 @@ export function Chat({ className }: { className?: string }) {
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 	const { sessionId } = useToolbarContext();
 
-	const inspectorActorRef = useInspectorActorRef();
-	const inspectedTargets = useInspectorActorSelector(
-		(state) => state.context.inspectedTargets,
+	const inspectedTargets = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.inspectedTargets,
 	);
 
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
@@ -127,8 +124,8 @@ export function Chat({ className }: { className?: string }) {
 			});
 		}
 
-		inspectorActorRef.send({ type: "STOP" });
-		inspectorActorRef.send({ type: "CLEAR_INSPECTED_TARGETS" });
+		inspectorStore.trigger.STOP();
+		inspectorStore.trigger.CLEAR_INSPECTED_TARGETS();
 		setInput("");
 	};
 
@@ -162,8 +159,7 @@ export function Chat({ className }: { className?: string }) {
 											onClick={(event) => {
 												event.preventDefault();
 												event.stopPropagation();
-												inspectorActorRef.send({
-													type: "REMOVE_INSPECTED_TARGET",
+												inspectorStore.trigger.REMOVE_INSPECTED_TARGET({
 													id: target.id,
 												});
 											}}

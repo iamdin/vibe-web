@@ -8,9 +8,10 @@ import {
 } from "@floating-ui/react";
 import { Badge } from "@vibe-web/ui/components/badge";
 import { Button } from "@vibe-web/ui/components/button";
+import { useSelector } from "@xstate/store/react";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { useInspectorActorRef, useInspectorActorSelector } from "../context";
+import { inspectorStore } from "../context";
 import type { InspectedTarget } from "../types";
 
 function useFloatingBadge(element: HTMLElement | null) {
@@ -60,8 +61,9 @@ function useFloatingOverlay(element: HTMLElement | null) {
 }
 
 function CurrentElementIndicator() {
-	const currentTarget = useInspectorActorSelector(
-		(state) => state.context.currentTarget,
+	const currentTarget = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.currentTarget,
 	);
 	const currentElement = currentTarget?.element ?? null;
 	const { refs: badgeRefs, floatingStyles: badgeStyles } =
@@ -103,7 +105,6 @@ function InspectedTargetsIndicatorItem({
 }: {
 	target: InspectedTarget;
 }) {
-	const actorRef = useInspectorActorRef();
 	const { refs: badgeRefs, floatingStyles: badgeStyles } = useFloatingBadge(
 		target.element,
 	);
@@ -131,7 +132,7 @@ function InspectedTargetsIndicatorItem({
 				<Button
 					type="button"
 					onClick={(event) => {
-						actorRef.send({ type: "REMOVE_INSPECTED_TARGET", id: target.id });
+						inspectorStore.trigger.REMOVE_INSPECTED_TARGET({ id: target.id });
 						event.stopPropagation();
 					}}
 					title="Remove inspection"
@@ -147,8 +148,9 @@ function InspectedTargetsIndicatorItem({
 }
 
 function InspectedTargetsIndicator() {
-	const inspectedTargets = useInspectorActorSelector(
-		(state) => state.context.inspectedTargets,
+	const inspectedTargets = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.inspectedTargets,
 	);
 	if (!inspectedTargets.length) return null;
 
@@ -162,7 +164,10 @@ function InspectedTargetsIndicator() {
 }
 
 export function InspectorIndicator() {
-	const isIdle = useInspectorActorSelector((state) => state.matches("idle"));
+	const isIdle = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.state === "idle",
+	);
 
 	if (isIdle) return null;
 	return (

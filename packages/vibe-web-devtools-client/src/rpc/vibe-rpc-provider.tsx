@@ -2,6 +2,7 @@ import type {
 	InspectorRpcDispatch,
 	InspectorRpcListener,
 } from "@vibe-web/code-inspector-web";
+import { useInspectorRpcClient } from "@vibe-web/code-inspector-web";
 import { type BirpcReturn, createBirpc } from "birpc";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { createClientBirpcOption } from "@/lib/message/client";
@@ -34,6 +35,10 @@ export function VibeRpcProvider({ children }: { children: React.ReactNode }) {
 	const rpcRef = useRef({} as RPC);
 	const [connected, setConnected] = useState(false);
 
+	const inspectorRpcListener = useInspectorRpcClient({
+		enable: connected,
+	});
+
 	useEffect(() => {
 		if (!iframeRef.current || !iframeRef.current.contentWindow) return;
 
@@ -46,9 +51,7 @@ export function VibeRpcProvider({ children }: { children: React.ReactNode }) {
 					console.log("host connected");
 					return true;
 				},
-				async onInspectedChange({ targets }) {
-					console.log("onInspectedChange", targets);
-				},
+				...inspectorRpcListener,
 			},
 			createClientBirpcOption(iframeRef.current),
 		);
@@ -56,7 +59,7 @@ export function VibeRpcProvider({ children }: { children: React.ReactNode }) {
 		return () => {
 			rpcRef.current = {} as RPC;
 		};
-	}, []);
+	}, [inspectorRpcListener]);
 
 	const context = {
 		rpcRef,

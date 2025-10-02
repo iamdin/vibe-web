@@ -1,15 +1,8 @@
-import { createActorContext } from "@xstate/react";
 import { InspectorIndicator } from "./components/indicator";
 import { useInspectorEvents } from "./hooks/use-inspect-events";
-import { inspectorMachine } from "./machine";
+import { inspectorStore } from "./store";
 
-const InspectActorContext = createActorContext(inspectorMachine, {
-	inspect: {},
-});
-
-const InspectorActorProvider = InspectActorContext.Provider;
-export const useInspectorActorRef = InspectActorContext.useActorRef;
-export const useInspectorActorSelector = InspectActorContext.useSelector;
+export { inspectorStore };
 
 function Inspector({ children }: { children: React.ReactNode }) {
 	/**
@@ -26,11 +19,9 @@ export const InspectorProvider = ({
 	children: React.ReactNode;
 }) => {
 	return (
-		<InspectorActorProvider>
-			<Inspector>
-				{children}
-				<InspectorIndicator />
-			</Inspector>
-		</InspectorActorProvider>
+		<Inspector>
+			{children}
+			<InspectorIndicator />
+		</Inspector>
 	);
 };
