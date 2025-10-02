@@ -42,13 +42,13 @@ function mount() {
 	createRoot(container).render(
 		<StrictMode>
 			<EnvironmentProvider value={shadowRoot}>
-				<ToolbarProviders>
-					<InspectorProvider>
+				<InspectorProvider>
+					<ToolbarProviders>
 						<ClientRpcProvider>
 							<ClientApp />
 						</ClientRpcProvider>
-					</InspectorProvider>
-				</ToolbarProviders>
+					</ToolbarProviders>
+				</InspectorProvider>
 			</EnvironmentProvider>
 		</StrictMode>,
 	);

@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { eventIteratorToStream } from "@orpc/client";
 import type { InspectMetadata } from "@vibe-web/code-inspector-web";
-import { InspectorTrigger } from "@vibe-web/code-inspector-web";
+import { inspectorStore } from "@vibe-web/code-inspector-web";
 import { getFilenameFromPath } from "@vibe-web/code-inspector-web/util";
 import {
 	Conversation,
@@ -30,6 +30,7 @@ import {
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
 import { cn } from "@vibe-web/ui/lib/utils";
+import { useSelector } from "@xstate/store/react";
 import { MousePointerClickIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { ClaudeCodeMessageParts } from "@/components/message-parts";
@@ -67,7 +68,15 @@ export function Chat({ className }: { className?: string }) {
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 	const { sessionId } = useToolbarContext();
 
-	const { rpcRef } = useVibeRpc();
+	const { connected } = useVibeRpc();
+	const inspectedTargets = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.inspectedTargets,
+	);
+	const inspectorState = useSelector(
+		inspectorStore,
+		(snapshot) => snapshot.context.state,
+	);
 
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
 		transport: {
@@ -97,32 +106,32 @@ export function Chat({ className }: { className?: string }) {
 
 		if (!input.trim()) return;
 
-		// if (inspectedTargets.length > 0) {
-		// 	sendMessage({
-		// 		parts: [
-		// 			{
-		// 				type: "data-inspector",
-		// 				data: inspectedTargets.map((target) => ({
-		// 					file: target.metadata.fileName,
-		// 					line: target.metadata.lineNumber,
-		// 					column: target.metadata.columnNumber,
-		// 					component: target.metadata.componentName,
-		// 				})),
-		// 			},
-		// 			{
-		// 				type: "text",
-		// 				text: input,
-		// 			},
-		// 		],
-		// 	});
-		// } else {
-		// }
-		sendMessage({
-			parts: [{ type: "text", text: input }],
-		});
+		if (inspectedTargets.length > 0) {
+			sendMessage({
+				parts: [
+					{
+						type: "data-inspector",
+						data: inspectedTargets.map((target) => ({
+							file: target.metadata.fileName,
+							line: target.metadata.lineNumber,
+							column: target.metadata.columnNumber,
+							component: target.metadata.componentName,
+						})),
+					},
+					{
+						type: "text",
+						text: input,
+					},
+				],
+			});
+		} else {
+			sendMessage({
+				parts: [{ type: "text", text: input }],
+			});
+		}
 
-		// inspectorActorRef.send({ type: "STOP" });
-		// inspectorActorRef.send({ type: "CLEAR_INSPECTED_TARGETS" });
+		inspectorStore.trigger.STOP();
+		inspectorStore.trigger.CLEAR_INSPECTED_TARGETS();
 		setInput("");
 	};
 
@@ -139,7 +148,7 @@ export function Chat({ className }: { className?: string }) {
 			</Conversation>
 			<div className="flex-shrink-0 p-2">
 				<PromptInput onSubmit={handleSubmit}>
-					{/* {inspectedTargets.length ? (
+					{inspectedTargets.length ? (
 						<div className="flex w-full flex-wrap gap-1 p-1.5 max-h-14 overflow-y-auto">
 							{inspectedTargets.map((target) => {
 								const title = formatInspectedTitle(target.metadata);
@@ -156,8 +165,7 @@ export function Chat({ className }: { className?: string }) {
 											onClick={(event) => {
 												event.preventDefault();
 												event.stopPropagation();
-												inspectorActorRef.send({
-													type: "REMOVE_INSPECTED_TARGET",
+												inspectorStore.trigger.REMOVE_INSPECTED_TARGET({
 													id: target.id,
 												});
 											}}
@@ -169,7 +177,7 @@ export function Chat({ className }: { className?: string }) {
 								);
 							})}
 						</div>
-					) : null} */}
+					) : null}
 					<PromptInputTextarea
 						className="min-h-4"
 						onChange={(e) => setInput(e.target.value)}
@@ -200,12 +208,16 @@ export function Chat({ className }: { className?: string }) {
 							</Select>
 
 							<Button
-								// variant={isIdle ? "ghost" : "default"}
-								// data-state={state}
-								className={className}
-								// {...props}
+								variant={inspectorState === "idle" ? "ghost" : "default"}
+								data-state={inspectorState}
+								size="sm"
+								disabled={!connected}
 								onClick={() => {
-									rpcRef.current.inspectStart();
+									if (inspectorState === "idle") {
+										inspectorStore.trigger.START();
+									} else {
+										inspectorStore.trigger.STOP();
+									}
 								}}
 							>
 								<MousePointerClickIcon />
