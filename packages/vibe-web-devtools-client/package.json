@@ -1,12 +1,12 @@
 {
-	"name": "vite-plugin-vibe-web-dev-client",
+	"name": "vibe-web-devtools-client",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev --config vite.config.play.ts",
-		"stub": "vite build --mode development",
-		"build": "vite build",
+		"dev": "vite build --mode development --config vite.config.vibe.ts",
+		"stub": "vite build --mode development && vite build --mode development --config vite.config.vibe.ts",
+		"build": "vite build && vite build --config vite.config.vibe.ts",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules dist .turbo"
 	},
@@ -26,6 +26,7 @@
 		"@floating-ui/react": "^0.27.16",
 		"@xstate/react": "^6.0.0",
 		"ai": "^5.0.44",
+		"birpc": "^2.6.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"hast-util-to-jsx-runtime": "^2.3.6",
