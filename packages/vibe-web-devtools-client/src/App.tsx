@@ -1,12 +1,10 @@
 import { Button } from "@vibe-web/ui/components/button";
 import { cn } from "@vibe-web/ui/lib/utils";
 import { BotIcon } from "lucide-react";
-
 import { FloatingChat } from "@/components/floating-chat-panel";
 import { useToolbarContext } from "@/context/toolbar";
-import { Inspector } from "@/features/inspector/inspector";
 
-export function App() {
+export function Toolbar() {
 	const { toolbarRef, open, setOpen } = useToolbarContext();
 
 	return (
@@ -28,7 +26,6 @@ export function App() {
 				</Button>
 			</div>
 			<FloatingChat />
-			<Inspector />
 		</>
 	);
 }

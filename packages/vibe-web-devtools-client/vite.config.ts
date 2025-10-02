@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
 		build: {
 			minify: mode !== "development",
 			lib: {
-				entry: "src/index.tsx",
+				entry: "src/client.tsx",
 				fileName: "client",
 				formats: ["es"],
 			},

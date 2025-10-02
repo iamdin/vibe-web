@@ -33,7 +33,7 @@ export const ToolbarProviders = ({
 
 	return (
 		<ToolbarContext.Provider value={{ toolbarRef, sessionId, open, setOpen }}>
-			<InspectorProvider>{children}</InspectorProvider>
+			{children}
 		</ToolbarContext.Provider>
 	);
 };

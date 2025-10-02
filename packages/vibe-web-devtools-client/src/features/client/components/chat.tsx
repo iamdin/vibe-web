@@ -33,12 +33,13 @@ import {
 	SelectTrigger,
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
+import { cn } from "@vibe-web/ui/lib/utils";
 import { XIcon } from "lucide-react";
 import { useState } from "react";
+import { ClaudeCodeMessageParts } from "@/components/message-parts";
 import { useToolbarContext } from "@/context/toolbar";
 import { orpc } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
-import { ClaudeCodeMessageParts } from "./message-parts";
 
 const models = createListCollection<{
 	label: "Opus" | "Sonnet";
@@ -64,7 +65,7 @@ function formatInspectedTitle(metadata?: InspectMetadata) {
 	return `${filename}:${line}:${column}`;
 }
 
-export function Chat() {
+export function Chat({ className }: { className?: string }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 	const { sessionId } = useToolbarContext();
@@ -132,7 +133,7 @@ export function Chat() {
 	};
 
 	return (
-		<div className="flex flex-col flex-1 min-h-0">
+		<div className={cn("flex flex-col flex-1 min-h-0", className)}>
 			<Conversation>
 				<ConversationContent>
 					{messages.map((message) => (

@@ -4,18 +4,19 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig(({ mode }) => ({
+	base: "__vibe",
 	plugins: [react(), tailwindcss()],
 	resolve: {
 		alias: {
 			"@": fileURLToPath(new URL("./src", import.meta.url)),
 		},
 	},
-	define: {
-		"process.env.NODE_ENV": JSON.stringify(mode),
-	},
 	build: {
 		minify: mode !== "development" ? "oxc" : false,
 		target: "esnext",
+		outDir: fileURLToPath(
+			new URL("../vibe-web-devtools/dist/vibe", import.meta.url),
+		),
 	},
 	experimental: {
 		enableNativePlugin: true,

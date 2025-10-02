@@ -39,6 +39,7 @@ export class Session {
 
 		const options: Options = {
 			mcpServers: {},
+      strictMcpConfig: true,
 			// permissionPromptToolName: toolNames.permission,
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path

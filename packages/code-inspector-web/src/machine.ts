@@ -16,8 +16,8 @@ type InspectEvents =
 	| { type: "POINTER_DOWN"; event: PointerEvent }
 	| { type: "POINTER_LEAVE" }
 	| { type: "REMOVE_INSPECTED_TARGET"; id: string }
-	| { type: "UPDATE_INSPECTED_TARGETS" }
-	| { type: "CLEAR_INSPECTED_TARGETS" };
+	| { type: "CLEAR_INSPECTED_TARGETS" }
+	| { type: "SET_INSPECTED_TARGETS"; targets: InspectedTarget[] };
 
 export const inspectorMachine = setup({
 	types: {
@@ -37,12 +37,10 @@ export const inspectorMachine = setup({
 			}
 
 			current.element.style.cursor = "pointer";
-			const rect = current.element.getBoundingClientRect();
 
 			return {
 				currentTarget: {
 					element: current.element,
-					rect,
 					metadata: current.metadata,
 				},
 			};
@@ -77,14 +75,6 @@ export const inspectorMachine = setup({
 		removeCurrentTarget: assign({
 			currentTarget: undefined,
 		}),
-		updateInspectedTargets: assign(({ context }) => {
-			return {
-				inspectedTargets: context.inspectedTargets.map((target) => ({
-					...target,
-					rect: target.element.getBoundingClientRect(),
-				})),
-			};
-		}),
 		removeInspectedTarget: assign(({ event, context }) => {
 			invariant(event.type === "REMOVE_INSPECTED_TARGET", "Invalid event type");
 
@@ -98,6 +88,13 @@ export const inspectorMachine = setup({
 		}),
 		clearInspectedTargets: assign({
 			inspectedTargets: () => [],
+		}),
+		setInspectedTargets: assign(({ event }) => {
+			invariant(event.type === "SET_INSPECTED_TARGETS", "Invalid event type");
+
+			return {
+				inspectedTargets: event.targets,
+			};
 		}),
 	},
 }).createMachine({
@@ -119,8 +116,8 @@ export const inspectorMachine = setup({
 				POINTER_DOWN: { actions: "pickCurrentTarget" },
 				POINTER_LEAVE: { actions: "removeCurrentTarget" },
 				REMOVE_INSPECTED_TARGET: { actions: "removeInspectedTarget" },
-				UPDATE_INSPECTED_TARGETS: { actions: "updateInspectedTargets" },
 				CLEAR_INSPECTED_TARGETS: { actions: "clearInspectedTargets" },
+				SET_INSPECTED_TARGETS: { actions: "setInspectedTargets" },
 				STOP: { target: "idle", actions: ["removeCurrentTarget"] },
 			},
 		},

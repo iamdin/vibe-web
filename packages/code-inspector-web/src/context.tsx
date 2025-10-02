@@ -1,4 +1,5 @@
 import { createActorContext } from "@xstate/react";
+import { InspectorIndicator } from "./components/indicator";
 import { useInspectorEvents } from "./hooks/use-inspect-events";
 import { inspectorMachine } from "./machine";
 
@@ -10,7 +11,7 @@ const InspectorActorProvider = InspectActorContext.Provider;
 export const useInspectorActorRef = InspectActorContext.useActorRef;
 export const useInspectorActorSelector = InspectActorContext.useSelector;
 
-function InspectorRoot({ children }: { children: React.ReactNode }) {
+function Inspector({ children }: { children: React.ReactNode }) {
 	/**
 	 * addEventListeners to binding machine events
 	 */
@@ -26,7 +27,10 @@ export const InspectorProvider = ({
 }) => {
 	return (
 		<InspectorActorProvider>
-			<InspectorRoot>{children}</InspectorRoot>
+			<Inspector>
+				{children}
+				<InspectorIndicator />
+			</Inspector>
 		</InspectorActorProvider>
 	);
 };

@@ -8,7 +8,6 @@ export interface InspectMetadata {
 export interface InspectedTarget {
 	id: string;
 	element: HTMLElement;
-	rect: DOMRect;
 	metadata: InspectMetadata;
 }
 

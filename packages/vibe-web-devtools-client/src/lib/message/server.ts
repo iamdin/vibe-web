@@ -1,29 +1,16 @@
-import type { BirpcOptions, BirpcReturn } from "birpc";
-import type { ClientFunctions } from "./client";
+import type { BirpcOptions } from "birpc";
 import { RPC_EVENT_NAME } from "./constants";
 
 export interface ServerFunctions {
-	healthCheck: () => Promise<boolean>;
-	/**
-	 * start to inspect
-	 * @returns - The response from the server.
-	 */
-	inspectorStart: () => Promise<void>;
-	/**
-	 * stop to inspect
-	 * @returns - The response from the server.
-	 */
-	inspectorStop: () => Promise<void>;
+	connect: () => Promise<boolean>;
 }
-
-export type Server = BirpcReturn<ServerFunctions, ClientFunctions>;
 
 interface Message {
 	event: string;
 	data: unknown;
 }
 
-export const createServerBirpcOption = () => {
+export const createServerBirpcOption = <T>() => {
 	return {
 		post: (data) => {
 			window.parent.postMessage(
@@ -42,5 +29,5 @@ export const createServerBirpcOption = () => {
 				}
 			});
 		},
-	} satisfies BirpcOptions<ServerFunctions>;
+	} satisfies BirpcOptions<T>;
 };
