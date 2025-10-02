@@ -1,4 +1,4 @@
-import type { ChannelOptions } from "birpc";
+import type { BirpcOptions, ChannelOptions } from "birpc";
 
 const EVENT_NAME = "vibe-dev-rpc-message";
 

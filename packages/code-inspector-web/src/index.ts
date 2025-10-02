@@ -5,6 +5,11 @@ export {
 	useInspectorActorRef,
 	useInspectorActorSelector,
 } from "./context";
+export {
+	type InspectorRpcDispatch,
+	type InspectorRpcListener,
+	useInspectorRpcHandler,
+} from "./hooks/use-rpc-handler";
 export type {
 	InspectedTarget,
 	InspectedTargetData,

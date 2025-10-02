@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createActor } from "xstate";
 
 import { inspectorMachine } from "./machine";
-import type { InspectMetadata } from "./types";
+import type { InspectMetadata, InspectedTarget } from "./types";
 import { tryInspectElement } from "./util";
 
 vi.mock("uuid", () => ({
@@ -49,7 +49,6 @@ const createMockElement = (): MockedHTMLElement => {
 const appendTarget = (
 	actor: ReturnType<typeof createActor>,
 	element: MockedHTMLElement,
-	options: { rect?: DOMRect } = {},
 ) => {
 	const metadata: InspectMetadata = {
 		fileName: "src/component.tsx",
@@ -58,22 +57,6 @@ const appendTarget = (
 		columnNumber: 5,
 	};
 
-	const rect =
-		options.rect ??
-		({
-			top: 0,
-			left: 0,
-			bottom: 10,
-			right: 10,
-			width: 10,
-			height: 10,
-			x: 0,
-			y: 0,
-			toJSON: () => ({}),
-		} as DOMRect);
-
-	element.getBoundingClientRect.mockReturnValue(rect);
-
 	tryInspectElementMock.mockReturnValue({
 		element,
 		metadata,
@@ -81,7 +64,7 @@ const appendTarget = (
 
 	actor.send({ type: "POINTER_MOVE", event: {} as PointerEvent });
 
-	return { metadata, rect };
+	return { metadata };
 };
 
 describe("inspectorMachine", () => {
@@ -124,13 +107,12 @@ describe("inspectorMachine", () => {
 		actor.send({ type: "START" });
 
 		const element = createMockElement();
-		const { metadata, rect } = appendTarget(actor, element);
+		const { metadata } = appendTarget(actor, element);
 
 		const snapshot = actor.getSnapshot();
 		expect(snapshot.context.currentTarget).toEqual({
 			element,
 			metadata,
-			rect,
 		});
 		expect(element.style.cursor).toBe("pointer");
 
@@ -181,33 +163,6 @@ describe("inspectorMachine", () => {
 			columnNumber: 1,
 		};
 
-		const firstRect = {
-			top: 0,
-			left: 0,
-			bottom: 5,
-			right: 5,
-			width: 5,
-			height: 5,
-			x: 0,
-			y: 0,
-			toJSON: () => ({}),
-		} as DOMRect;
-		const updatedRect = {
-			top: 1,
-			left: 1,
-			bottom: 6,
-			right: 6,
-			width: 5,
-			height: 5,
-			x: 1,
-			y: 1,
-			toJSON: () => ({}),
-		} as DOMRect;
-
-		element.getBoundingClientRect
-			.mockReturnValueOnce(firstRect)
-			.mockReturnValue(updatedRect);
-
 		tryInspectElementMock.mockReturnValue({ element, metadata });
 		actor.send({ type: "POINTER_MOVE", event: {} as PointerEvent });
 		actor.send({
@@ -223,7 +178,6 @@ describe("inspectorMachine", () => {
 
 		let snapshot = actor.getSnapshot();
 		expect(snapshot.context.inspectedTargets).toHaveLength(1);
-		expect(snapshot.context.inspectedTargets[0].rect).toBe(updatedRect);
 
 		actor.send({
 			type: "REMOVE_INSPECTED_TARGET",
@@ -388,31 +342,6 @@ describe("inspectorMachine", () => {
 			actor.send({ type: "START" });
 
 			const element = createMockElement();
-			const originalRect = {
-				top: 0,
-				left: 0,
-				bottom: 10,
-				right: 10,
-				width: 10,
-				height: 10,
-				x: 0,
-				y: 0,
-				toJSON: () => ({}),
-			} as DOMRect;
-			const movedRect = {
-				top: 100,
-				left: 100,
-				bottom: 110,
-				right: 110,
-				width: 10,
-				height: 10,
-				x: 100,
-				y: 100,
-				toJSON: () => ({}),
-			} as DOMRect;
-
-			// Setup initial position
-			element.getBoundingClientRect.mockReturnValue(originalRect);
 
 			const metadata = {
 				fileName: "src/component.tsx",
@@ -433,12 +362,10 @@ describe("inspectorMachine", () => {
 				} as unknown as PointerEvent,
 			});
 
-			// Now change the position
-			element.getBoundingClientRect.mockReturnValue(movedRect);
 			actor.send({ type: "UPDATE_INSPECTED_TARGETS" });
 
 			const snapshot = actor.getSnapshot();
-			expect(snapshot.context.inspectedTargets[0].rect).toBe(movedRect);
+			expect(snapshot.context.inspectedTargets).toHaveLength(1);
 		});
 
 		it("should handle multiple targets with different positions", () => {
@@ -447,32 +374,6 @@ describe("inspectorMachine", () => {
 
 			const element1 = createMockElement();
 			const element2 = createMockElement();
-
-			const rect1 = {
-				top: 0,
-				left: 0,
-				bottom: 10,
-				right: 10,
-				width: 10,
-				height: 10,
-				x: 0,
-				y: 0,
-				toJSON: () => ({}),
-			} as DOMRect;
-			const rect2 = {
-				top: 20,
-				left: 20,
-				bottom: 30,
-				right: 30,
-				width: 10,
-				height: 10,
-				x: 20,
-				y: 20,
-				toJSON: () => ({}),
-			} as DOMRect;
-
-			element1.getBoundingClientRect.mockReturnValue(rect1);
-			element2.getBoundingClientRect.mockReturnValue(rect2);
 
 			tryInspectElementMock
 				.mockReturnValueOnce({
@@ -518,8 +419,210 @@ describe("inspectorMachine", () => {
 
 			const snapshot = actor.getSnapshot();
 			expect(snapshot.context.inspectedTargets).toHaveLength(2);
-			expect(snapshot.context.inspectedTargets[0].rect).toBe(rect1);
-			expect(snapshot.context.inspectedTargets[1].rect).toBe(rect2);
+		});
+	});
+
+	describe("SET_INSPECTED_TARGETS event", () => {
+		it("should set inspected targets from external source", () => {
+			const actor = createActor(inspectorMachine).start();
+			actor.send({ type: "START" });
+
+			const element1 = createMockElement();
+			const element2 = createMockElement();
+
+			const targets: InspectedTarget[] = [
+				{
+					id: "target-1",
+					element: element1,
+					metadata: {
+						fileName: "file1.tsx",
+						componentName: "Comp1",
+						lineNumber: 10,
+						columnNumber: 5,
+					},
+				},
+				{
+					id: "target-2",
+					element: element2,
+					metadata: {
+						fileName: "file2.tsx",
+						componentName: "Comp2",
+						lineNumber: 20,
+						columnNumber: 10,
+					},
+				},
+			];
+
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets });
+
+			const snapshot = actor.getSnapshot();
+			expect(snapshot.context.inspectedTargets).toEqual(targets);
+			expect(snapshot.context.inspectedTargets).toHaveLength(2);
+		});
+
+		it("should replace existing inspected targets", () => {
+			const actor = createActor(inspectorMachine).start();
+			actor.send({ type: "START" });
+
+			// Add a target through normal inspection
+			const element1 = createMockElement();
+			appendTarget(actor, element1);
+			actor.send({
+				type: "POINTER_DOWN",
+				event: {
+					preventDefault: vi.fn(),
+					stopImmediatePropagation: vi.fn(),
+					stopPropagation: vi.fn(),
+				} as unknown as PointerEvent,
+			});
+
+			expect(actor.getSnapshot().context.inspectedTargets).toHaveLength(1);
+
+			// Replace with new targets
+			const element2 = createMockElement();
+			const newTargets: InspectedTarget[] = [
+				{
+					id: "new-target",
+					element: element2,
+					metadata: {
+						fileName: "new-file.tsx",
+						componentName: "NewComp",
+						lineNumber: 15,
+						columnNumber: 8,
+					},
+				},
+			];
+
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets: newTargets });
+
+			const snapshot = actor.getSnapshot();
+			expect(snapshot.context.inspectedTargets).toEqual(newTargets);
+			expect(snapshot.context.inspectedTargets).toHaveLength(1);
+		});
+
+		it("should handle empty targets array", () => {
+			const actor = createActor(inspectorMachine).start();
+			actor.send({ type: "START" });
+
+			// Add some targets first
+			const element = createMockElement();
+			appendTarget(actor, element);
+			actor.send({
+				type: "POINTER_DOWN",
+				event: {
+					preventDefault: vi.fn(),
+					stopImmediatePropagation: vi.fn(),
+					stopPropagation: vi.fn(),
+				} as unknown as PointerEvent,
+			});
+
+			expect(actor.getSnapshot().context.inspectedTargets).toHaveLength(1);
+
+			// Set to empty array
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets: [] });
+
+			const snapshot = actor.getSnapshot();
+			expect(snapshot.context.inspectedTargets).toEqual([]);
+			expect(snapshot.context.inspectedTargets).toHaveLength(0);
+		});
+
+		it("should preserve targets with partial metadata", () => {
+			const actor = createActor(inspectorMachine).start();
+			actor.send({ type: "START" });
+
+			const element = createMockElement();
+			const targets: InspectedTarget[] = [
+				{
+					id: "partial-target",
+					element,
+					metadata: {
+						componentName: "PartialComp",
+						// fileName, lineNumber, columnNumber are optional
+					},
+				},
+			];
+
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets });
+
+			const snapshot = actor.getSnapshot();
+			expect(snapshot.context.inspectedTargets).toEqual(targets);
+			expect(snapshot.context.inspectedTargets[0].metadata.fileName).toBeUndefined();
+			expect(snapshot.context.inspectedTargets[0].metadata.lineNumber).toBeUndefined();
+			expect(snapshot.context.inspectedTargets[0].metadata.columnNumber).toBeUndefined();
+		});
+
+		it("should not affect current target when setting inspected targets", () => {
+			const actor = createActor(inspectorMachine).start();
+			actor.send({ type: "START" });
+
+			// Set a current target through hover
+			const currentElement = createMockElement();
+			const currentMetadata = {
+				fileName: "current.tsx",
+				componentName: "CurrentComp",
+				lineNumber: 5,
+				columnNumber: 3,
+			};
+
+			tryInspectElementMock.mockReturnValue({
+				element: currentElement,
+				metadata: currentMetadata,
+			});
+
+			actor.send({ type: "POINTER_MOVE", event: {} as PointerEvent });
+			expect(actor.getSnapshot().context.currentTarget).toBeDefined();
+
+			// Set inspected targets
+			const element = createMockElement();
+			const targets: InspectedTarget[] = [
+				{
+					id: "new-target",
+					element,
+					metadata: {
+						fileName: "new.tsx",
+						componentName: "NewComp",
+						lineNumber: 10,
+						columnNumber: 5,
+					},
+				},
+			];
+
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets });
+
+			const snapshot = actor.getSnapshot();
+			expect(snapshot.context.currentTarget).toBeDefined();
+			expect(snapshot.context.currentTarget?.element).toBe(currentElement);
+			expect(snapshot.context.inspectedTargets).toEqual(targets);
+		});
+
+		it("should only work in active state", () => {
+			const actor = createActor(inspectorMachine).start();
+
+			const element = createMockElement();
+			const targets: InspectedTarget[] = [
+				{
+					id: "idle-target",
+					element,
+					metadata: {
+						fileName: "file.tsx",
+						componentName: "Comp",
+						lineNumber: 10,
+						columnNumber: 5,
+					},
+				},
+			];
+
+			// Try to set targets in idle state
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets });
+
+			expect(actor.getSnapshot().value).toBe("idle");
+			expect(actor.getSnapshot().context.inspectedTargets).toHaveLength(0);
+
+			// Now start and try again
+			actor.send({ type: "START" });
+			actor.send({ type: "SET_INSPECTED_TARGETS", targets });
+
+			expect(actor.getSnapshot().context.inspectedTargets).toEqual(targets);
 		});
 	});
 
