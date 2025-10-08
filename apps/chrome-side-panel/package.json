@@ -29,8 +29,8 @@
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.1.12",
-		"@types/react": "^19.1.11",
-		"@types/react-dom": "^19.1.9",
+		"@types/react": "^19.2.2",
+		"@types/react-dom": "^19.2.1",
 		"@vitejs/plugin-react": "^5.0.1",
 		"typescript": "^5.9.2",
 		"vite": "npm:rolldown-vite@latest"
