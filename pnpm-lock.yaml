@@ -986,9 +986,6 @@ importers:
 
   packages/vibe-web-devtools-client:
     dependencies:
-      '@ai-sdk/react':
-        specifier: ^2.0.44
-        version: 2.0.44(react@19.2.0)(zod@3.25.76)
       '@ark-ui/react':
         specifier: ^5.23.0
         version: 5.23.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1004,9 +1001,6 @@ importers:
       '@xstate/store':
         specifier: ^3.9.2
         version: 3.9.3(react@19.2.0)(solid-js@1.9.8)
-      ai:
-        specifier: ^5.0.63
-        version: 5.0.64(zod@3.25.76)
       birpc:
         specifier: ^2.6.1
         version: 2.6.1
@@ -1050,6 +1044,9 @@ importers:
         specifier: ^3.24.1
         version: 3.25.76
     devDependencies:
+      '@ai-sdk/react':
+        specifier: ^2.0.44
+        version: 2.0.44(react@19.2.0)(zod@3.25.76)
       '@orpc/server':
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)(crossws@0.3.5)(ws@8.18.3)
@@ -1086,6 +1083,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^4.0.1
         version: 4.0.1(@swc/helpers@0.5.17)(rolldown-vite@7.1.13(@types/node@22.17.1)(esbuild@0.25.9)(jiti@2.5.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))
+      ai:
+        specifier: ^5.0.63
+        version: 5.0.64(zod@3.25.76)
       ai-sdk-claude-code:
         specifier: workspace:*
         version: link:../ai-sdk-claude-code
