@@ -13,7 +13,6 @@ import type {
  */
 export function useInspectorRpcClient(rpc: () => InspectorRpcServerFunctions) {
 	useEffect(() => {
-		console.log("useInspectorRpcClient", rpc);
 		const subscriptions = [
 			inspectorStoreSync.on("STARTED", () => {
 				rpc().inspectStart();
