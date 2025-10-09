@@ -3,7 +3,7 @@ import { type RPC, useVibeClientRpc } from "./use-vibe-client-rpc";
 
 export type VibeClientRpcContextType = {
 	iframeRef: React.RefObject<HTMLIFrameElement | null>;
-	rpcRef: React.RefObject<RPC>;
+	rpcRef: React.RefObject<RPC | null>;
 	connected: boolean;
 };
 

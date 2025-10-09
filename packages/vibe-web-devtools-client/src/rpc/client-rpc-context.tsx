@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { type ClientRpc, useClientRpc } from "./use-client-rpc";
 
 type ClientRpcContextType = {
-	rpcRef: React.RefObject<ClientRpc>;
+	rpcRef: React.RefObject<ClientRpc | null>;
 	connected: boolean;
 };
 
