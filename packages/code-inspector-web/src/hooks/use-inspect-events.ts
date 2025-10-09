@@ -1,10 +1,13 @@
 import { useSelector } from "@xstate/store/react";
 import { useEffect } from "react";
-import { inspectorStore } from "../context";
+import { inspectorStore } from "../store";
 import { shouldIgnoreInspectorEvent } from "../util";
 
 export function useInspectorEvents() {
-	const inspectState = useSelector(inspectorStore, (snapshot) => snapshot.context.state);
+	const inspectState = useSelector(
+		inspectorStore,
+		(state) => state.context.state,
+	);
 
 	useEffect(() => {
 		if (inspectState === "idle") return;

@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./features/vibe/app";
-import { VibeRpcProvider } from "./rpc/vibe-rpc-provider";
+import { VibeClientRpcProvider } from "./rpc/vibe-client-rpc-context";
 
 import "./index.css";
 
@@ -11,8 +11,8 @@ document.body.appendChild(container);
 
 createRoot(container).render(
 	<StrictMode>
-		<VibeRpcProvider>
+		<VibeClientRpcProvider>
 			<App />
-		</VibeRpcProvider>
+		</VibeClientRpcProvider>
 	</StrictMode>,
 );

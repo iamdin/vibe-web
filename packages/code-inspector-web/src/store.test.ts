@@ -1,11 +1,11 @@
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import { inspectorStore, inspectorStoreSimple } from "./store";
+import { inspectorStore, inspectorStoreSync } from "./store";
 import type {
-	InspectMetadata,
 	InspectedTarget,
 	InspectedTargetData,
+	InspectMetadata,
+	InspectState,
 } from "./types";
 import { tryInspectElement } from "./util";
 
@@ -67,6 +67,14 @@ const appendTarget = (element: MockedHTMLElement) => {
 	return { metadata };
 };
 
+const syncInspectorContext = (
+	state: InspectState,
+	targets: InspectedTargetData[],
+) => {
+	inspectorStoreSync.trigger.SET_INSPECTED_TARGETS({ targets });
+	inspectorStoreSync.trigger.SET_INSPECTED_STATE({ state });
+};
+
 describe("inspectorStore", () => {
 	beforeEach(() => {
 		tryInspectElementMock.mockReset();
@@ -83,14 +91,17 @@ describe("inspectorStore", () => {
 		const element = createMockElement();
 		appendTarget(element);
 
-		inspectorStore.trigger.POINTER_DOWN({ event: {
+		inspectorStore.trigger.POINTER_DOWN({
+			event: {
 				preventDefault: vi.fn(),
 				stopImmediatePropagation: vi.fn(),
 				stopPropagation: vi.fn(),
 			} as unknown as PointerEvent,
 		});
 
-		expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(1);
+		expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(
+			1,
+		);
 
 		inspectorStore.trigger.STOP();
 
@@ -160,7 +171,8 @@ describe("inspectorStore", () => {
 
 		tryInspectElementMock.mockReturnValue({ element, metadata });
 		inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-		inspectorStore.trigger.POINTER_DOWN({ event: {
+		inspectorStore.trigger.POINTER_DOWN({
+			event: {
 				preventDefault: vi.fn(),
 				stopImmediatePropagation: vi.fn(),
 				stopPropagation: vi.fn(),
@@ -170,7 +182,8 @@ describe("inspectorStore", () => {
 		let snapshot = inspectorStore.getSnapshot().context;
 		expect(snapshot.inspectedTargets).toHaveLength(1);
 
-		inspectorStore.trigger.REMOVE_INSPECTED_TARGET({ id: snapshot.inspectedTargets[0].id,
+		inspectorStore.trigger.REMOVE_INSPECTED_TARGET({
+			id: snapshot.inspectedTargets[0].id,
 		});
 
 		snapshot = inspectorStore.getSnapshot().context;
@@ -218,8 +231,7 @@ describe("inspectorStore", () => {
 		it("should handle removing non-existent target", () => {
 			inspectorStore.trigger.START();
 
-			inspectorStore.trigger.REMOVE_INSPECTED_TARGET({ id: "non-existent-id",
-			});
+			inspectorStore.trigger.REMOVE_INSPECTED_TARGET({ id: "non-existent-id" });
 
 			const snapshot = inspectorStore.getSnapshot().context;
 			expect(snapshot.inspectedTargets).toHaveLength(0);
@@ -274,13 +286,19 @@ describe("inspectorStore", () => {
 				.mockReturnValueOnce(undefined);
 
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			expect(inspectorStore.getSnapshot().context.currentTarget?.element).toBe(element1);
+			expect(inspectorStore.getSnapshot().context.currentTarget?.element).toBe(
+				element1,
+			);
 
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			expect(inspectorStore.getSnapshot().context.currentTarget?.element).toBe(element2);
+			expect(inspectorStore.getSnapshot().context.currentTarget?.element).toBe(
+				element2,
+			);
 
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			expect(inspectorStore.getSnapshot().context.currentTarget).toBeUndefined();
+			expect(
+				inspectorStore.getSnapshot().context.currentTarget,
+			).toBeUndefined();
 		});
 
 		it("should handle pointer down without current target", () => {
@@ -309,7 +327,9 @@ describe("inspectorStore", () => {
 
 			inspectorStore.trigger.POINTER_LEAVE();
 
-			expect(inspectorStore.getSnapshot().context.currentTarget).toBeUndefined();
+			expect(
+				inspectorStore.getSnapshot().context.currentTarget,
+			).toBeUndefined();
 		});
 	});
 
@@ -329,7 +349,8 @@ describe("inspectorStore", () => {
 			tryInspectElementMock.mockReturnValue({ element, metadata });
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
 
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
@@ -368,7 +389,8 @@ describe("inspectorStore", () => {
 
 			// Add first target
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
@@ -377,7 +399,8 @@ describe("inspectorStore", () => {
 
 			// Add second target
 			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
@@ -432,14 +455,17 @@ describe("inspectorStore", () => {
 			// Add a target through normal inspection
 			const element1 = createMockElement();
 			appendTarget(element1);
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
 				} as unknown as PointerEvent,
 			});
 
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(1);
+			expect(
+				inspectorStore.getSnapshot().context.inspectedTargets,
+			).toHaveLength(1);
 
 			// Replace with new targets
 			const element2 = createMockElement();
@@ -469,14 +495,17 @@ describe("inspectorStore", () => {
 			// Add some targets first
 			const element = createMockElement();
 			appendTarget(element);
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
 				} as unknown as PointerEvent,
 			});
 
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(1);
+			expect(
+				inspectorStore.getSnapshot().context.inspectedTargets,
+			).toHaveLength(1);
 
 			// Set to empty array
 			inspectorStore.trigger.SET_INSPECTED_TARGETS({ targets: [] });
@@ -507,7 +536,9 @@ describe("inspectorStore", () => {
 			expect(snapshot.inspectedTargets).toEqual(targets);
 			expect(snapshot.inspectedTargets[0].metadata.fileName).toBeUndefined();
 			expect(snapshot.inspectedTargets[0].metadata.lineNumber).toBeUndefined();
-			expect(snapshot.inspectedTargets[0].metadata.columnNumber).toBeUndefined();
+			expect(
+				snapshot.inspectedTargets[0].metadata.columnNumber,
+			).toBeUndefined();
 		});
 
 		it("should not affect current target when setting inspected targets", () => {
@@ -572,13 +603,17 @@ describe("inspectorStore", () => {
 			inspectorStore.trigger.SET_INSPECTED_TARGETS({ targets });
 
 			expect(inspectorStore.getSnapshot().context.state).toBe("idle");
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toEqual(targets);
+			expect(inspectorStore.getSnapshot().context.inspectedTargets).toEqual(
+				targets,
+			);
 
 			// Also works in active state
 			inspectorStore.trigger.START();
 			inspectorStore.trigger.SET_INSPECTED_TARGETS({ targets });
 
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toEqual(targets);
+			expect(inspectorStore.getSnapshot().context.inspectedTargets).toEqual(
+				targets,
+			);
 		});
 	});
 
@@ -589,12 +624,13 @@ describe("inspectorStore", () => {
 			const element = createMockElement();
 			const { metadata } = appendTarget(element);
 
-			expect(inspectorStore.getSnapshot().context.currentTarget?.metadata).toEqual(
-				metadata,
-			);
+			expect(
+				inspectorStore.getSnapshot().context.currentTarget?.metadata,
+			).toEqual(metadata);
 			expect(element.style.cursor).toBe("pointer");
 
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
@@ -627,13 +663,15 @@ describe("inspectorStore", () => {
 				});
 
 				inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-				expect(inspectorStore.getSnapshot().context.currentTarget?.element).toBe(
-					element,
-				);
+				expect(
+					inspectorStore.getSnapshot().context.currentTarget?.element,
+				).toBe(element);
 				expect(element.style.cursor).toBe("pointer");
 			});
 
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(0);
+			expect(
+				inspectorStore.getSnapshot().context.inspectedTargets,
+			).toHaveLength(0);
 		});
 
 		it("should handle restart after stop", () => {
@@ -642,18 +680,23 @@ describe("inspectorStore", () => {
 			const element = createMockElement();
 			appendTarget(element);
 
-			inspectorStore.trigger.POINTER_DOWN({ event: {
+			inspectorStore.trigger.POINTER_DOWN({
+				event: {
 					preventDefault: vi.fn(),
 					stopImmediatePropagation: vi.fn(),
 					stopPropagation: vi.fn(),
 				} as unknown as PointerEvent,
 			});
 
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(1);
+			expect(
+				inspectorStore.getSnapshot().context.inspectedTargets,
+			).toHaveLength(1);
 
 			inspectorStore.trigger.STOP();
 			expect(inspectorStore.getSnapshot().context.state).toBe("idle");
-			expect(inspectorStore.getSnapshot().context.inspectedTargets).toHaveLength(0);
+			expect(
+				inspectorStore.getSnapshot().context.inspectedTargets,
+			).toHaveLength(0);
 
 			inspectorStore.trigger.START();
 			expect(inspectorStore.getSnapshot().context.state).toBe("active");
@@ -697,22 +740,22 @@ describe("inspectorStore", () => {
 	});
 });
 
-describe("inspectorStoreSimple", () => {
+describe("inspectorStoreSync", () => {
 	beforeEach(() => {
 		// Reset store to initial state
-		inspectorStoreSimple.trigger.STOP();
+		inspectorStoreSync.trigger.STOP();
 	});
 
 	describe("Basic state management", () => {
 		it("should start in idle state", () => {
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("idle");
 			expect(snapshot.inspectedTargets).toEqual([]);
 		});
 
 		it("should transition to active on START", () => {
-			inspectorStoreSimple.trigger.START();
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			inspectorStoreSync.trigger.START();
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("active");
 		});
 
@@ -721,7 +764,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target-1",
-					
+
 					metadata: {
 						fileName: "file.tsx",
 						componentName: "Comp",
@@ -731,17 +774,16 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.START();
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			inspectorStoreSync.trigger.START();
+			syncInspectorContext("active", targets);
 
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(1);
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(1);
 
-			inspectorStoreSimple.trigger.STOP();
+			inspectorStoreSync.trigger.STOP();
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("idle");
 			expect(snapshot.inspectedTargets).toEqual([]);
 		});
@@ -752,7 +794,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target-1",
-					
+
 					metadata: {
 						fileName: "file1.tsx",
 						componentName: "Comp1",
@@ -762,7 +804,7 @@ describe("inspectorStoreSimple", () => {
 				},
 				{
 					id: "target-2",
-					
+
 					metadata: {
 						fileName: "file2.tsx",
 						componentName: "Comp2",
@@ -772,16 +814,15 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			syncInspectorContext("active", targets);
 
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(2);
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(2);
 
-			inspectorStoreSimple.trigger.REMOVE_INSPECTED_TARGET({ id: "target-1" });
+			inspectorStoreSync.trigger.REMOVE_INSPECTED_TARGET({ id: "target-1" });
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.inspectedTargets).toHaveLength(1);
 			expect(snapshot.inspectedTargets[0].id).toBe("target-2");
 		});
@@ -790,7 +831,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target-1",
-					
+
 					metadata: {
 						fileName: "file.tsx",
 						componentName: "Comp",
@@ -800,16 +841,15 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			syncInspectorContext("active", targets);
 
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(1);
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(1);
 
-			inspectorStoreSimple.trigger.CLEAR_INSPECTED_TARGETS();
+			inspectorStoreSync.trigger.CLEAR_INSPECTED_TARGETS();
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.inspectedTargets).toEqual([]);
 		});
 
@@ -817,7 +857,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target-1",
-					
+
 					metadata: {
 						fileName: "file.tsx",
 						componentName: "Comp",
@@ -827,25 +867,24 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
+			syncInspectorContext("active", targets);
+
+			inspectorStoreSync.trigger.REMOVE_INSPECTED_TARGET({
+				id: "non-existent",
 			});
 
-			inspectorStoreSimple.trigger.REMOVE_INSPECTED_TARGET({ id: "non-existent" });
-
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.inspectedTargets).toHaveLength(1);
 			expect(snapshot.inspectedTargets[0].id).toBe("target-1");
 		});
 	});
 
-	describe("RPC sync via SET_INSPECTED_CHANGE", () => {
+	describe("RPC sync via separate SET events", () => {
 		it("should sync targets and state from iframe", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "synced-target",
-					
+
 					metadata: {
 						fileName: "synced.tsx",
 						componentName: "SyncedComp",
@@ -855,12 +894,9 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			syncInspectorContext("active", targets);
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("active");
 			expect(snapshot.inspectedTargets).toEqual(targets);
 		});
@@ -870,7 +906,7 @@ describe("inspectorStoreSimple", () => {
 			const initialTargets: InspectedTargetData[] = [
 				{
 					id: "initial",
-					
+
 					metadata: {
 						fileName: "initial.tsx",
 						componentName: "Initial",
@@ -880,16 +916,13 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets: initialTargets,
-				state: "active",
-			});
+			syncInspectorContext("active", initialTargets);
 
 			// Sync with new targets
 			const syncedTargets: InspectedTargetData[] = [
 				{
 					id: "synced",
-					
+
 					metadata: {
 						fileName: "synced.tsx",
 						componentName: "Synced",
@@ -899,12 +932,9 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets: syncedTargets,
-				state: "active",
-			});
+			syncInspectorContext("active", syncedTargets);
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.inspectedTargets).toEqual(syncedTargets);
 			expect(snapshot.inspectedTargets).toHaveLength(1);
 			expect(snapshot.inspectedTargets[0].id).toBe("synced");
@@ -915,7 +945,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target",
-					
+
 					metadata: {
 						fileName: "file.tsx",
 						componentName: "Comp",
@@ -925,18 +955,12 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			syncInspectorContext("active", targets);
 
 			// Sync with empty targets
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets: [],
-				state: "idle",
-			});
+			syncInspectorContext("idle", []);
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("idle");
 			expect(snapshot.inspectedTargets).toEqual([]);
 		});
@@ -945,7 +969,7 @@ describe("inspectorStoreSimple", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target",
-					
+
 					metadata: {
 						fileName: "file.tsx",
 						componentName: "Comp",
@@ -956,14 +980,11 @@ describe("inspectorStoreSimple", () => {
 			];
 
 			// Can sync even in idle state
-			expect(inspectorStoreSimple.getSnapshot().context.state).toBe("idle");
+			expect(inspectorStoreSync.getSnapshot().context.state).toBe("idle");
 
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			syncInspectorContext("active", targets);
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("active");
 			expect(snapshot.inspectedTargets).toEqual(targets);
 		});
@@ -971,20 +992,20 @@ describe("inspectorStoreSimple", () => {
 
 	describe("Optimistic updates", () => {
 		it("should handle START → STOP sequence", () => {
-			expect(inspectorStoreSimple.getSnapshot().context.state).toBe("idle");
+			expect(inspectorStoreSync.getSnapshot().context.state).toBe("idle");
 
-			inspectorStoreSimple.trigger.START();
-			expect(inspectorStoreSimple.getSnapshot().context.state).toBe("active");
+			inspectorStoreSync.trigger.START();
+			expect(inspectorStoreSync.getSnapshot().context.state).toBe("active");
 
-			inspectorStoreSimple.trigger.STOP();
-			expect(inspectorStoreSimple.getSnapshot().context.state).toBe("idle");
+			inspectorStoreSync.trigger.STOP();
+			expect(inspectorStoreSync.getSnapshot().context.state).toBe("idle");
 		});
 
 		it("should preserve state during target operations", () => {
 			const targets: InspectedTargetData[] = [
 				{
 					id: "target-1",
-					
+
 					metadata: {
 						fileName: "file1.tsx",
 						componentName: "Comp1",
@@ -994,7 +1015,7 @@ describe("inspectorStoreSimple", () => {
 				},
 				{
 					id: "target-2",
-					
+
 					metadata: {
 						fileName: "file2.tsx",
 						componentName: "Comp2",
@@ -1004,69 +1025,68 @@ describe("inspectorStoreSimple", () => {
 				},
 			];
 
-			inspectorStoreSimple.trigger.START();
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets,
-				state: "active",
-			});
+			inspectorStoreSync.trigger.START();
+			syncInspectorContext("active", targets);
 
-			expect(inspectorStoreSimple.getSnapshot().context.state).toBe("active");
+			expect(inspectorStoreSync.getSnapshot().context.state).toBe("active");
 
-			inspectorStoreSimple.trigger.REMOVE_INSPECTED_TARGET({ id: "target-1" });
+			inspectorStoreSync.trigger.REMOVE_INSPECTED_TARGET({ id: "target-1" });
 
-			const snapshot = inspectorStoreSimple.getSnapshot().context;
+			const snapshot = inspectorStoreSync.getSnapshot().context;
 			expect(snapshot.state).toBe("active");
 			expect(snapshot.inspectedTargets).toHaveLength(1);
 		});
 
 		it("should handle multiple target operations", () => {
-
 			// Initial sync
-			inspectorStoreSimple.trigger.SET_INSPECTED_CHANGE({
-				targets: [
-					{
-						id: "target-1",
-						
-						metadata: {
-							fileName: "file1.tsx",
-							componentName: "Comp1",
-							lineNumber: 10,
-							columnNumber: 5,
-						},
-					},
-					{
-						id: "target-2",
-						
-						metadata: {
-							fileName: "file2.tsx",
-							componentName: "Comp2",
-							lineNumber: 20,
-							columnNumber: 10,
-						},
-					},
-					{
-						id: "target-3",
-						
-						metadata: {
-							fileName: "file3.tsx",
-							componentName: "Comp3",
-							lineNumber: 30,
-							columnNumber: 15,
-						},
-					},
-				],
-				state: "active",
-			});
+			syncInspectorContext("active", [
+				{
+					id: "target-1",
 
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(3);
+					metadata: {
+						fileName: "file1.tsx",
+						componentName: "Comp1",
+						lineNumber: 10,
+						columnNumber: 5,
+					},
+				},
+				{
+					id: "target-2",
+
+					metadata: {
+						fileName: "file2.tsx",
+						componentName: "Comp2",
+						lineNumber: 20,
+						columnNumber: 10,
+					},
+				},
+				{
+					id: "target-3",
+
+					metadata: {
+						fileName: "file3.tsx",
+						componentName: "Comp3",
+						lineNumber: 30,
+						columnNumber: 15,
+					},
+				},
+			]);
+
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(3);
 
 			// Remove one
-			inspectorStoreSimple.trigger.REMOVE_INSPECTED_TARGET({ id: "target-2" });
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(2);
+			inspectorStoreSync.trigger.REMOVE_INSPECTED_TARGET({ id: "target-2" });
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(2);
 
 			// Clear all
-			inspectorStoreSimple.trigger.CLEAR_INSPECTED_TARGETS();
-			expect(inspectorStoreSimple.getSnapshot().context.inspectedTargets).toHaveLength(0);
+			inspectorStoreSync.trigger.CLEAR_INSPECTED_TARGETS();
+			expect(
+				inspectorStoreSync.getSnapshot().context.inspectedTargets,
+			).toHaveLength(0);
 		});
 	});
 });

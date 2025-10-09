@@ -40,7 +40,13 @@
 				"useSemanticElements": "warn"
 			},
 			"correctness": {
-				"useUniqueElementIds": "off"
+				"useUniqueElementIds": "off",
+				"useExhaustiveDependencies": {
+					"level": "error",
+					"options": {
+						"hooks": [{ "name": "useEffectEvent", "stableResult": true }]
+					}
+				}
 			},
 			"recommended": true,
 			"suspicious": {
