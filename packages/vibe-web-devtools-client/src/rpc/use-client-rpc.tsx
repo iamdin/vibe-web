@@ -13,11 +13,16 @@ type LocalFunctions = BuiltinFunctions & InspectorRpcServerFunctions;
 export type ClientRpc = BirpcReturn<RemoteFunctions, LocalFunctions>;
 
 export function useClientRpc() {
-	const rpcRef = useRef({} as ClientRpc);
+	const rpcRef = useRef<ClientRpc | null>(null);
 	const [connected, setConnected] = useState(false);
 
 	const inspectorHandler = useInspectorRpcServer(
-		useCallback(() => rpcRef.current, []),
+		useCallback(() => {
+			if (!rpcRef.current) {
+				throw new Error("RPC client not initialized");
+			}
+			return rpcRef.current;
+		}, []),
 	);
 
 	useEffect(() => {
@@ -39,7 +44,7 @@ export function useClientRpc() {
 
 		return () => {
 			rpc.$close();
-			rpcRef.current = {} as ClientRpc;
+			rpcRef.current = null;
 		};
 	}, [inspectorHandler]);
 

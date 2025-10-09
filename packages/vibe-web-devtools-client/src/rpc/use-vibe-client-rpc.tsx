@@ -15,11 +15,16 @@ export type RPC = BirpcReturn<RemoteFunctions, LocalFunctions>;
 
 export function useVibeClientRpc() {
 	const iframeRef = useRef<HTMLIFrameElement>(null);
-	const rpcRef = useRef({} as RPC);
+	const rpcRef = useRef<RPC | null>(null);
 	const [connected, setConnected] = useState(false);
 
 	const inspectorHandler = useInspectorRpcClient(
-		useCallback(() => rpcRef.current, []),
+		useCallback(() => {
+			if (!rpcRef.current) {
+				throw new Error("RPC client not initialized");
+			}
+			return rpcRef.current;
+		}, []),
 	);
 
 	useEffect(() => {
@@ -40,7 +45,7 @@ export function useVibeClientRpc() {
 
 		return () => {
 			rpc.$close();
-			rpcRef.current = {} as RPC;
+			rpcRef.current = null;
 		};
 	}, [inspectorHandler]);
 
