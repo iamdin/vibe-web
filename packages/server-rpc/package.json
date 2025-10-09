@@ -27,7 +27,7 @@
 		"@types/ws": "^8.18.1",
 		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
-		"ai": "^5.0.44",
+		"ai": "^5.0.63",
 		"superjson": "^2.2.2",
 		"tsdown": "^0.13.5",
 		"ws": "^8.18.3",

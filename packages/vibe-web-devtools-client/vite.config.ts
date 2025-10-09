@@ -10,11 +10,23 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: {
 				"@": fileURLToPath(new URL("./src", import.meta.url)),
-				...resolveESM(
-					Object.keys(pkg.dependencies).filter(
-						(key) => !["@ai-sdk/react"].includes(key),
-					) as (keyof typeof pkg.dependencies)[],
-				),
+				...resolveESM([
+					"react",
+					"react-dom",
+					"react-markdown",
+					"shiki",
+					"@xstate/store",
+					"@orpc/client",
+					"@floating-ui/react",
+					"hast-util-to-jsx-runtime",
+					"birpc",
+					"class-variance-authority",
+					"clsx",
+					"lucide-react",
+					"motion",
+					"tailwind-merge",
+					"use-stick-to-bottom",
+				]),
 			},
 		},
 		build: {
