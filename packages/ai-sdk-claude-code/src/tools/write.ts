@@ -1,5 +1,5 @@
 import { tool, type UIToolInvocation } from "ai";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const Write = tool({
 	type: "provider-defined",

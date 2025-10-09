@@ -1,6 +1,6 @@
 import { createReadStream } from "node:fs";
 import path from "node:path";
-import type { SDKMessage } from "@anthropic-ai/claude-code";
+import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 import { implement } from "@orpc/server";
 import type { UIDataTypes, UIMessage } from "ai";
 import type { ClaudeCodeTools } from "ai-sdk-claude-code";

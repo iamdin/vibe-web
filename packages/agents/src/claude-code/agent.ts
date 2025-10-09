@@ -4,7 +4,7 @@ import {
 	query,
 	type SDKMessage,
 	type SDKUserMessage,
-} from "@anthropic-ai/claude-code";
+} from "@anthropic-ai/claude-agent-sdk";
 import { generateId } from "ai";
 import { Pushable } from "./utils/pushable";
 
@@ -44,6 +44,10 @@ export class Session {
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path
 			executable: process.execPath as "node",
+			// Maintain Claude Code behavior with preset system prompt
+			systemPrompt: { type: "preset", preset: "claude_code" },
+			// Load filesystem settings for project-level configuration
+			settingSources: ["user", "project", "local"],
 		};
 
 		const q = query({

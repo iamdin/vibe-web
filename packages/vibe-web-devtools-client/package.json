@@ -41,7 +41,7 @@
 		"use-stick-to-bottom": "^1.1.1",
 		"xstate": "^5.20.2",
 		"@orpc/client": "^1.8.6",
-		"zod": "^4.1.8"
+		"zod": "^3.24.1"
 	},
 	"devDependencies": {
 		"@orpc/server": "^1.8.6",
