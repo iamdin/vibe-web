@@ -1,6 +1,10 @@
 import { createStore } from "@xstate/store";
 import { v7 as uuid } from "uuid";
-import type { InspectedTarget, InspectedTargetData } from "./types";
+import type {
+	InspectedTarget,
+	InspectedTargetData,
+	InspectState,
+} from "./types";
 import { tryInspectElement } from "./util";
 
 /**
@@ -11,7 +15,7 @@ import { tryInspectElement } from "./util";
  */
 export const inspectorStore = createStore({
 	context: {
-		state: "idle" as "idle" | "active",
+		state: "idle" as InspectState,
 		currentTarget: undefined as Omit<InspectedTarget, "id"> | undefined,
 		inspectedTargets: [] as InspectedTarget[],
 	},
@@ -20,8 +24,6 @@ export const inspectorStore = createStore({
 		STOPPED: () => {},
 		TARGET_REMOVED: (_payload: { id: string }) => {},
 		TARGETS_CLEARED: () => {},
-		// Note: POINTER_DOWN does NOT emit to avoid recursion
-		// It only happens in iframe, and we use subscribe to notify parent
 	},
 	on: {
 		START: (context, _event, enqueue) => {
@@ -102,7 +104,6 @@ export const inspectorStore = createStore({
 			);
 
 			enqueue.emit.TARGET_REMOVED({ id: event.id });
-
 			return {
 				...context,
 				inspectedTargets: nextTargets,
@@ -116,7 +117,10 @@ export const inspectorStore = createStore({
 			};
 		},
 		// This event is for RPC sync only - does NOT emit to prevent recursion
-		SET_INSPECTED_TARGETS: (context, event: { targets: InspectedTarget[] }) => ({
+		SET_INSPECTED_TARGETS: (
+			context,
+			event: { targets: InspectedTarget[] },
+		) => ({
 			...context,
 			inspectedTargets: event.targets,
 		}),
@@ -130,39 +134,61 @@ export const inspectorStore = createStore({
  * Uses InspectedTargetData (without DOM element references) since Host doesn't need them.
  * Supports optimistic updates on user actions and receives sync updates from iframe via RPC.
  */
-export const inspectorStoreSimple = createStore({
+export const inspectorStoreSync = createStore({
 	context: {
-		state: "idle" as "idle" | "active",
+		state: "idle" as InspectState,
 		inspectedTargets: [] as InspectedTargetData[],
 	},
+	emits: {} as {
+		STARTED: () => void;
+		STOPPED: () => void;
+		TARGET_REMOVED: (data: { id: string }) => void;
+		TARGETS_CLEARED: () => void;
+	},
 	on: {
-		// Optimistic updates - called by Host UI actions
-		START: (context) => ({
-			...context,
-			state: "active" as const,
-		}),
-		STOP: () => ({
-			state: "idle" as const,
-			inspectedTargets: [],
-		}),
-		REMOVE_INSPECTED_TARGET: (context, event: { id: string }) => ({
-			...context,
-			inspectedTargets: context.inspectedTargets.filter(
-				(target) => target.id !== event.id,
-			),
-		}),
-		CLEAR_INSPECTED_TARGETS: (context) => ({
-			...context,
-			inspectedTargets: [],
-		}),
-		// Sync from iframe via RPC - overwrites local state with authoritative data
-		SET_INSPECTED_CHANGE: (
+		START: (context, _, enq) => {
+			enq.emit.STARTED();
+			return {
+				...context,
+				state: "active" as const,
+			};
+		},
+		STOP: (context, _, enq) => {
+			enq.emit.STOPPED();
+			return {
+				...context,
+				state: "idle" as const,
+				inspectedTargets: [],
+			};
+		},
+		REMOVE_INSPECTED_TARGET: (context, event: { id: string }, enq) => {
+			enq.emit.TARGET_REMOVED({ id: event.id });
+			return {
+				...context,
+				inspectedTargets: context.inspectedTargets.filter(
+					(target) => target.id !== event.id,
+				),
+			};
+		},
+		CLEAR_INSPECTED_TARGETS: (context, _, enq) => {
+			enq.emit.TARGETS_CLEARED();
+			return {
+				...context,
+				inspectedTargets: [],
+			};
+		},
+		// This event is for RPC sync only - does NOT emit to prevent recursion
+		SET_INSPECTED_TARGETS: (
 			context,
-			event: { targets: InspectedTargetData[]; state: "idle" | "active" },
+			event: { targets: InspectedTargetData[] },
 		) => ({
 			...context,
-			state: event.state,
 			inspectedTargets: event.targets,
+		}),
+		// This event is for RPC sync only - does NOT emit to prevent recursion
+		SET_INSPECTED_STATE: (context, event: { state: InspectState }) => ({
+			...context,
+			state: event.state,
 		}),
 	},
 });

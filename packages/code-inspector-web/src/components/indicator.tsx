@@ -11,7 +11,7 @@ import { Button } from "@vibe-web/ui/components/button";
 import { useSelector } from "@xstate/store/react";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { inspectorStore } from "../context";
+import { inspectorStore } from "../store";
 import type { InspectedTarget } from "../types";
 
 function useFloatingBadge(element: HTMLElement | null) {

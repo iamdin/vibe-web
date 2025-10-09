@@ -2,7 +2,7 @@ import { Button } from "@vibe-web/ui/components/button";
 import { useSelector } from "@xstate/store/react";
 import { MousePointerClickIcon } from "lucide-react";
 import type { ComponentProps } from "react";
-import { inspectorStore } from "../context";
+import { inspectorStore } from "../store";
 
 export const InspectorTrigger = ({
 	className,
@@ -22,7 +22,7 @@ export const InspectorTrigger = ({
 			{...props}
 			onClick={() => {
 				if (isIdle) inspectorStore.trigger.START();
-				else inspectorStore.trigger.STOP()
+				else inspectorStore.trigger.STOP();
 			}}
 		>
 			<MousePointerClickIcon />

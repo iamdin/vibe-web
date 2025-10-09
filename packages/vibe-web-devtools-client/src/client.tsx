@@ -1,11 +1,11 @@
 import { EnvironmentProvider } from "@ark-ui/react/environment";
-import { InspectorProvider } from "@vibe-web/code-inspector-web";
+import { Inspector } from "@vibe-web/code-inspector-web";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ToolbarProviders } from "@/context/toolbar";
 import { Toolbar } from "./App";
 import style from "./index.css?inline";
-import { ClientRpcProvider } from "./rpc/client-rpc-provider";
+import { ClientRpcProvider } from "./rpc/client-rpc-context";
 
 const MOUNT_ELEMENT_ID = "vibe-web-toolbar";
 
@@ -42,13 +42,12 @@ function mount() {
 	createRoot(container).render(
 		<StrictMode>
 			<EnvironmentProvider value={shadowRoot}>
-				<InspectorProvider>
-					<ToolbarProviders>
-						<ClientRpcProvider>
-							<ClientApp />
-						</ClientRpcProvider>
-					</ToolbarProviders>
-				</InspectorProvider>
+				<ToolbarProviders>
+					<ClientRpcProvider>
+						<Inspector />
+						<ClientApp />
+					</ClientRpcProvider>
+				</ToolbarProviders>
 			</EnvironmentProvider>
 		</StrictMode>,
 	);

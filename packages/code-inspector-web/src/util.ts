@@ -33,7 +33,7 @@ export const getInspectorMetadata = (
 
 	return {
 		...inspector,
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		// biome-ignore lint/style/noNonNullAssertion: exists
 		componentName: getInspectorComponentName(el)!,
 	};
 };

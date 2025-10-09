@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { eventIteratorToStream } from "@orpc/client";
 import type { InspectMetadata } from "@vibe-web/code-inspector-web";
-import { inspectorStore } from "@vibe-web/code-inspector-web";
+import { inspectorStoreSync } from "@vibe-web/code-inspector-web";
 import { getFilenameFromPath } from "@vibe-web/code-inspector-web/util";
 import {
 	Conversation,
@@ -36,7 +36,7 @@ import { useState } from "react";
 import { ClaudeCodeMessageParts } from "@/components/message-parts";
 import { useToolbarContext } from "@/context/toolbar";
 import { orpc } from "@/lib/orpc";
-import { useVibeRpc } from "@/rpc/vibe-rpc-provider";
+import { useVibeClientRpcContext } from "@/rpc/vibe-client-rpc-context";
 import type { ClaudeCodeUIMessage } from "@/types";
 
 const models = createListCollection<{
@@ -68,13 +68,13 @@ export function Chat({ className }: { className?: string }) {
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 	const { sessionId } = useToolbarContext();
 
-	const { connected } = useVibeRpc();
+	const { connected } = useVibeClientRpcContext();
 	const inspectedTargets = useSelector(
-		inspectorStore,
+		inspectorStoreSync,
 		(snapshot) => snapshot.context.inspectedTargets,
 	);
 	const inspectorState = useSelector(
-		inspectorStore,
+		inspectorStoreSync,
 		(snapshot) => snapshot.context.state,
 	);
 
@@ -130,8 +130,8 @@ export function Chat({ className }: { className?: string }) {
 			});
 		}
 
-		inspectorStore.trigger.STOP();
-		inspectorStore.trigger.CLEAR_INSPECTED_TARGETS();
+		inspectorStoreSync.trigger.STOP();
+		inspectorStoreSync.trigger.CLEAR_INSPECTED_TARGETS();
 		setInput("");
 	};
 
@@ -165,7 +165,7 @@ export function Chat({ className }: { className?: string }) {
 											onClick={(event) => {
 												event.preventDefault();
 												event.stopPropagation();
-												inspectorStore.trigger.REMOVE_INSPECTED_TARGET({
+												inspectorStoreSync.trigger.REMOVE_INSPECTED_TARGET({
 													id: target.id,
 												});
 											}}
@@ -214,9 +214,9 @@ export function Chat({ className }: { className?: string }) {
 								disabled={!connected}
 								onClick={() => {
 									if (inspectorState === "idle") {
-										inspectorStore.trigger.START();
+										inspectorStoreSync.trigger.START();
 									} else {
-										inspectorStore.trigger.STOP();
+										inspectorStoreSync.trigger.STOP();
 									}
 								}}
 							>

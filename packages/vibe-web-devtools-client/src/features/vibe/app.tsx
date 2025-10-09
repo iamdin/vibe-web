@@ -13,10 +13,10 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon, RefreshCwIcon } from "lucide-react";
 import { ToolbarProviders } from "@/context/toolbar";
 import { Chat } from "@/features/vibe/components/chat";
-import { useVibeRpc } from "@/rpc/vibe-rpc-provider";
+import { useVibeClientRpcContext } from "@/rpc/vibe-client-rpc-context";
 
 export function App() {
-	const { iframeRef } = useVibeRpc();
+	const { iframeRef } = useVibeClientRpcContext();
 
 	return (
 		<div className="h-screen bg-background">
