@@ -24,6 +24,9 @@ export const createClientBirpcOption = <T>(iframe: HTMLIFrameElement) => {
 				}
 			});
 		},
+		off: (handler) => {
+			window.removeEventListener("message", handler);
+		},
 		timeout: 1000,
 	} satisfies BirpcOptions<T>;
 };

@@ -39,6 +39,7 @@ export function useVibeClientRpc() {
 		);
 
 		return () => {
+			rpc.$close();
 			rpcRef.current = {} as RPC;
 		};
 	}, [inspectorHandler]);
