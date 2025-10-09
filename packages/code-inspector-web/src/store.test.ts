@@ -20,7 +20,6 @@ vi.mock("./util", () => ({
 const tryInspectElementMock = vi.mocked(tryInspectElement);
 
 type MockedHTMLElement = HTMLElement & {
-	style: { cursor: string };
 	contains: Mock<HTMLElement["contains"]>;
 	getBoundingClientRect: Mock<() => DOMRect>;
 };
@@ -43,7 +42,6 @@ const createMockElement = (): MockedHTMLElement => {
 		.mockReturnValue(defaultRect);
 
 	return {
-		style: { cursor: "" },
 		contains: vi.fn<HTMLElement["contains"]>().mockReturnValue(false),
 		getBoundingClientRect,
 	} as unknown as MockedHTMLElement;
@@ -122,7 +120,6 @@ describe("inspectorStore", () => {
 			element,
 			metadata,
 		});
-		expect(element.style.cursor).toBe("pointer");
 
 		tryInspectElementMock.mockReturnValue(undefined);
 		inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
@@ -627,7 +624,6 @@ describe("inspectorStore", () => {
 			expect(
 				inspectorStore.getSnapshot().context.currentTarget?.metadata,
 			).toEqual(metadata);
-			expect(element.style.cursor).toBe("pointer");
 
 			inspectorStore.trigger.POINTER_DOWN({
 				event: {
@@ -666,7 +662,6 @@ describe("inspectorStore", () => {
 				expect(
 					inspectorStore.getSnapshot().context.currentTarget?.element,
 				).toBe(element);
-				expect(element.style.cursor).toBe("pointer");
 			});
 
 			expect(
@@ -705,38 +700,6 @@ describe("inspectorStore", () => {
 			expect(inspectorStore.getSnapshot().context.currentTarget).toBeDefined();
 		});
 
-		it("should handle cursor style management", () => {
-			inspectorStore.trigger.START();
-
-			const element1 = createMockElement();
-			const element2 = createMockElement();
-
-			tryInspectElementMock
-				.mockReturnValueOnce({
-					element: element1,
-					metadata: {
-						fileName: "file1.tsx",
-						componentName: "Comp1",
-						lineNumber: 1,
-						columnNumber: 1,
-					},
-				})
-				.mockReturnValueOnce({
-					element: element2,
-					metadata: {
-						fileName: "file2.tsx",
-						componentName: "Comp2",
-						lineNumber: 2,
-						columnNumber: 2,
-					},
-				});
-
-			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			expect(element1.style.cursor).toBe("pointer");
-
-			inspectorStore.trigger.POINTER_MOVE({ event: {} as PointerEvent });
-			expect(element2.style.cursor).toBe("pointer");
-		});
 	});
 });
 
