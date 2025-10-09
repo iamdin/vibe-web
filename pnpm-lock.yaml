@@ -57,8 +57,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       lucide-react:
         specifier: ^0.530.0
         version: 0.530.0(react@19.2.0)
@@ -178,8 +178,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       ai-sdk-claude-code:
         specifier: workspace:*
         version: link:../../packages/ai-sdk-claude-code
@@ -562,8 +562,8 @@ importers:
         specifier: workspace:*
         version: link:../../tools/typescript
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       ai-sdk-claude-code:
         specifier: workspace:*
         version: link:../ai-sdk-claude-code
@@ -580,8 +580,8 @@ importers:
         specifier: workspace:*
         version: link:../../tools/typescript
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       tsdown:
         specifier: ^0.13.5
         version: 0.13.5(oxc-resolver@11.6.1)(publint@0.3.12)(typescript@5.9.2)
@@ -598,8 +598,8 @@ importers:
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)(crossws@0.3.5)(ws@8.18.3)
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -781,8 +781,8 @@ importers:
         specifier: workspace:*
         version: link:../../tools/typescript
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       superjson:
         specifier: ^2.2.2
         version: 2.2.2
@@ -839,8 +839,8 @@ importers:
         specifier: workspace:*
         version: link:../../tools/typescript
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -920,8 +920,8 @@ importers:
         specifier: ^3.5.19
         version: 3.5.21
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       magic-string:
         specifier: ^0.30.18
         version: 0.30.18
@@ -992,6 +992,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.16
         version: 0.27.16(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@orpc/client':
+        specifier: ^1.8.6
+        version: 1.8.6(@opentelemetry/api@1.9.0)
       '@xstate/react':
         specifier: ^6.0.0
         version: 6.0.0(@types/react@19.2.2)(react@19.2.0)(xstate@5.20.2)
@@ -999,8 +1002,8 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(react@19.2.0)(solid-js@1.9.8)
       ai:
-        specifier: ^5.0.44
-        version: 5.0.44(zod@4.1.8)
+        specifier: ^5.0.63
+        version: 5.0.63(zod@4.1.8)
       birpc:
         specifier: ^2.6.1
         version: 2.6.1
@@ -1044,9 +1047,6 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8
     devDependencies:
-      '@orpc/client':
-        specifier: ^1.8.6
-        version: 1.8.6(@opentelemetry/api@1.9.0)
       '@orpc/server':
         specifier: ^1.8.6
         version: 1.8.6(@opentelemetry/api@1.9.0)(crossws@0.3.5)(ws@8.18.3)
@@ -1157,6 +1157,18 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4
+
+  '@ai-sdk/gateway@1.0.35':
+    resolution: {integrity: sha512-cdsXbeRRMi6QxbZscin69Asx2fi0d2TmmPngcPFUMpZbchGEBiJYVNvIfiALKFKXEq0l/w0xGNV3E13vroaleA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/provider-utils@3.0.11':
+    resolution: {integrity: sha512-4hgHj89VqyOHzGaV85TkcgvO8WjecVF35TOUVg+C56vnzpWSgdIZu/ZWZNdZ6BTrv8y0N1toBWW7XcWiRRicLg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
 
   '@ai-sdk/provider-utils@3.0.9':
     resolution: {integrity: sha512-Pm571x5efqaI4hf9yW4KsVlDBDme8++UepZRnq+kqVBWWjgvGhQlzU8glaFq0YJEB9kkxZHbRRyVeHoV2sRYaQ==}
@@ -4406,6 +4418,10 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  '@vercel/oidc@3.0.2':
+    resolution: {integrity: sha512-JekxQ0RApo4gS4un/iMGsIL1/k4KUBe3HmnGcDvzHuFBdQdudEJgTqcsJC7y6Ul4Yw5CeykgvQbX2XeEJd0+DA==}
+    engines: {node: '>= 20'}
+
   '@vitejs/plugin-react-oxc@0.4.1':
     resolution: {integrity: sha512-aEJYLO6UwO3mCrK0MHXELZo+SqORbFp+HhP70fdVMtb101liQq1h7NT5jy6/NbwlvpQTJm1jRm7QkiuzGjoVjQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -4904,6 +4920,12 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4
+
+  ai@5.0.63:
+    resolution: {integrity: sha512-rQB8xSCDCZLvAue51hvufhSP82NtzZh8CMH7/Oj5rnn/5vNI2y+Rn0lmODJ/kC4bPvFX8XgDfys8i4r86YfkmQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
@@ -9035,6 +9057,20 @@ snapshots:
       '@ai-sdk/provider-utils': 3.0.9(zod@4.1.8)
       zod: 4.1.8
 
+  '@ai-sdk/gateway@1.0.35(zod@4.1.8)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.0
+      '@ai-sdk/provider-utils': 3.0.11(zod@4.1.8)
+      '@vercel/oidc': 3.0.2
+      zod: 4.1.8
+
+  '@ai-sdk/provider-utils@3.0.11(zod@4.1.8)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.0
+      '@standard-schema/spec': 1.0.0
+      eventsource-parser: 3.0.6
+      zod: 4.1.8
+
   '@ai-sdk/provider-utils@3.0.9(zod@4.1.8)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
@@ -12820,6 +12856,8 @@ snapshots:
       - rollup
       - supports-color
 
+  '@vercel/oidc@3.0.2': {}
+
   '@vitejs/plugin-react-oxc@0.4.1(rolldown-vite@7.1.14(@types/node@22.17.1)(esbuild@0.25.9)(jiti@2.5.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.32
@@ -13788,6 +13826,14 @@ snapshots:
       '@ai-sdk/gateway': 1.0.23(zod@4.1.8)
       '@ai-sdk/provider': 2.0.0
       '@ai-sdk/provider-utils': 3.0.9(zod@4.1.8)
+      '@opentelemetry/api': 1.9.0
+      zod: 4.1.8
+
+  ai@5.0.63(zod@4.1.8):
+    dependencies:
+      '@ai-sdk/gateway': 1.0.35(zod@4.1.8)
+      '@ai-sdk/provider': 2.0.0
+      '@ai-sdk/provider-utils': 3.0.11(zod@4.1.8)
       '@opentelemetry/api': 1.9.0
       zod: 4.1.8
 

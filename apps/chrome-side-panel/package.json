@@ -18,7 +18,7 @@
 		"@vibe-web/server-trpc": "workspace:*",
 		"@vibe-web/shared": "workspace:*",
 		"@vibe-web/ui": "workspace:*",
-		"ai": "^5.0.44",
+		"ai": "^5.0.63",
 		"lucide-react": "^0.530.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",

@@ -158,25 +158,26 @@ export type WebPreviewBodyProps = ComponentProps<"iframe"> & {
 	loading?: ReactNode;
 };
 
-export const WebPreviewBody = forwardRef<HTMLIFrameElement, WebPreviewBodyProps>(
-	({ className, loading, src, ...props }, ref) => {
-		const { url } = useWebPreview();
+export const WebPreviewBody = forwardRef<
+	HTMLIFrameElement,
+	WebPreviewBodyProps
+>(({ className, loading, src, ...props }, ref) => {
+	const { url } = useWebPreview();
 
-		return (
-			<div className="flex-1">
-				<iframe
-					ref={ref}
-					className={cn("size-full", className)}
-					sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
-					src={(src ?? url) || undefined}
-					title="Preview"
-					{...props}
-				/>
-				{loading}
-			</div>
-		);
-	},
-);
+	return (
+		<div className="flex-1">
+			<iframe
+				ref={ref}
+				className={cn("size-full", className)}
+				sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+				src={(src ?? url) || undefined}
+				title="Preview"
+				{...props}
+			/>
+			{loading}
+		</div>
+	);
+});
 
 WebPreviewBody.displayName = "WebPreviewBody";
 
@@ -199,7 +200,7 @@ export const WebPreviewConsole = ({
 	return (
 		<Collapsible
 			className={cn("border-t bg-muted/50 font-mono text-sm", className)}
-			onOpenChange={setConsoleOpen}
+			onOpenChange={(details) => setConsoleOpen(details.open)}
 			open={consoleOpen}
 			{...props}
 		>
