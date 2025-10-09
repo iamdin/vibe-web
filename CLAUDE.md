@@ -109,7 +109,7 @@ The `vibe-web` project adheres to several modern engineering practices to ensure
 The project integrates with several critical technologies and third-party tools:
 
 *   **AI/LLM:**
-    *   `@anthropic-ai/claude-code`: The primary AI model integrated for coding assistance.
+    *   `@anthropic-ai/claude-agent-sdk`: The primary AI SDK for building agents and coding assistance.
     *   `ai` (Vercel AI SDK): Provides a robust framework for building AI-powered applications, handling chat message formats and streaming.
 *   **Frontend Development:**
     *   **React.js:** The core library for building user interfaces across web apps and browser extensions.

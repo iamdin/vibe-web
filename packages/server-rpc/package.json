@@ -31,7 +31,7 @@
 		"superjson": "^2.2.2",
 		"tsdown": "^0.13.5",
 		"ws": "^8.18.3",
-		"zod": "^4.1.8"
+		"zod": "^3.24.1"
 	},
 	"peerDependencies": {
 		"@orpc/server": "^1.8.6",
@@ -42,7 +42,7 @@
 		"zod": "^3.25.67"
 	},
 	"dependencies": {
-		"@anthropic-ai/claude-code": "^1.0.127",
+		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
 		"@orpc/contract": "^1.9.1",
 		"ai-sdk-claude-code": "workspace:*",
 		"stream-json": "^1.9.1",
