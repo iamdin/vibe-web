@@ -7,7 +7,6 @@ import "./index.css";
 
 // biome-ignore lint/style/noNonNullAssertion: exist
 const container = document.getElementById("root")!;
-document.body.appendChild(container);
 
 createRoot(container).render(
 	<StrictMode>
