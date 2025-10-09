@@ -53,8 +53,6 @@ export const inspectorStore = createStore({
 				};
 			}
 
-			current.element.style.cursor = "pointer";
-
 			return {
 				...context,
 				currentTarget: {
