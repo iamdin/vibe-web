@@ -38,6 +38,7 @@ export function useClientRpc() {
 		});
 
 		return () => {
+			rpc.$close();
 			rpcRef.current = {} as ClientRpc;
 		};
 	}, [inspectorHandler]);

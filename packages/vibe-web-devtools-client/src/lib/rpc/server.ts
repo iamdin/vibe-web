@@ -29,5 +29,8 @@ export const createServerBirpcOption = <T>() => {
 				}
 			});
 		},
+		off: (handler) => {
+			window.removeEventListener("message", handler);
+		},
 	} satisfies BirpcOptions<T>;
 };
