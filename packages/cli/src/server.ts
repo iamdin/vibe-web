@@ -33,7 +33,7 @@ app.use(/\/api\/rpc*/, async (req, res, next) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const staticRoot = path.resolve(__dirname, "../../web/.output/public");
+const staticRoot = path.resolve(__dirname, "../../../apps/web/.output/public");
 
 app.use(express.static(staticRoot));
 app.get("/{*splat}", (_, res) => {
