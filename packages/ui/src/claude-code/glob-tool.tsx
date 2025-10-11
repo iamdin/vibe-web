@@ -1,6 +1,6 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type { GlobUIToolInvocation } from "ai-sdk-claude-code";
+import type { GlobUIToolInvocation } from "ai-sdk-agents/claude-code";
 import { FolderSearchIcon } from "lucide-react";
 
 export function ClaudeCodeGlobTool({

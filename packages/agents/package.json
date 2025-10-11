@@ -15,13 +15,13 @@
 	"devDependencies": {
 		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
 		"@vibe-web/typescript": "workspace:*",
-		"ai-sdk-claude-code": "workspace:*",
+		"ai-sdk-agents": "workspace:*",
 		"ai": "^5.0.63",
 		"zod": "^3.24.1"
 	},
 	"peerDependencies": {
 		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
-		"ai-sdk-claude-code": "workspace:*",
+		"ai-sdk-agents": "workspace:*",
 		"ai": "^5.0.63",
 		"zod": "^3.24.1"
 	}

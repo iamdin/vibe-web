@@ -3,8 +3,8 @@ import path from "node:path";
 import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 import { implement } from "@orpc/server";
 import type { UIDataTypes, UIMessage } from "ai";
-import type { ClaudeCodeTools } from "ai-sdk-claude-code";
-import { pushable, toUIMessage } from "ai-sdk-claude-code";
+import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
+import { pushable, toUIMessage } from "ai-sdk-agents/claude-code";
 import JsonlParser from "stream-json/jsonl/Parser";
 import { claudeCodeContract } from "../contract/claude-code";
 
