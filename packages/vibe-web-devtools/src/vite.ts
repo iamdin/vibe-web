@@ -18,18 +18,6 @@ export const DIR_DIST =
 
 export const DIR_PLAY = path.resolve(DIR_DIST, "../dist/vibe");
 
-async function exists(path: string) {
-	try {
-		await fs.access(path, fs.constants.F_OK);
-		return true;
-	} catch (error: any) {
-		if (error.code === "ENOENT") {
-			return false;
-		}
-		throw error;
-	}
-}
-
 export default function (): Plugin[] {
 	let _server: ViteDevServer;
 
@@ -37,8 +25,6 @@ export default function (): Plugin[] {
 	const nodeRPCHandler = new NodeRPCHandler(router, {
 		eventIteratorKeepAliveComment: "ping",
 	});
-
-	let firstTransform = false;
 
 	return [
 		{
@@ -91,10 +77,6 @@ export default function (): Plugin[] {
 					id: { exclude: [/node_modules/], include: /\.(jsx|tsx|vue)$/ },
 				},
 				async handler(code, id) {
-					if (!firstTransform && (await exists(id))) {
-						firstTransform = true;
-						console.log("firstTransform", code, id);
-					}
 					const result = transformHandler(id, code, {
 						rootPath: process.cwd(),
 						absolutePath: id.split("?", 2)[0],
@@ -110,14 +92,13 @@ export default function (): Plugin[] {
 			apply: "serve",
 			enforce: "post",
 			transformIndexHtml(html) {
-				console.log(html);
 				return {
 					html,
 					tags: [
 						{
 							tag: "script",
-							injectTo: "body",
-							attrs: { type: "module", src: CLIENT_PUBLIC_PATH },
+							injectTo: "head",
+							attrs: { type: "module", defer: true, src: CLIENT_PUBLIC_PATH },
 						},
 					],
 				};
