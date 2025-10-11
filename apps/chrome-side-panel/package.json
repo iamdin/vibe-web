@@ -15,7 +15,7 @@
 		"@orpc/client": "^1.8.6",
 		"@orpc/server": "^1.8.6",
 		"@vibe-web/code-inspector-web": "workspace:*",
-		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/server-rpc": "workspace:*",
 		"@vibe-web/shared": "workspace:*",
 		"@vibe-web/ui": "workspace:*",
 		"ai": "^5.0.63",

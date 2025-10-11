@@ -1,9 +1,9 @@
 {
-	"name": "@vibe-web/server-trpc",
+	"name": "@vibe-web/server-rpc",
 	"private": true,
 	"type": "module",
 	"version": "0.0.0",
-	"description": "TRPC for Vibe Coding Devtools",
+	"description": "RPC for Vibe Coding Devtools",
 	"exports": {
 		"./contract": "./src/contract/index.ts",
 		"./routes": "./src/routes/index.ts"

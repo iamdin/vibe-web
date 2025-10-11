@@ -1,7 +1,7 @@
 import { createORPCClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
 import type { RouterClient } from "@orpc/server";
-import type { ChatRouter } from "@vibe-web/server-trpc/routes/chat";
+import type { ChatRouter } from "@vibe-web/server-rpc/routes/chat";
 import { createContext, useContext, useMemo } from "react";
 
 interface ORPCContextType {

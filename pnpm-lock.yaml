@@ -47,7 +47,7 @@ importers:
       '@vibe-web/code-inspector-web':
         specifier: workspace:*
         version: link:../../packages/code-inspector-web
-      '@vibe-web/server-trpc':
+      '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../../packages/server-rpc
       '@vibe-web/shared':
@@ -171,7 +171,7 @@ importers:
       '@vibe-web/agents':
         specifier: workspace:*
         version: link:../../packages/agents
-      '@vibe-web/server-trpc':
+      '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../../packages/server-rpc
       '@vibe-web/ui':
@@ -628,7 +628,7 @@ importers:
       '@vibe-web/agents':
         specifier: workspace:*
         version: link:../agents
-      '@vibe-web/server-trpc':
+      '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../server-rpc
       '@vibe-web/typescript':
@@ -971,7 +971,7 @@ importers:
       '@vibe-web/code-inspector-node':
         specifier: workspace:*
         version: link:../code-inspector-node
-      '@vibe-web/server-trpc':
+      '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../server-rpc
       publint:
@@ -1071,7 +1071,7 @@ importers:
       '@vibe-web/code-inspector-web':
         specifier: workspace:*
         version: link:../code-inspector-web
-      '@vibe-web/server-trpc':
+      '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../server-rpc
       '@vibe-web/ui':

@@ -51,7 +51,7 @@
 		"@types/react-dom": "^19.2.1",
 		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/code-inspector-web": "workspace:*",
-		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/server-rpc": "workspace:*",
 		"@vibe-web/ui": "workspace:*",
 		"@vitejs/plugin-react": "^5.0.1",
 		"@vitejs/plugin-react-oxc": "^0.4.1",
