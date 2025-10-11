@@ -8,15 +8,11 @@ export function ClaudeCodeGrepTool({
 }: {
 	invocation: GrepUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={SearchIcon}>
 				<span className="truncate font-medium text-sm">
 					Grep for {input?.pattern ? `"${input.pattern}"` : ""}

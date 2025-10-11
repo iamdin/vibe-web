@@ -11,10 +11,6 @@ export function ClaudeCodeReadTool({
 }: {
 	invocation: ReadUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
@@ -22,7 +18,7 @@ export function ClaudeCodeReadTool({
 	const language = input?.file_path?.match(/\.(\w+)$/)?.[1] || "text";
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={FileTextIcon}>
 				<span className="truncate font-medium text-sm">
 					Read {input?.file_path}

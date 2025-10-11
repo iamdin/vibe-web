@@ -14,10 +14,6 @@ export function ClaudeCodeTodoWriteTool({
 }: {
 	invocation: TodoWriteUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input } = invocation;
 
@@ -25,7 +21,7 @@ export function ClaudeCodeTodoWriteTool({
 		input?.todos?.every((todo) => todo.status === "completed") ?? false;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={allComplete ? ListChecksIcon : ListTodoIcon}>
 				<span className="truncate font-medium text-sm">
 					Todo ({input?.todos?.length || 0} tasks)

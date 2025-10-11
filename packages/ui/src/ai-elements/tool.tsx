@@ -7,33 +7,15 @@ import {
 	CollapsibleTrigger,
 } from "@vibe-web/ui/components/collapsible";
 import { cn } from "@vibe-web/ui/lib/utils";
-import type { ToolUIPart } from "ai";
 import type { LucideIcon } from "lucide-react";
 import { ChevronRightIcon, WrenchIcon } from "lucide-react";
-import {
-	type ComponentProps,
-	type ReactNode,
-	useEffect,
-	useState,
-} from "react";
+import type { ComponentProps, ReactNode } from "react";
 
-export type ToolProps = CollapsibleProps & {
-	state?: ToolUIPart["state"];
-};
+export type ToolProps = CollapsibleProps;
 
-export const Tool = ({ className, state, ...props }: ToolProps) => {
-	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		if (state) {
-			setOpen(state === "input-available");
-		}
-	}, [state]);
-
+export const Tool = ({ className, ...props }: ToolProps) => {
 	return (
 		<Collapsible
-			open={open}
-			onOpenChange={(details) => setOpen(details.open)}
 			className={cn("not-prose w-full py-2", className)}
 			{...props}
 		/>

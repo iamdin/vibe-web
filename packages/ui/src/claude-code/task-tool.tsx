@@ -19,10 +19,7 @@ export function ClaudeCodeTaskTool({
 	invocation: TaskUIToolInvocation;
 	renderToolPart?: (part: ToolUIPart<ClaudeCodeTools>) => ReactNode;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
+	
 	const childrenToolUIParts = useMemo(
 		() =>
 			message.parts
@@ -43,7 +40,7 @@ export function ClaudeCodeTaskTool({
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={ListChecksIcon}>
 				<span className="truncate font-medium text-sm">
 					Task {input?.description}
