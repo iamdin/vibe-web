@@ -26,7 +26,7 @@
 		"@types/express": "^5.0.3",
 		"@types/ws": "^8.18.1",
 		"@vibe-web/agents": "workspace:*",
-		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/server-rpc": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
 		"tsx": "^4.20.5",
 		"tsdown": "^0.13.5"

@@ -33,7 +33,7 @@
 		"@tanstack/react-start": "^1.121.0-alpha.27",
 		"@tanstack/router-plugin": "^1.131.33",
 		"@vibe-web/agents": "workspace:*",
-		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/server-rpc": "workspace:*",
 		"@vibe-web/ui": "workspace:*",
 		"vibe-web-devtools": "workspace:*",
 		"ai": "^5.0.63",

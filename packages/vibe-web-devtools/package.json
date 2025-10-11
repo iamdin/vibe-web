@@ -71,7 +71,7 @@
 		"@types/node": "^22.16.5",
 		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/code-inspector-node": "workspace:*",
-		"@vibe-web/server-trpc": "workspace:*",
+		"@vibe-web/server-rpc": "workspace:*",
 		"publint": "^0.3.12",
 		"tsdown": "^0.13.5",
 		"vitest": "^3.2.4"
