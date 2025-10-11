@@ -180,9 +180,9 @@ importers:
       ai:
         specifier: ^5.0.63
         version: 5.0.64(zod@3.25.76)
-      ai-sdk-claude-code:
+      ai-sdk-agents:
         specifier: workspace:*
-        version: link:../../packages/ai-sdk-claude-code
+        version: link:../../packages/ai-sdk-agents
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -564,14 +564,14 @@ importers:
       ai:
         specifier: ^5.0.63
         version: 5.0.64(zod@3.25.76)
-      ai-sdk-claude-code:
+      ai-sdk-agents:
         specifier: workspace:*
-        version: link:../ai-sdk-claude-code
+        version: link:../ai-sdk-agents
       zod:
         specifier: ^3.24.1
         version: 3.25.76
 
-  packages/ai-sdk-claude-code:
+  packages/ai-sdk-agents:
     devDependencies:
       '@anthropic-ai/claude-agent-sdk':
         specifier: ^0.1.12
@@ -752,9 +752,9 @@ importers:
       '@orpc/contract':
         specifier: ^1.9.1
         version: 1.9.1(@opentelemetry/api@1.9.0)
-      ai-sdk-claude-code:
+      ai-sdk-agents:
         specifier: workspace:*
-        version: link:../ai-sdk-claude-code
+        version: link:../ai-sdk-agents
       stream-json:
         specifier: ^1.9.1
         version: 1.9.1
@@ -816,9 +816,9 @@ importers:
       '@fontsource-variable/geist-mono':
         specifier: ^5.2.7
         version: 5.2.7
-      ai-sdk-claude-code:
+      ai-sdk-agents:
         specifier: workspace:*
-        version: link:../ai-sdk-claude-code
+        version: link:../ai-sdk-agents
       react-markdown:
         specifier: ^10.1.0
         version: 10.1.0(@types/react@19.2.2)(react@19.2.0)
@@ -1086,9 +1086,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^4.0.1
         version: 4.0.1(@swc/helpers@0.5.17)(rolldown-vite@7.1.13(@types/node@22.17.1)(esbuild@0.25.9)(jiti@2.5.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))
-      ai-sdk-claude-code:
+      ai-sdk-agents:
         specifier: workspace:*
-        version: link:../ai-sdk-claude-code
+        version: link:../ai-sdk-agents
       pathe:
         specifier: ^2.0.3
         version: 2.0.3

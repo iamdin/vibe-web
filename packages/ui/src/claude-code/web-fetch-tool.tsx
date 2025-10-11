@@ -1,7 +1,7 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Response } from "@vibe-web/ui/ai-elements/response";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
-import type { WebFetchUIToolInvocation } from "ai-sdk-claude-code";
+import type { WebFetchUIToolInvocation } from "ai-sdk-agents/claude-code";
 import { GlobeIcon } from "lucide-react";
 
 export function ClaudeCodeWebFetchTool({

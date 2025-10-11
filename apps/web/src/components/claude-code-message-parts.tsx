@@ -3,7 +3,7 @@ import { Response } from "@vibe-web/ui/ai-elements/response";
 import { ClaudeCodeToolUIPart } from "@vibe-web/ui/claude-code/tools";
 import { Badge } from "@vibe-web/ui/components/badge";
 import { isToolUIPart, type UIMessage } from "ai";
-import type { ClaudeCodeTools } from "ai-sdk-claude-code";
+import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
 
 export type ClaudeCodeUIInspectorData = {
 	file?: string;

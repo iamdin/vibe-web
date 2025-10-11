@@ -27,7 +27,7 @@ The repository is structured into several key applications (`apps`) and shared p
 
 *   **`packages/agents`**: Contains the core logic for AI agents.
     *   **`claude-code`**: Implements the specific logic for interacting with the Anthropic Claude Code AI, handling session management and prompt processing.
-*   **`packages/ai-sdk-claude-code`**: Defines the tools and types for the Claude Code AI SDK. This package is crucial as it enumerates the capabilities of the AI agent, such as `Bash`, `Read`, `Edit`, `Grep`, `Task`, `Web-Fetch`, and `Web-Search`, allowing the AI to interact with the development environment.
+*   **`packages/ai-sdk-agents`**: Defines the tools and types for AI agent SDKs. This package is crucial as it enumerates the capabilities of AI agents, such as `Bash`, `Read`, `Edit`, `Grep`, `Task`, `Web-Fetch`, and `Web-Search`, allowing the AI to interact with the development environment.
 *   **`packages/cli`**: The local Node.js server that acts as the backend for the entire system.
     *   It uses Express.js to serve static files (the built `apps/web` application) and handles RPC requests from clients via `@orpc/server`.
     *   It instantiates and manages the `ClaudeCodeAgent` to process AI prompts.
@@ -81,7 +81,7 @@ Data flow in the `vibe-web` system is orchestrated across several layers:
 4.  **Server-side Processing (Backend):**
     *   The `packages/cli` server, built with Express.js, receives RPC requests via `@orpc/server`.
     *   It uses `packages/agents/claude-code` to interact with the Claude Code AI.
-    *   The AI processes the prompt, potentially utilizing tools defined in `packages/ai-sdk-claude-code` (e.g., `bash`, `read`, `edit`, `grep`, `task`) based on the context provided.
+    *   The AI processes the prompt, potentially utilizing tools defined in `packages/ai-sdk-agents` (e.g., `bash`, `read`, `edit`, `grep`, `task`) based on the context provided.
 
 5.  **AI Response and Streaming:**
     *   The Claude Code AI generates a response, which can include text, code blocks, or instructions for tool invocations.
@@ -229,7 +229,7 @@ The files listed below are important for code generation and running terminal co
 ├── package.json
 ├── packages/
 │   ├── agents/
-│   ├── ai-sdk-claude-code/
+│   ├── ai-sdk-agents/
 │   ├── cli/
 │   ├── code-inspector-node/
 │   ├── code-inspector-web/

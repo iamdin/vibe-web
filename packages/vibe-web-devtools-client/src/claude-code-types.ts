@@ -1,5 +1,5 @@
 import type { UIMessage } from "ai";
-import type { ClaudeCodeTools } from "ai-sdk-claude-code";
+import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
 
 export type ClaudeCodeUIInspectorData = {
 	file?: string;

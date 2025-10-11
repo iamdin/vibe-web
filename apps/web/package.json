@@ -37,7 +37,7 @@
 		"@vibe-web/ui": "workspace:*",
 		"vibe-web-devtools": "workspace:*",
 		"ai": "^5.0.63",
-		"ai-sdk-claude-code": "workspace:*",
+		"ai-sdk-agents": "workspace:*",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
