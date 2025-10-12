@@ -19,7 +19,7 @@ export function ClaudeCodeBashTool({
 	return (
 		<Tool>
 			<ToolHeader icon={SquareTerminalIcon}>
-				Bash {input?.description}
+				{input?.description}
 			</ToolHeader>
 			<ToolContent>
 				{input?.command || output ? (
