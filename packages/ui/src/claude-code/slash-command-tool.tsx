@@ -1,5 +1,6 @@
 import { Response } from "@vibe-web/ui/ai-elements/response";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
+import { cn } from "@vibe-web/ui/lib/utils";
 import type { UIDataTypes, UIMessage } from "ai";
 import type {
 	ClaudeCodeTools,
@@ -19,6 +20,7 @@ export function ClaudeCodeSlashCommandTool({
 }) {
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { state, input, output, errorText } = invocation;
+	const isError = state === "output-error";
 
 	return (
 		<Tool>
@@ -26,8 +28,13 @@ export function ClaudeCodeSlashCommandTool({
 				Execute slash command {input?.command}
 			</ToolHeader>
 			<ToolContent className="space-y-2">
-				<div className="border border-destructive">
-					<div className="p-2 border-b border-destructive text-sm bg-destructive-foreground">
+				<div className={cn("border", isError && "border-destructive")}>
+					<div
+						className={cn(
+							"p-2 border-b text-sm",
+							isError && "border-destructive bg-destructive-foreground",
+						)}
+					>
 						{input?.command}
 					</div>
 					<div className="px-2 py-1">
