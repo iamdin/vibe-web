@@ -19,7 +19,9 @@ export function ClaudeCodeBashTool({
 	return (
 		<Tool>
 			<ToolHeader icon={SquareTerminalIcon}>
-				Bash {input?.description}
+				<span className="truncate font-medium text-sm">
+					{input?.description}
+				</span>
 			</ToolHeader>
 			<ToolContent>
 				{input?.command || output ? (
