@@ -8,21 +8,15 @@ export function ClaudeCodeMultiEditTool({
 }: {
 	invocation: MultiEditUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input } = invocation;
 
 	const language = input?.file_path?.match(/\.(\w+)$/)?.[1] || "text";
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={EditIcon}>
-				<span className="truncate font-medium text-sm">
-					MultiEdit {input?.file_path} ({input?.edits?.length || 0} edits)
-				</span>
+				MultiEdit {input?.file_path} ({input?.edits?.length || 0} edits)
 			</ToolHeader>
 			<ToolContent>
 				{input?.edits?.map((edit, index) => (

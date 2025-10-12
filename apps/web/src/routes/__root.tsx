@@ -1,5 +1,4 @@
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
 	createRootRouteWithContext,
 	HeadContent,
@@ -7,7 +6,6 @@ import {
 	Scripts,
 	useRouterState,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import Loader from "@/components/loader";
 import type { orpc } from "@/lib/orpc";
 
@@ -59,8 +57,8 @@ function RootDocument() {
 					</main>
 				</div>
 				{/* </SidebarProvider> */}
-				<TanStackRouterDevtools position="bottom-left" />
-				<ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+				{/* <TanStackRouterDevtools position="bottom-left" /> */}
+				{/* <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" /> */}
 				<Scripts />
 			</body>
 		</html>

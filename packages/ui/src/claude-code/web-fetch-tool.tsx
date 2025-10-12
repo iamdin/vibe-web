@@ -9,20 +9,12 @@ export function ClaudeCodeWebFetchTool({
 }: {
 	invocation: WebFetchUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
-			<ToolHeader icon={GlobeIcon}>
-				<span className="truncate font-medium text-sm">
-					WebFetch {input?.url}
-				</span>
-			</ToolHeader>
+		<Tool>
+			<ToolHeader icon={GlobeIcon}>WebFetch {input?.url}</ToolHeader>
 			<ToolContent>
 				{input?.url ? (
 					<div className="space-y-2 px-4 pb-4">

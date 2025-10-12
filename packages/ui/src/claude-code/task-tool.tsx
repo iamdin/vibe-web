@@ -7,7 +7,7 @@ import {
 	type UIMessage,
 } from "ai";
 import type { ClaudeCodeTools, TaskUIToolInvocation } from "ai-sdk-agents/claude-code";
-import { ListChecksIcon } from "lucide-react";
+import { LayoutListIcon } from "lucide-react";
 import { type ReactNode, useMemo } from "react";
 
 export function ClaudeCodeTaskTool({
@@ -19,10 +19,6 @@ export function ClaudeCodeTaskTool({
 	invocation: TaskUIToolInvocation;
 	renderToolPart?: (part: ToolUIPart<ClaudeCodeTools>) => ReactNode;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	const childrenToolUIParts = useMemo(
 		() =>
 			message.parts
@@ -43,14 +39,17 @@ export function ClaudeCodeTaskTool({
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
-			<ToolHeader icon={ListChecksIcon}>
-				<span className="truncate font-medium text-sm">
-					Task {input?.description}
-				</span>
-			</ToolHeader>
+		<Tool>
+			<ToolHeader icon={LayoutListIcon}>Task {input?.description}</ToolHeader>
 			<ToolContent className="space-y-2">
-				<Response>{input?.prompt}</Response>
+				<div className="border">
+					<div className="p-2 border-b text-sm bg-primary-foreground">
+						Prompt
+					</div>
+					<div className="px-2 py-1">
+						<Response>{input?.prompt}</Response>
+					</div>
+				</div>
 				{childrenToolUIParts.map((part) => renderToolPart?.(part))}
 				{Array.isArray(output)
 					? output.map((part) => {

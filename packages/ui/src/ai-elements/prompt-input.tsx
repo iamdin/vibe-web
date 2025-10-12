@@ -12,13 +12,13 @@ import {
 import { Textarea } from "@vibe-web/ui/components/textarea";
 import { cn } from "@vibe-web/ui/lib/utils";
 import type { ChatStatus } from "ai";
-import { Loader2Icon, SendIcon, SquareIcon, XIcon } from "lucide-react";
+import { ArrowUpIcon, SquareIcon, XIcon } from "lucide-react";
 import type {
 	ComponentProps,
 	HTMLAttributes,
 	KeyboardEventHandler,
 } from "react";
-import { Children } from "react";
+import { Children, useMemo } from "react";
 
 export type PromptInputProps = HTMLAttributes<HTMLFormElement>;
 
@@ -147,23 +147,32 @@ export type PromptInputSubmitProps = ComponentProps<typeof Button> & {
 export const PromptInputSubmit = ({
 	className,
 	variant = "default",
-	size = "icon",
+	size = "sm",
 	status,
 	children,
 	...props
 }: PromptInputSubmitProps) => {
-	let Icon = <SendIcon className="size-4" />;
-
-	if (status === "submitted") {
-		Icon = <Loader2Icon className="size-4 animate-spin" />;
-	} else if (status === "streaming") {
-		Icon = <SquareIcon className="size-4" />;
-	} else if (status === "error") {
-		Icon = <XIcon className="size-4" />;
-	}
+	const Icon = useMemo(() => {
+		switch (status) {
+			case "submitted":
+				return <ArrowUpIcon className="size-4" />;
+			case "streaming":
+				return <SquareIcon className="size-4" />;
+			case "error":
+				return <XIcon className="size-4" />;
+			default:
+				return <ArrowUpIcon className="size-4" />;
+		}
+	}, [status]);
 
 	return (
-		<Button size={size} type="submit" variant={variant} {...props}>
+		<Button
+			size={size}
+			type="submit"
+			variant={variant}
+			className={cn("has-[>svg]:px-2", className)}
+			{...props}
+		>
 			{children ?? Icon}
 		</Button>
 	);

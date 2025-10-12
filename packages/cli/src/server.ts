@@ -19,7 +19,7 @@ app.get("/health", (_, res) => {
 const claudeCodeAgent = new ClaudeCodeAgent();
 const nodeRPCHandler = new NodeRPCHandler(router, {
 	eventIteratorKeepAliveComment: "ping",
-})
+});
 app.use(/\/api\/rpc*/, async (req, res, next) => {
 	const { matched } = await nodeRPCHandler.handle(req, res, {
 		prefix: "/api/rpc",
@@ -33,7 +33,7 @@ app.use(/\/api\/rpc*/, async (req, res, next) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const staticRoot = path.resolve(__dirname, "../../web/.output/public");
+const staticRoot = path.resolve(__dirname, "../../../apps/web/.output/public");
 
 app.use(express.static(staticRoot));
 app.get("/{*splat}", (_, res) => {
@@ -45,7 +45,6 @@ app.get("/{*splat}", (_, res) => {
 	}
 	res.sendFile("_shell.html", { root: staticRoot });
 });
-
 
 app.listen(4000, () => {
 	console.log("Server is running on http://localhost:4000");

@@ -8,20 +8,14 @@ export function ClaudeCodeGlobTool({
 }: {
 	invocation: GlobUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={FolderSearchIcon}>
-				<span className="truncate font-medium text-sm">
-					Glob for {input?.pattern ? `"${input.pattern}"` : ""}
-					{input?.path ? ` in ${input.path}` : ""}
-				</span>
+				Glob for {input?.pattern ? `"${input.pattern}"` : ""}
+				{input?.path ? ` in ${input.path}` : ""}
 			</ToolHeader>
 			<ToolContent>
 				{typeof output === "string" ? (

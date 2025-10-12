@@ -699,7 +699,6 @@ describe("inspectorStore", () => {
 			appendTarget(element);
 			expect(inspectorStore.getSnapshot().context.currentTarget).toBeDefined();
 		});
-
 	});
 });
 

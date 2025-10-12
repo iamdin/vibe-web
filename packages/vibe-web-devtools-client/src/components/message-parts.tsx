@@ -1,8 +1,8 @@
 import { Message, MessageContent } from "@vibe-web/ui/ai-elements/message";
+import { Response } from "@vibe-web/ui/ai-elements/response";
 import { ClaudeCodeToolUIPart } from "@vibe-web/ui/claude-code/tools";
 import { Badge } from "@vibe-web/ui/components/badge";
 import { isToolUIPart } from "ai";
-import ReactMarkdown from "react-markdown";
 import type { ClaudeCodeUIMessage } from "@/types";
 
 export function ClaudeCodeMessageParts({
@@ -29,7 +29,7 @@ export function ClaudeCodeMessageParts({
 							<Message key={`${message.id}-${index}`} from={message.role}>
 								<MessageContent>
 									{message.role === "assistant" ? (
-										<ReactMarkdown>{part.text}</ReactMarkdown>
+										<Response>{part.text}</Response>
 									) : (
 										<p>{part.text}</p>
 									)}

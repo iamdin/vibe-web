@@ -10,6 +10,7 @@ import { KillShell } from "./tools/kill-shell";
 import { MultiEdit } from "./tools/multi-edit";
 import { NotebookEdit } from "./tools/notebook-edit";
 import { Read } from "./tools/read";
+import { SlashCommand } from "./tools/slash-command";
 import { Task } from "./tools/task";
 import { TodoWrite } from "./tools/todo-write";
 import { WebFetch } from "./tools/web-fetch";
@@ -35,6 +36,10 @@ export {
 	type NotebookEditUIToolInvocation,
 } from "./tools/notebook-edit";
 export { Read, type ReadUIToolInvocation } from "./tools/read";
+export {
+	SlashCommand,
+	type SlashCommandUIToolInvocation,
+} from "./tools/slash-command";
 export { Task, type TaskUIToolInvocation } from "./tools/task";
 export { TodoWrite, type TodoWriteUIToolInvocation } from "./tools/todo-write";
 export { WebFetch, type WebFetchUIToolInvocation } from "./tools/web-fetch";
@@ -58,6 +63,7 @@ export const claudeCodeTools = {
 	BashOutput,
 	/** anthropic doc called KillBash, but it is KillShell */
 	KillShell,
+	SlashCommand,
 	// ListMcpResources,
 	// ReadMcpResource,
 } satisfies ToolSet;

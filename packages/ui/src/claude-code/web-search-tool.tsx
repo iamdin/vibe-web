@@ -8,20 +8,12 @@ export function ClaudeCodeWebSearchTool({
 }: {
 	invocation: WebSearchUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
-			<ToolHeader icon={SearchIcon}>
-				<span className="truncate font-medium text-sm">
-					WebSearch "{input?.query}"
-				</span>
-			</ToolHeader>
+		<Tool>
+			<ToolHeader icon={SearchIcon}>WebSearch "{input?.query}"</ToolHeader>
 			<ToolContent>{output ? <Response>{output}</Response> : null}</ToolContent>
 		</Tool>
 	);

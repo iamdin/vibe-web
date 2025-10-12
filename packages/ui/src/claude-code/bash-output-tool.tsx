@@ -8,28 +8,18 @@ export function ClaudeCodeBashOutputTool({
 }: {
 	invocation: BashOutputUIToolInvocation;
 }) {
-	const hasParentToolUseId =
-		invocation.state !== "input-streaming" &&
-		invocation.callProviderMetadata?.claudeCode?.parentToolUseId;
-
 	if (!invocation || invocation.state === "input-streaming") return null;
 	const { input, output } = invocation;
 
 	return (
-		<Tool state={hasParentToolUseId ? undefined : invocation.state}>
+		<Tool>
 			<ToolHeader icon={SquareTerminalIcon}>
-				<span className="truncate font-medium text-sm">
-					Bash Output {input?.bash_id ? `(${input.bash_id})` : ""}
-				</span>
+				Bash Output {input?.bash_id ? `(${input.bash_id})` : ""}
 			</ToolHeader>
 			<ToolContent>
 				{output ? (
 					<div className="relative">
-						<CodeBlock
-							code={output}
-							language="bash"
-							className="text-sm"
-						/>
+						<CodeBlock code={output} language="bash" className="text-sm" />
 					</div>
 				) : null}
 			</ToolContent>

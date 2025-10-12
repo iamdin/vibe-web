@@ -6,7 +6,8 @@
 			"dependsOn": ["build", "^build"]
 		},
 		"build": {
-			"outputs": [".output"]
+			"outputs": [".output"],
+			"env": ["VITE_SERVER_URL"]
 		}
 	}
 }

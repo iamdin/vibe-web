@@ -7,6 +7,7 @@ import { ClaudeCodeGlobTool } from "./glob-tool";
 import { ClaudeCodeGrepTool } from "./grep-tool";
 import { ClaudeCodeMultiEditTool } from "./multi-edit-tool";
 import { ClaudeCodeReadTool } from "./read-tool";
+import { ClaudeCodeSlashCommandTool } from "./slash-command-tool";
 import { ClaudeCodeTaskTool } from "./task-tool";
 import { ClaudeCodeTodoWriteTool } from "./todo-write-tool";
 import { ClaudeCodeWebFetchTool } from "./web-fetch-tool";
@@ -81,6 +82,8 @@ function ClaudeCodeToolUIPartComponent({
 			return <ClaudeCodeMultiEditTool invocation={part} />;
 		case "tool-Write":
 			return <ClaudeCodeWriteTool invocation={part} />;
+		case "tool-SlashCommand":
+			return <ClaudeCodeSlashCommandTool message={message} invocation={part} />;
 		default:
 			return null;
 	}
@@ -94,6 +97,7 @@ export {
 	ClaudeCodeGrepTool,
 	ClaudeCodeMultiEditTool,
 	ClaudeCodeReadTool,
+	ClaudeCodeSlashCommandTool,
 	ClaudeCodeTaskTool,
 	ClaudeCodeTodoWriteTool,
 	ClaudeCodeToolUIPart,
