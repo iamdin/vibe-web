@@ -2,7 +2,6 @@ import { implement } from "@orpc/server";
 import type { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
 import { toUIMessage } from "ai-sdk-agents/claude-code";
 import { claudeCodeContract } from "../contract/claude-code";
-import { promptImplement } from "../mock/claude-code";
 
 export type ClaudeCodeContext = {
 	claudeCodeAgent: ClaudeCodeAgent;

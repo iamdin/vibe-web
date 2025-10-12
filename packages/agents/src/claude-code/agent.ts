@@ -1,6 +1,5 @@
 import {
 	type Options,
-	type PermissionUpdate,
 	type Query,
 	query,
 	type SDKMessage,
