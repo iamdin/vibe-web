@@ -4,7 +4,7 @@ import type { UIDataTypes, UIMessage } from "ai";
 import type {
 	ClaudeCodeTools,
 	SlashCommandUIToolInvocation,
-} from "ai-sdk-claude-code";
+} from "ai-sdk-agents/claude-code";
 import { TerminalIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

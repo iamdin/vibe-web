@@ -37,25 +37,10 @@ export class Session {
 	create() {
 		const sessionId = generateId();
 		const input = new Pushable<SDKUserMessage>();
-
-		console.log("process", process.env);
 		const options: Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
-			canUseTool: async (
-				toolName: string,
-				input: Record<string, unknown>,
-				options: {
-					signal: AbortSignal;
-					suggestions?: PermissionUpdate[];
-				},
-			) => {
-				console.log(toolName, input, options);
-				return {
-					behavior: "allow",
-					updatedInput: input,
-				};
-			},
+			permissionMode: "bypassPermissions", // TODO current default permissionMode set bypassPermissions, need support canToolUse
 			// permissionPromptToolName: toolNames.permission,
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path
@@ -106,8 +91,7 @@ export class Session {
 
 		while (true) {
 			const { value: message, done } = await session.query.next();
-			console.log(JSON.stringify(message, null, 2));
-			console.log("----------------------------------------------");
+
 			if (done || !message) {
 				return;
 			}

@@ -76,34 +76,32 @@ export async function* toUIMessage<T extends UIMessage>(
 					for (const part of message.message.content) {
 						switch (part.type) {
 							case "tool_result": {
-								part.is_error
-									? yield {
-											type: "tool-output-error",
-											toolCallId: part.tool_use_id,
-											errorText:
-												typeof part.content === "string" ? part.content : "",
-											providerExecuted: true,
-											providerMetadata: message.parent_tool_use_id
-												? {
-														claudeCode: {
-															parentToolUseId: message.parent_tool_use_id,
-														},
-													}
-												: undefined,
+								const providerMetadata = message.parent_tool_use_id
+									? {
+											claudeCode: {
+												parentToolUseId: message.parent_tool_use_id,
+											},
 										}
-									: yield {
-											type: "tool-output-available",
-											toolCallId: part.tool_use_id,
-											output: part.content,
-											providerExecuted: true,
-											providerMetadata: message.parent_tool_use_id
-												? {
-														claudeCode: {
-															parentToolUseId: message.parent_tool_use_id,
-														},
-													}
-												: undefined,
-										};
+									: undefined;
+								if (part.is_error) {
+									yield {
+										type: "tool-output-error",
+										toolCallId: part.tool_use_id,
+										errorText:
+											typeof part.content === "string" ? part.content : "",
+										providerExecuted: true,
+										providerMetadata,
+									};
+								} else {
+									yield {
+										type: "tool-output-available",
+										toolCallId: part.tool_use_id,
+										output: part.content,
+										providerExecuted: true,
+										providerMetadata,
+									};
+								}
+								break;
 							}
 						}
 					}

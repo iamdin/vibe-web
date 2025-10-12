@@ -155,9 +155,9 @@ export const PromptInputSubmit = ({
 	const Icon = useMemo(() => {
 		switch (status) {
 			case "submitted":
-				return <ArrowUpIcon className="size-4 animate-spin" />;
+				return <ArrowUpIcon className="size-4" />;
 			case "streaming":
-				return <SquareIcon className="size-4 " />;
+				return <SquareIcon className="size-4" />;
 			case "error":
 				return <XIcon className="size-4" />;
 			default:

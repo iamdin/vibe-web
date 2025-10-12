@@ -53,7 +53,6 @@ function HighlightedCode({
 	promises,
 }: {
 	promises: Promise<JSX.Element>;
-	className?: string;
 }) {
 	// React 19's use() API - will suspend until promise resolves
 	const highlighted = use(promises);
