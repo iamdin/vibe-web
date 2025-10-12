@@ -14,10 +14,8 @@ export function ClaudeCodeGrepTool({
 	return (
 		<Tool>
 			<ToolHeader icon={SearchIcon}>
-				<span className="truncate font-medium text-sm">
-					Grep for {input?.pattern ? `"${input.pattern}"` : ""}
-					{input?.path ? ` in ${input.path}` : ""}
-				</span>
+				Grep for {input?.pattern ? `"${input.pattern}"` : ""}
+				{input?.path ? ` in ${input.path}` : ""}
 			</ToolHeader>
 			<ToolContent>
 				{typeof output === "string" ? (

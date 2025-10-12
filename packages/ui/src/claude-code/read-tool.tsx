@@ -19,11 +19,7 @@ export function ClaudeCodeReadTool({
 
 	return (
 		<Tool>
-			<ToolHeader icon={FileTextIcon}>
-				<span className="truncate font-medium text-sm">
-					Read {input?.file_path}
-				</span>
-			</ToolHeader>
+			<ToolHeader icon={FileTextIcon}>Read {input?.file_path}</ToolHeader>
 			<ToolContent>
 				{code ? (
 					<CodeBlock code={code} language={language} className="text-xs">

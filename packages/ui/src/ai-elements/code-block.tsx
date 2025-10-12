@@ -51,7 +51,6 @@ function CodeBlockFallback({ code }: { code: string }) {
 // Internal component that uses React 19's use() for highlighting
 function HighlightedCode({
 	promises,
-	className,
 }: {
 	promises: Promise<JSX.Element>;
 	className?: string;
@@ -59,7 +58,7 @@ function HighlightedCode({
 	// React 19's use() API - will suspend until promise resolves
 	const highlighted = use(promises);
 
-	return <div className={className}>{highlighted}</div>;
+	return highlighted;
 }
 
 export type CodeBlockProps = HTMLAttributes<HTMLDivElement> & {
@@ -101,14 +100,13 @@ export function CodeBlock({
 				)}
 				{...props}
 			>
-				<Suspense fallback={<p>Loading...</p>}>
-					<HighlightedCode
-						promises={highlightPromise}
-						className="overflow-auto p-2 font-mono"
-					/>
+				<Suspense fallback={<p className="p-2 text-xs">Loading...</p>}>
+					<div className="overflow-auto font-mono text-sm px-4 py-3.5 scrollbar-hide">
+						<HighlightedCode promises={highlightPromise} />
+					</div>
 				</Suspense>
 				{children && (
-					<div className="absolute top-2 right-2 flex items-center gap-2">
+					<div className="absolute top-1 right-2 flex items-center gap-2">
 						{children}
 					</div>
 				)}

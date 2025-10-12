@@ -14,11 +14,7 @@ export function ClaudeCodeWebFetchTool({
 
 	return (
 		<Tool>
-			<ToolHeader icon={GlobeIcon}>
-				<span className="truncate font-medium text-sm">
-					WebFetch {input?.url}
-				</span>
-			</ToolHeader>
+			<ToolHeader icon={GlobeIcon}>WebFetch {input?.url}</ToolHeader>
 			<ToolContent>
 				{input?.url ? (
 					<div className="space-y-2 px-4 pb-4">

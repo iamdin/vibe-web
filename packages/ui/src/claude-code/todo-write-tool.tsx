@@ -2,11 +2,11 @@ import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
 import { cn } from "@vibe-web/ui/lib/utils";
 import type { TodoWriteUIToolInvocation } from "ai-sdk-agents/claude-code";
 import {
-	CircleCheckBigIcon,
-	CircleCheckIcon,
 	ListChecksIcon,
 	ListTodoIcon,
-	LoaderIcon,
+	SquareCheckIcon,
+	SquareDotIcon,
+	SquareIcon,
 } from "lucide-react";
 
 export function ClaudeCodeTodoWriteTool({
@@ -23,31 +23,29 @@ export function ClaudeCodeTodoWriteTool({
 	return (
 		<Tool>
 			<ToolHeader icon={allComplete ? ListChecksIcon : ListTodoIcon}>
-				<span className="truncate font-medium text-sm">
-					Todo ({input?.todos?.length || 0} tasks)
-				</span>
+				Todo ({input?.todos?.length || 0} tasks)
 			</ToolHeader>
 			<ToolContent>
 				{input?.todos && input.todos.length > 0 ? (
 					<div className="space-y-2">
-						{input.todos.map((todo, todoIndex) => (
+						{input.todos.map((todo, index) => (
 							<div
-								key={`${todo.content}-${todoIndex}`}
+								key={`${index}-${todo.content}`}
 								className="flex items-start gap-3"
 							>
 								{todo.status === "completed" && (
-									<CircleCheckBigIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
+									<SquareCheckIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
 								)}
 								{todo.status === "in_progress" && (
-									<CircleCheckIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
+									<SquareDotIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
 								)}
 								{todo.status === "pending" && (
-									<LoaderIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
+									<SquareIcon className="w-4 h-4 mt-0.5 flex-shrink-0" />
 								)}
 								<div className="flex-1 min-w-0">
 									<p
 										className={cn(
-											"text-sm font-medium",
+											"text-sm",
 											todo.status === "completed" &&
 												"line-through text-muted-foreground",
 										)}

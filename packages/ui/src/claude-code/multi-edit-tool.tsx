@@ -16,9 +16,7 @@ export function ClaudeCodeMultiEditTool({
 	return (
 		<Tool>
 			<ToolHeader icon={EditIcon}>
-				<span className="truncate font-medium text-sm">
-					MultiEdit {input?.file_path} ({input?.edits?.length || 0} edits)
-				</span>
+				MultiEdit {input?.file_path} ({input?.edits?.length || 0} edits)
 			</ToolHeader>
 			<ToolContent>
 				{input?.edits?.map((edit, index) => (

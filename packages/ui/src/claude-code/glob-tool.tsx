@@ -14,10 +14,8 @@ export function ClaudeCodeGlobTool({
 	return (
 		<Tool>
 			<ToolHeader icon={FolderSearchIcon}>
-				<span className="truncate font-medium text-sm">
-					Glob for {input?.pattern ? `"${input.pattern}"` : ""}
-					{input?.path ? ` in ${input.path}` : ""}
-				</span>
+				Glob for {input?.pattern ? `"${input.pattern}"` : ""}
+				{input?.path ? ` in ${input.path}` : ""}
 			</ToolHeader>
 			<ToolContent>
 				{typeof output === "string" ? (

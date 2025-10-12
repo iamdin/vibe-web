@@ -33,7 +33,6 @@ async function* readJSONLFile(filePath: string) {
 	});
 
 	for await (const message of push) {
-		console.log("message", JSON.stringify(message, null, 2));
 		if (!message.isSidechain) {
 			yield message;
 		}
@@ -44,7 +43,7 @@ export const promptImplement = implement(claudeCodeContract.prompt).handler(
 	async function* () {
 		try {
 			const dirname = import.meta.dirname;
-			const filePath = path.resolve(dirname, "response.jsonl");
+			const filePath = path.resolve(dirname, "response3.jsonl");
 			const uiMessages = toUIMessage<
 				UIMessage<undefined, UIDataTypes, ClaudeCodeTools>
 			>(readJSONLFile(filePath));

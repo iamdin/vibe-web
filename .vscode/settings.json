@@ -17,5 +17,8 @@
 	},
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
 	"typescript.tsc.autoDetect": "off",
-	"cSpell.words": ["Birpc", "jsxs", "orpc", "pushable", "Unplugin", "vibe-web"]
+	"cSpell.words": ["Birpc", "jsxs", "orpc", "pushable", "Unplugin", "vibe-web"],
+	"tailwindCSS.experimental.configFile": {
+		"./packages/ui/src/globals.css": "./packages/ui/src/globals.css"
+	}
 }

@@ -43,6 +43,7 @@
 		"@fontsource-variable/geist": "^5.2.8",
 		"@fontsource-variable/geist-mono": "^5.2.7",
 		"ai-sdk-agents": "workspace:*",
-		"react-markdown": "^10.1.0"
+		"react-markdown": "^10.1.0",
+		"streamdown": "^1.4.0"
 	}
 }

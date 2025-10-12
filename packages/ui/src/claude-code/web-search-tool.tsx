@@ -13,11 +13,7 @@ export function ClaudeCodeWebSearchTool({
 
 	return (
 		<Tool>
-			<ToolHeader icon={SearchIcon}>
-				<span className="truncate font-medium text-sm">
-					WebSearch "{input?.query}"
-				</span>
-			</ToolHeader>
+			<ToolHeader icon={SearchIcon}>WebSearch "{input?.query}"</ToolHeader>
 			<ToolContent>{output ? <Response>{output}</Response> : null}</ToolContent>
 		</Tool>
 	);

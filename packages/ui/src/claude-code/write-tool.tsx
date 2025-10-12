@@ -1,7 +1,7 @@
 import { CodeBlock } from "@vibe-web/ui/ai-elements/code-block";
 import { Tool, ToolContent, ToolHeader } from "@vibe-web/ui/ai-elements/tool";
 import type { WriteUIToolInvocation } from "ai-sdk-agents/claude-code";
-import { FileTextIcon } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 export function ClaudeCodeWriteTool({
 	invocation,
@@ -15,11 +15,7 @@ export function ClaudeCodeWriteTool({
 
 	return (
 		<Tool>
-			<ToolHeader icon={FileTextIcon}>
-				<span className="truncate font-medium text-sm">
-					Write {input?.file_path}
-				</span>
-			</ToolHeader>
+			<ToolHeader icon={SquarePen}>Write {input?.file_path}</ToolHeader>
 			<ToolContent>
 				{input?.content ? (
 					<CodeBlock

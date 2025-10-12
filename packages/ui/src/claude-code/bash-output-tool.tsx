@@ -14,18 +14,12 @@ export function ClaudeCodeBashOutputTool({
 	return (
 		<Tool>
 			<ToolHeader icon={SquareTerminalIcon}>
-				<span className="truncate font-medium text-sm">
-					Bash Output {input?.bash_id ? `(${input.bash_id})` : ""}
-				</span>
+				Bash Output {input?.bash_id ? `(${input.bash_id})` : ""}
 			</ToolHeader>
 			<ToolContent>
 				{output ? (
 					<div className="relative">
-						<CodeBlock
-							code={output}
-							language="bash"
-							className="text-sm"
-						/>
+						<CodeBlock code={output} language="bash" className="text-sm" />
 					</div>
 				) : null}
 			</ToolContent>
