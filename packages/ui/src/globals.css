@@ -3,8 +3,6 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
-@source "../node_modules/streamdown/dist/index.js";
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
