@@ -8,12 +8,11 @@ import { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
 import { router } from "@vibe-web/server-rpc/routes";
 import { Elysia, file } from "elysia";
 
+const isBun = typeof Bun !== "undefined";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const staticRoot = path.resolve(__dirname, "../../apps/web/.output/public");
-
-// Detect runtime
-const isBun = typeof Bun !== "undefined";
 
 const claudeCodeAgent = new ClaudeCodeAgent();
 const rpcHandler = new RPCHandler(router, {
@@ -24,14 +23,11 @@ const rpcHandler = new RPCHandler(router, {
 new Elysia({
 	adapter: isBun ? undefined : node(),
 })
-	// Enable CORS
 	.use(cors())
-	// Health check endpoint
-	.get("/health", () => ({
+	.get("/api/health", () => ({
 		status: "ok",
 		timestamp: new Date().toISOString(),
 	}))
-	// RPC handler
 	.all(
 		"/api/rpc*",
 		async ({ request }) => {
