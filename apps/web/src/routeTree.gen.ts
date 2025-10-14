@@ -9,10 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import type { CreateFileRoute, FileRoutesByPath } from '@tanstack/react-router'
-import type {
-  CreateServerFileRoute,
-  ServerFileRoutesByPath,
-} from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ChatRouteImport } from './routes/chat'
@@ -82,14 +78,6 @@ declare module './routes/index' {
     FileRoutesByPath['/']['path'],
     FileRoutesByPath['/']['fullPath']
   >
-
-  const createServerFileRoute: CreateServerFileRoute<
-    ServerFileRoutesByPath['/']['parentRoute'],
-    ServerFileRoutesByPath['/']['id'],
-    ServerFileRoutesByPath['/']['path'],
-    ServerFileRoutesByPath['/']['fullPath'],
-    unknown
-  >
 }
 declare module './routes/chat' {
   const createFileRoute: CreateFileRoute<
@@ -98,14 +86,6 @@ declare module './routes/chat' {
     FileRoutesByPath['/chat']['id'],
     FileRoutesByPath['/chat']['path'],
     FileRoutesByPath['/chat']['fullPath']
-  >
-
-  const createServerFileRoute: CreateServerFileRoute<
-    ServerFileRoutesByPath['/chat']['parentRoute'],
-    ServerFileRoutesByPath['/chat']['id'],
-    ServerFileRoutesByPath['/chat']['path'],
-    ServerFileRoutesByPath['/chat']['fullPath'],
-    unknown
   >
 }
 
