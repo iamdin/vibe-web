@@ -16,7 +16,7 @@ function Component() {
 			if (sessionId) {
 				await orpcClient.claudeCode.session.abort({
 					sessionId: sessionId,
-				});
+				})
 				setSessionId(undefined);
 			}
 
@@ -26,7 +26,7 @@ function Component() {
 		} catch (error) {
 			console.error("Failed to start a new session", error);
 		}
-	};
+	}
 
 	return (
 		<div className="flex h-full flex-col">
@@ -42,5 +42,5 @@ function Component() {
 			</div>
 			<Chat className="w-full min-w-80 max-w-4xl mx-auto" />
 		</div>
-	);
+	)
 }

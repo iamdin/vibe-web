@@ -65,5 +65,5 @@ function Component() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
