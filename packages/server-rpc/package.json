@@ -2,7 +2,7 @@
 	"name": "@vibe-web/server-rpc",
 	"private": true,
 	"type": "module",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "RPC for Vibe Coding Devtools",
 	"exports": {
 		".": {
