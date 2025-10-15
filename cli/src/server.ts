@@ -1,64 +1,39 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { cors } from "@elysiajs/cors";
-import { node } from "@elysiajs/node";
-import { staticPlugin } from "@elysiajs/static";
-import { RPCHandler } from "@orpc/server/fetch";
-import { ClaudeCodeAgent } from "@vibe-web/agents/claude-code";
-import { router } from "@vibe-web/server-rpc/routes";
-import { Elysia, file } from "elysia";
+import { createRequire } from "node:module";
+import path, { extname } from "node:path";
+import { serveStatic } from "@hono/node-server/serve-static";
+import { createFetchRPCHandler } from "@vibe-web/server-rpc";
+import { Hono } from "hono";
 
-const isBun = typeof Bun !== "undefined";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const staticRoot = path.resolve(__dirname, "../../apps/web/.output/public");
+const require = createRequire(import.meta.url);
+const staticRoot = path.resolve(
+	path.dirname(require.resolve("@vibest/web/package.json")),
+	"dist",
+);
 
 export function createServer() {
-	const claudeCodeAgent = new ClaudeCodeAgent();
-	const rpcHandler = new RPCHandler(router, {
-		plugins: [],
-		eventIteratorKeepAliveComment: "ping",
-	});
+	const handler = createFetchRPCHandler();
+	const app = new Hono();
+	app
+		.get("/api/health", (c) => c.json({ status: "ok" }))
+		.use("/api/rpc/*", async (c, next) => {
+			const { matched, response } = await handler(c.req.raw, {
+				prefix: "/api/rpc",
+			});
 
-	return (
-		new Elysia({
-			adapter: isBun ? undefined : node(),
+			if (matched) {
+				return c.newResponse(response.body, response);
+			}
+
+			await next();
 		})
-			.use(cors())
-			.get("/api/health", () => ({
-				status: "ok",
-				timestamp: new Date().toISOString(),
-			}))
-			.all(
-				"/api/rpc*",
-				async ({ request }) => {
-					const { response } = await rpcHandler.handle(request, {
-						prefix: "/api/rpc",
-						context: { claudeCodeAgent },
-					});
-					return response ?? new Response("Not Found", { status: 404 });
-				},
-				{
-					parse: "none", // Disable Elysia body parser to prevent "body already used" error
-				},
-			)
-			// Static file serving (handles /assets/* and other static files)
-			.use(
-				staticPlugin({
-					assets: staticRoot,
-					prefix: "/",
-					indexHTML: false,
-					ignorePatterns: ["_shell.html"],
-				}),
-			)
-			// SPA fallback - serve _shell.html for all unmatched routes
-			.onError(({ code, set }) => {
-				if (code === "NOT_FOUND") {
-					set.status = 200;
-					set.headers["content-type"] = "text/html; charset=utf-8";
-					return file(path.join(staticRoot, "_shell.html"));
-				}
-			})
-	);
+		.use(
+			"*",
+			serveStatic({
+				root: staticRoot,
+				rewriteRequestPath: (requestPath) =>
+					extname(requestPath) ? requestPath : "/index.html",
+			}),
+		);
+
+	return app;
 }

@@ -5,8 +5,18 @@
 	"version": "0.0.0",
 	"description": "RPC for Vibe Coding Devtools",
 	"exports": {
-		"./contract": "./src/contract/index.ts",
-		"./routes": "./src/routes/index.ts"
+		".": {
+			"default": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./contract": {
+			"default": "./dist/contract/index.js",
+			"types": "./dist/contract/index.d.ts"
+		},
+		"./routes": {
+			"default": "./dist/routes/index.js",
+			"types": "./dist/routes/index.d.ts"
+		}
 	},
 	"typesVersions": {
 		"*": {
@@ -16,6 +26,8 @@
 		}
 	},
 	"scripts": {
+		"stub": "tsdown",
+		"build": "tsdown",
 		"clean": "git clean -xdf node_modules dist .turbo",
 		"typecheck": "tsc --noEmit"
 	},
@@ -25,7 +37,6 @@
 		"@trpc/server": "^11.5.0",
 		"@types/stream-json": "^1.7.8",
 		"@types/ws": "^8.18.1",
-		"@vibe-web/agents": "workspace:*",
 		"@vibe-web/typescript": "workspace:*",
 		"ai": "^5.0.63",
 		"superjson": "^2.2.2",
@@ -44,6 +55,7 @@
 	"dependencies": {
 		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
 		"@orpc/contract": "^1.9.1",
+		"@vibe-web/agents": "workspace:*",
 		"ai-sdk-agents": "workspace:*",
 		"stream-json": "^1.9.1",
 		"uuid": "^13.0.0"
