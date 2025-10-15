@@ -1,6 +1,6 @@
 {
 	"name": "vibe-web-devtools",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"type": "module",
 	"description": "A vite plugin that allow you direct chat with your claude code",
 	"keywords": [
