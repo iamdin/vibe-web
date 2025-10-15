@@ -1,6 +1,5 @@
 {
 	"name": "@vibest/web",
-	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev --port=3001",
