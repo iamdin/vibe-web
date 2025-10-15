@@ -21,11 +21,8 @@ export const queryClient = new QueryClient({
 	}),
 });
 
-const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/$/, "");
-const rpcUrl = serverUrl ? `${serverUrl}/api/rpc` : "/api/rpc";
-
 const rpcLink = new RPCLink({
-	url: rpcUrl,
+	url: `${window.location.origin}/api/rpc`,
 });
 
 export const orpcClient: RouterClient<Router> = createORPCClient(rpcLink);

@@ -1,13 +1,25 @@
 #!/usr/bin/env node
 
+import { serve } from "@hono/node-server";
 import { createServer } from "./server";
 
-async function main() {
-	const server = createServer();
+const app = createServer();
+const server = serve({
+	fetch: app.fetch,
+	port: 4000,
+});
 
-	server.listen(4000, () => {
-		console.log("Server is running on port 4000");
+// graceful shutdown
+process.on("SIGINT", () => {
+	server.close();
+	process.exit(0);
+});
+process.on("SIGTERM", () => {
+	server.close((err) => {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		process.exit(0);
 	});
-}
-
-main();
+});

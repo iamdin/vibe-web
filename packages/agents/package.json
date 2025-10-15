@@ -4,12 +4,21 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+		"stub": "tsdown",
+		"build": "tsdown",
 		"test": "vitest",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules .turbo"
 	},
 	"exports": {
-		"./claude-code": "./src/claude-code/index.ts"
+		".": {
+			"default": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./claude-code": {
+			"types": "./dist/claude-code/index.d.ts",
+			"default": "./dist/claude-code/index.js"
+		}
 	},
 	"dependencies": {},
 	"devDependencies": {
@@ -17,7 +26,8 @@
 		"@vibe-web/typescript": "workspace:*",
 		"ai-sdk-agents": "workspace:*",
 		"ai": "^5.0.63",
-		"zod": "^3.24.1"
+		"zod": "^3.24.1",
+		"tsdown": "^0.13.5"
 	},
 	"peerDependencies": {
 		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
