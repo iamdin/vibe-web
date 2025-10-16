@@ -1,7 +1,5 @@
 {
-	"extends": "@vibe-web/typescript/ts-library.json",
-	"compilerOptions": {
-		"noEmit": true
-	},
+	"extends": "@vibe-web/typescript/node.json",
+	"compilerOptions": {},
 	"include": ["./"]
 }

@@ -6,10 +6,14 @@
 		"vibest": "./dist/cli.js"
 	},
 	"scripts": {
-		"dev": "tsx src/node/cli.ts",
-		"build": "tsdown",
-		"start": "NODE_ENV=production bun --bun dist/cli.js",
-		"typecheck": "tsc -p src/client && tsc -p src/node",
+		"dev": "NODE_ENV=development tsx src/node/cli.ts",
+		"build:ts": "tsdown",
+		"build:vite": "vite build",
+		"build": "turbo run build:ts build:vite",
+		"start": "NODE_ENV=production tsx  dist/cli.js",
+		"typecheck:client": "tsc -p src/client",
+		"typecheck:node": "tsc -p src/node",
+		"typecheck": "turbo run typecheck:client typecheck:node",
 		"clean": "git clean -xdf node_modules .turbo dist"
 	},
 	"dependencies": {

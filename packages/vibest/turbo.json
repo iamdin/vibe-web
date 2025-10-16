@@ -2,12 +2,31 @@
 	"$schema": "https://turborepo.com/schema.v2.json",
 	"extends": ["//"],
 	"tasks": {
-		"typecheck": {
-			"dependsOn": ["build", "^build"]
+		"build:ts": {
+			"cache": false
+		},
+		"build:vite": {
+			"cache": false
 		},
 		"build": {
-			"outputs": [".output"],
-			"env": ["VITE_SERVER_URL"]
+			"dependsOn": ["build:ts", "build:vite", "^build"],
+			"outputs": ["dist/**"]
+		},
+		"typecheck:client": {
+			"cache": true
+		},
+		"typecheck:node": {
+			"cache": true
+		},
+		"typecheck": {
+			"dependsOn": ["typecheck:client", "typecheck:node", "^build"],
+			"cache": true
+		},
+		"dev": {
+			"dependsOn": ["build"],
+			"outputs": ["dist"],
+			"inputs": ["./src/node/**"],
+			"interruptible": true
 		}
 	}
 }
