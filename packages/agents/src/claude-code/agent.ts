@@ -22,7 +22,6 @@ interface SessionState {
 
 export class Session {
 	private store = new Map<string, SessionState>();
-	output = new Pushable();
 
 	get(id: string) {
 		const session = this.store.get(id);
@@ -53,16 +52,8 @@ export class Session {
 			// Load filesystem settings for project-level configuration
 			settingSources: ["user", "project", "local"],
 			// canUseTool callback: push permission requests to output stream
-			canUseTool: async (toolName, toolInput, { signal, suggestions }) => {
+			canUseTool: async (toolName, toolInput, { suggestions }) => {
 				const requestId = generateId();
-
-				console.log("[canUseTool]", {
-					sessionId,
-					requestId,
-					toolName,
-					toolInput,
-					suggestions,
-				});
 
 				// Push permission request to output stream
 				output.push({
