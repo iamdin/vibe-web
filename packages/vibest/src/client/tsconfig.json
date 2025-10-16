@@ -2,6 +2,7 @@
 	"extends": "@vibe-web/typescript/react-library.json",
 	"compilerOptions": {
 		"baseUrl": ".",
+		"noEmit": true,
 		"paths": {
 			"@/*": ["./*"]
 		}
