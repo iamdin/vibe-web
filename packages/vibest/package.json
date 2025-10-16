@@ -9,7 +9,7 @@
 		"dev": "tsx src/node/cli.ts",
 		"build": "tsdown",
 		"start": "NODE_ENV=production bun --bun dist/cli.js",
-		"typecheck": "tsc --noEmit",
+		"typecheck": "tsc -p src/client && tsc -p src/node",
 		"clean": "git clean -xdf node_modules .turbo dist"
 	},
 	"dependencies": {
