@@ -18,6 +18,7 @@
 			"cache": true
 		},
 		"build": {
+			"outputs": ["dist/**"],
 			"dependsOn": ["^build"]
 		},
 		"lint": {
