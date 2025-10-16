@@ -1,0 +1,10 @@
+{
+	"extends": "@vibe-web/typescript/react-library.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"include": ["./"]
+}

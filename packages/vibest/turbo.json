@@ -1,0 +1,13 @@
+{
+	"$schema": "https://turborepo.com/schema.v2.json",
+	"extends": ["//"],
+	"tasks": {
+		"typecheck": {
+			"dependsOn": ["build", "^build"]
+		},
+		"build": {
+			"outputs": [".output"],
+			"env": ["VITE_SERVER_URL"]
+		}
+	}
+}

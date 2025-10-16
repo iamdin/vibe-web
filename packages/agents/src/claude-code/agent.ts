@@ -6,6 +6,7 @@ import {
 	type SDKUserMessage,
 } from "@anthropic-ai/claude-agent-sdk";
 import { generateId } from "ai";
+import type { ToolPermissionRequest } from "./types";
 import { Pushable } from "./utils/pushable";
 
 interface SessionState {
@@ -15,11 +16,13 @@ interface SessionState {
 	id?: string;
 	query: Query;
 	input: Pushable<SDKUserMessage>;
+	output: Pushable<ToolPermissionRequest>;
 	permissionMode: string;
 }
 
 export class Session {
 	private store = new Map<string, SessionState>();
+	output = new Pushable();
 
 	get(id: string) {
 		const session = this.store.get(id);
@@ -36,11 +39,12 @@ export class Session {
 	create() {
 		const sessionId = generateId();
 		const input = new Pushable<SDKUserMessage>();
+		const output = new Pushable<ToolPermissionRequest>();
+
 		const options: Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
-			permissionMode: "bypassPermissions", // TODO current default permissionMode set bypassPermissions, need support canToolUse
-			// permissionPromptToolName: toolNames.permission,
+			permissionMode: "default",
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path
 			executable: process.execPath as "node",
@@ -48,6 +52,34 @@ export class Session {
 			systemPrompt: { type: "preset", preset: "claude_code" },
 			// Load filesystem settings for project-level configuration
 			settingSources: ["user", "project", "local"],
+			// canUseTool callback: push permission requests to output stream
+			canUseTool: async (toolName, toolInput, { signal, suggestions }) => {
+				const requestId = generateId();
+
+				console.log("[canUseTool]", {
+					sessionId,
+					requestId,
+					toolName,
+					toolInput,
+					suggestions,
+				});
+
+				// Push permission request to output stream
+				output.push({
+					type: "tool-permission-request",
+					sessionId,
+					requestId,
+					toolName,
+					input: toolInput,
+					suggestions,
+				});
+
+				// Phase 1: Directly allow all tool uses (no blocking)
+				return {
+					behavior: "allow",
+					updatedInput: toolInput,
+				};
+			},
 		};
 
 		const q = query({
@@ -58,6 +90,7 @@ export class Session {
 		this.store.set(sessionId, {
 			query: q,
 			input,
+			output,
 			permissionMode: "default",
 		});
 
@@ -67,6 +100,7 @@ export class Session {
 	abort(sessionId: string) {
 		const session = this.get(sessionId);
 		session.input.end();
+		session.output.end();
 		session.query.interrupt();
 		this.store.delete(sessionId);
 	}
