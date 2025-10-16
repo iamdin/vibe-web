@@ -1,4 +1,5 @@
 import { oc, type } from "@orpc/contract";
+import type { ToolPermissionRequest } from "@vibe-web/agents/claude-code";
 import type { InferUIMessageChunk, UIMessage } from "ai";
 import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
 import { z } from "zod/v4";
@@ -32,4 +33,11 @@ export const claudeCodeContract = {
 				>
 			>(),
 		),
+	toolPermission: oc
+		.input(
+			z.object({
+				sessionId: z.string(),
+			}),
+		)
+		.output(type<AsyncGenerator<ToolPermissionRequest>>()),
 };

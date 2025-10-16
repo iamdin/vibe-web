@@ -1,0 +1,11 @@
+{
+	"extends": "@vibe-web/typescript/base.json",
+	"compilerOptions": {
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+		"incremental": true,
+		"composite": true,
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"outDir": "dist"
+	},
+}
