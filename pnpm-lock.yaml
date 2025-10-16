@@ -1306,15 +1306,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.1
         version: 19.2.1(@types/react@19.2.2)
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
       '@vibe-web/server-rpc':
         specifier: workspace:*
         version: link:../server-rpc
-      '@vibe-web/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -1339,9 +1333,6 @@ importers:
       web-vitals:
         specifier: ^5.0.3
         version: 5.1.0
-      ws:
-        specifier: ^8.18.3
-        version: 8.18.3
 
   packages/webext-bridge:
     dependencies:
