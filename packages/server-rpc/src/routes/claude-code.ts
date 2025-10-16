@@ -55,20 +55,21 @@ const prompt = orpc.prompt.handler(
 	},
 );
 
-const toolPermission = orpc.toolPermission.handler(
-	async function* ({ input, context: { claudeCodeAgent } }) {
-		const { sessionId } = input;
-		const session = claudeCodeAgent.session.get(sessionId);
+const toolPermission = orpc.toolPermission.handler(async function* ({
+	input,
+	context: { claudeCodeAgent },
+}) {
+	const { sessionId } = input;
+	const session = claudeCodeAgent.session.get(sessionId);
 
-		try {
-			for await (const event of session.output) {
-				yield event;
-			}
-		} finally {
-			// output stream will be cleaned up by session.abort()
+	try {
+		for await (const event of session.output) {
+			yield event;
 		}
-	},
-);
+	} finally {
+		// output stream will be cleaned up by session.abort()
+	}
+});
 
 export const claudeCodeRouter = orpc.router({
 	session,

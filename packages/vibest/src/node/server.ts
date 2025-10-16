@@ -48,10 +48,10 @@ export async function createServer(): Promise<Server> {
 		const protocol = req.headers["sec-websocket-protocol"];
 		if (protocol && ["vite-ping", "vite-hmr"].includes(protocol)) return;
 
-			wss.handleUpgrade(req, socket, head, (ws: WebSocket) => {
-				wss.emit("connection", ws, req);
-			});
+		wss.handleUpgrade(req, socket, head, (ws: WebSocket) => {
+			wss.emit("connection", ws, req);
 		});
+	});
 
 	return server;
 }
