@@ -13,7 +13,7 @@ function Component() {
 
 	useEffect(() => {
 		if (!sessionId) {
-			return
+			return;
 		}
 
 		const isAbortError = (error: unknown) =>
@@ -31,7 +31,7 @@ function Component() {
 				},
 				onError: (error) => {
 					if (isAbortError(error)) {
-						return
+						return;
 					}
 					console.error("Tool permission error:", error);
 				},
@@ -39,20 +39,20 @@ function Component() {
 					console.log("Tool permission stream finished");
 				},
 			},
-		)
+		);
 
 		return () => {
 			abortController.abort();
 			void unsubscribe().catch((error) => {
 				if (isAbortError(error)) {
-					return
+					return;
 				}
 				console.error(
 					"Failed to unsubscribe from tool permission stream",
 					error,
-				)
-			})
-		}
+				);
+			});
+		};
 	}, [sessionId]);
 
 	const handleNewSession = async () => {
@@ -61,7 +61,7 @@ function Component() {
 			if (sessionId) {
 				await orpcClient.claudeCode.session.abort({
 					sessionId: sessionId,
-				})
+				});
 				setSessionId(undefined);
 			}
 
@@ -71,7 +71,7 @@ function Component() {
 		} catch (error) {
 			console.error("Failed to start a new session", error);
 		}
-	}
+	};
 
 	return (
 		<div className="flex h-full flex-col">
@@ -91,5 +91,5 @@ function Component() {
 				onSessionIdChange={setSessionId}
 			/>
 		</div>
-	)
+	);
 }

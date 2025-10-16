@@ -49,11 +49,7 @@ function CodeBlockFallback({ code }: { code: string }) {
 }
 
 // Internal component that uses React 19's use() for highlighting
-function HighlightedCode({
-	promises,
-}: {
-	promises: Promise<JSX.Element>;
-}) {
+function HighlightedCode({ promises }: { promises: Promise<JSX.Element> }) {
 	// React 19's use() API - will suspend until promise resolves
 	const highlighted = use(promises);
 

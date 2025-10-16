@@ -18,9 +18,7 @@ export function ClaudeCodeBashTool({
 
 	return (
 		<Tool>
-			<ToolHeader icon={SquareTerminalIcon}>
-				{input?.description}
-			</ToolHeader>
+			<ToolHeader icon={SquareTerminalIcon}>{input?.description}</ToolHeader>
 			<ToolContent>
 				{input?.command || output ? (
 					<div className="relative">

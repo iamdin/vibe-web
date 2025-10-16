@@ -6,7 +6,10 @@ import {
 	type UIDataTypes,
 	type UIMessage,
 } from "ai";
-import type { ClaudeCodeTools, TaskUIToolInvocation } from "ai-sdk-agents/claude-code";
+import type {
+	ClaudeCodeTools,
+	TaskUIToolInvocation,
+} from "ai-sdk-agents/claude-code";
 import { LayoutListIcon } from "lucide-react";
 import { type ReactNode, useMemo } from "react";
 
