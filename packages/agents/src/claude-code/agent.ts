@@ -21,12 +21,7 @@ interface SessionState {
 	pendingPermissionRequests: Map<string, PendingToolPermission>;
 }
 
-type PendingToolPermission = {
-	timeoutId?: ReturnType<typeof setTimeout>;
-	resolve: (result: PermissionResult) => void;
-};
-
-export const DEFAULT_TOOL_PERMISSION_TIMEOUT_MS = 1000 * 60 * 10; /// 10 minutes
+type PendingToolPermission = (result: PermissionResult) => void;
 
 export class Session {
 	private store = new Map<string, SessionState>();
@@ -51,7 +46,7 @@ export class Session {
 		const options: Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
-			permissionMode: "plan",
+			permissionMode: "default",
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path
 			executable: process.execPath as "node",
@@ -69,23 +64,14 @@ export class Session {
 					resolve = _resolve;
 				});
 
-				const pendingPermission = {
-					resolve: (result: PermissionResult) => {
-						resolve(result);
-						cleanUp();
-					},
-					timeoutId: setTimeout(() => {
-						resolve({
-							behavior: "deny",
-							message: `Tool permission for ${toolName} timed out after ${DEFAULT_TOOL_PERMISSION_TIMEOUT_MS}ms`,
-							interrupt: true,
-						});
-						cleanUp();
-					}, DEFAULT_TOOL_PERMISSION_TIMEOUT_MS),
-				} satisfies PendingToolPermission;
+				const pendingPermission: PendingToolPermission = (
+					result: PermissionResult,
+				) => {
+					resolve(result);
+					cleanUp();
+				};
 
 				function cleanUp() {
-					clearTimeout(pendingPermission.timeoutId);
 					pendingPermissionRequests.delete(requestId);
 					signal.removeEventListener("abort", abortHandler);
 				}
@@ -133,8 +119,12 @@ export class Session {
 	abort(sessionId: string) {
 		const session = this.get(sessionId);
 
-		for (const pending of session.pendingPermissionRequests.values()) {
-			clearTimeout(pending.timeoutId);
+		for (const resolve of session.pendingPermissionRequests.values()) {
+			resolve({
+				behavior: "deny",
+				message: "Request aborted due to session termination",
+				interrupt: true,
+			});
 		}
 		session.requestPermission.end();
 		session.pendingPermissionRequests.clear();
@@ -198,7 +188,7 @@ export class Session {
 		if (!request) {
 			throw new Error(`Pending tool permission request ${requestId} not found`);
 		}
-		request.resolve(result);
+		request(result);
 		return true;
 	}
 }
