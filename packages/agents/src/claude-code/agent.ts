@@ -1,5 +1,6 @@
 import {
 	type Options,
+	type PermissionResult,
 	type Query,
 	query,
 	type SDKMessage,
@@ -16,9 +17,16 @@ interface SessionState {
 	id?: string;
 	query: Query;
 	input: Pushable<SDKUserMessage>;
-	output: Pushable<ToolPermissionRequest>;
-	permissionMode: string;
+	requestPermission: Pushable<ToolPermissionRequest>;
+	pendingPermissionRequests: Map<string, PendingToolPermission>;
 }
+
+type PendingToolPermission = {
+	timeoutId?: ReturnType<typeof setTimeout>;
+	resolve: (result: PermissionResult) => void;
+};
+
+export const DEFAULT_TOOL_PERMISSION_TIMEOUT_MS = 1000 * 60 * 10; /// 10 minutes
 
 export class Session {
 	private store = new Map<string, SessionState>();
@@ -38,12 +46,12 @@ export class Session {
 	create() {
 		const sessionId = generateId();
 		const input = new Pushable<SDKUserMessage>();
-		const output = new Pushable<ToolPermissionRequest>();
+		const requestPermission = new Pushable<ToolPermissionRequest>();
 
 		const options: Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
-			permissionMode: "default",
+			permissionMode: "plan",
 			stderr: (err) => console.error(err),
 			// note: although not documented by the types, passing an absolute path
 			executable: process.execPath as "node",
@@ -52,24 +60,58 @@ export class Session {
 			// Load filesystem settings for project-level configuration
 			settingSources: ["user", "project", "local"],
 			// canUseTool callback: push permission requests to output stream
-			canUseTool: async (toolName, toolInput, { suggestions }) => {
+			canUseTool: async (toolName, input, { signal, suggestions }) => {
 				const requestId = generateId();
+				const session = this.get(sessionId);
+				const pendingPermissionRequests = session.pendingPermissionRequests;
+				let resolve: (result: PermissionResult) => void;
+				const promise = new Promise<PermissionResult>((_resolve) => {
+					resolve = _resolve;
+				});
 
-				// Push permission request to output stream
-				output.push({
+				const pendingPermission = {
+					resolve: (result: PermissionResult) => {
+						resolve(result);
+						cleanUp();
+					},
+					timeoutId: setTimeout(() => {
+						resolve({
+							behavior: "deny",
+							message: `Tool permission for ${toolName} timed out after ${DEFAULT_TOOL_PERMISSION_TIMEOUT_MS}ms`,
+							interrupt: true,
+						});
+						cleanUp();
+					}, DEFAULT_TOOL_PERMISSION_TIMEOUT_MS),
+				} satisfies PendingToolPermission;
+
+				function cleanUp() {
+					clearTimeout(pendingPermission.timeoutId);
+					pendingPermissionRequests.delete(requestId);
+					signal.removeEventListener("abort", abortHandler);
+				}
+
+				function abortHandler() {
+					resolve({
+						behavior: "deny",
+						message: `Tool permission for ${toolName} was aborted`,
+						interrupt: true,
+					});
+					cleanUp();
+				}
+
+				signal.addEventListener("abort", abortHandler, { once: true });
+
+				pendingPermissionRequests.set(requestId, pendingPermission);
+				// Push permission request to output stream (only necessary fields)
+				requestPermission.push({
 					type: "tool-permission-request",
-					sessionId,
 					requestId,
 					toolName,
-					input: toolInput,
+					input,
 					suggestions,
 				});
 
-				// Phase 1: Directly allow all tool uses (no blocking)
-				return {
-					behavior: "allow",
-					updatedInput: toolInput,
-				};
+				return promise;
 			},
 		};
 
@@ -81,8 +123,8 @@ export class Session {
 		this.store.set(sessionId, {
 			query: q,
 			input,
-			output,
-			permissionMode: "default",
+			requestPermission,
+			pendingPermissionRequests: new Map(),
 		});
 
 		return { sessionId };
@@ -90,9 +132,16 @@ export class Session {
 
 	abort(sessionId: string) {
 		const session = this.get(sessionId);
+
+		for (const pending of session.pendingPermissionRequests.values()) {
+			clearTimeout(pending.timeoutId);
+		}
+		session.requestPermission.end();
+		session.pendingPermissionRequests.clear();
+
 		session.input.end();
-		session.output.end();
 		session.query.interrupt();
+
 		this.store.delete(sessionId);
 	}
 
@@ -137,6 +186,20 @@ export class Session {
 				}
 			}
 		}
+	}
+
+	respondPermission(
+		sessionId: string,
+		requestId: string,
+		result: PermissionResult,
+	) {
+		const session = this.get(sessionId);
+		const request = session.pendingPermissionRequests.get(requestId);
+		if (!request) {
+			throw new Error(`Pending tool permission request ${requestId} not found`);
+		}
+		request.resolve(result);
+		return true;
 	}
 }
 
