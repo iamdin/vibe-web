@@ -23,6 +23,7 @@ export const claudeCodeContract = {
 			type<{
 				sessionId: string;
 				message: UIMessage;
+				model?: string;
 			}>(),
 		)
 		.output(
