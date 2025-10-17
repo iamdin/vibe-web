@@ -1,9 +1,14 @@
 import { createServer as createHttpServer, type Server } from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createNodeRPCHandler, createWsRPCHandler } from "@vibe-web/server-rpc";
 import express from "express";
+import sirv from "sirv";
 import { createServer as createViteDevServer } from "vite";
 import type { WebSocket } from "ws";
 import { WebSocketServer } from "ws";
+
+const isDev = process.env.NODE_ENV === "development";
 
 export async function createServer(): Promise<Server> {
 	const handler = createNodeRPCHandler();
@@ -20,14 +25,6 @@ export async function createServer(): Promise<Server> {
 		console.error(e);
 	});
 
-	const vite = await createViteDevServer({
-		server: {
-			middlewareMode: true,
-			hmr: {
-				server,
-			},
-		},
-	});
 	app
 		.get("/api/health", (_, res) => {
 			res.send("ok");
@@ -40,14 +37,35 @@ export async function createServer(): Promise<Server> {
 				return;
 			}
 			next();
-		})
-		.use(vite.middlewares);
+		});
+
+	if (isDev) {
+		const vite = await createViteDevServer({
+			server: {
+				middlewareMode: true,
+				hmr: {
+					server,
+				},
+			},
+		});
+		app.use(vite.middlewares);
+	} else {
+		const staticDir = path.resolve(
+			fileURLToPath(new URL("./client/", import.meta.url)),
+		);
+		app.use(
+			sirv(staticDir, {
+				single: true,
+			}),
+		);
+	}
 
 	// Share the same HTTP server between Vite's HMR socket and our custom WebSocketServer.
 	server.on("upgrade", (req, socket, head) => {
-		const protocol = req.headers["sec-websocket-protocol"];
-		if (protocol && ["vite-ping", "vite-hmr"].includes(protocol)) return;
-
+		if (isDev) {
+			const protocol = req.headers["sec-websocket-protocol"];
+			if (protocol && ["vite-ping", "vite-hmr"].includes(protocol)) return;
+		}
 		wss.handleUpgrade(req, socket, head, (ws: WebSocket) => {
 			wss.emit("connection", ws, req);
 		});

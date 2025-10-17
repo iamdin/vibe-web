@@ -23,7 +23,7 @@ import {
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
 import { cn } from "@vibe-web/ui/lib/utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageParts } from "@/components/message-parts";
 import { orpcClient } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
@@ -55,17 +55,21 @@ export function Chat({
 }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
+	const sessionIdRef = useRef<string | undefined>(undefined);
+
+	// 同步 sessionId 到 ref，避免闭包问题
+	useEffect(() => {
+		sessionIdRef.current = sessionId;
+	}, [sessionId]);
 
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
 		transport: {
 			async sendMessages(options) {
 				try {
-					let currentSessionId = sessionId;
+					// 使用 ref 获取最新的 sessionId
+					const currentSessionId = sessionIdRef.current;
 					if (!currentSessionId) {
-						const result = await orpcClient.claudeCode.session.create();
-						console.log("creating session", result);
-						currentSessionId = result.sessionId;
-						onSessionIdChange(currentSessionId);
+						throw new Error("Session not initialized");
 					}
 					const message = options.messages.at(-1);
 					if (!message) {
@@ -94,6 +98,12 @@ export function Chat({
 		e.preventDefault();
 
 		if (!input.trim()) return;
+
+		// 确保 session 已经创建
+		if (!sessionId) {
+			console.warn("Session not ready yet");
+			return;
+		}
 
 		sendMessage({
 			parts: [{ type: "text", text: input }],
@@ -145,7 +155,7 @@ export function Chat({
 								</SelectContent>
 							</Select>
 						</PromptInputTools>
-						<PromptInputSubmit disabled={!input} status={status} />
+						<PromptInputSubmit disabled={!input || !sessionId} status={status} />
 					</PromptInputToolbar>
 				</PromptInput>
 			</div>
