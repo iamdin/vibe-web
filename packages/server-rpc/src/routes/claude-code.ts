@@ -25,6 +25,12 @@ const session = {
 
 const prompt = orpc.prompt.handler(
 	async ({ input, context: { claudeCodeAgent } }) => {
+		const { model = "sonnet" } = input;
+		const session = claudeCodeAgent.session.get(input.sessionId);
+
+		// Set model before prompting
+		await session.query.setModel(model);
+
 		const message: { type: "text"; text: string }[] = [];
 		for (const part of input.message.parts || []) {
 			switch (part.type) {

@@ -67,14 +67,14 @@ export function Chat({
 						currentSessionId = result.sessionId;
 						onSessionIdChange(currentSessionId);
 					}
-					const message = options.messages.at(-1);
-					if (!message) {
-						throw new Error("message is required");
-					}
-					const event = await orpcClient.claudeCode.prompt(
-						{ sessionId: currentSessionId, message },
-						{ signal: options.abortSignal },
-					);
+				const message = options.messages.at(-1);
+				if (!message) {
+					throw new Error("message is required");
+				}
+				const event = await orpcClient.claudeCode.prompt(
+					{ sessionId: currentSessionId, message, model },
+					{ signal: options.abortSignal },
+				);
 					return eventIteratorToStream(event);
 				} catch (error) {
 					console.error("Failed to send messages", error);
