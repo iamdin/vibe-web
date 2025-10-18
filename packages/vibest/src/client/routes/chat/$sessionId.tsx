@@ -37,7 +37,7 @@ function Component() {
 					const currentSessionId = sessionIdRef.current;
 					if (!currentSessionId) {
 						console.error("Session ID not found");
-						return;
+						return
 					}
 
 					// Show permission request using browser confirm dialog
@@ -55,7 +55,7 @@ function Component() {
 									behavior: "allow",
 									updatedInput: event.input,
 								},
-							});
+							})
 						} else {
 							await orpcWsClient.claudeCode.respondPermission({
 								sessionId: currentSessionId,
@@ -65,7 +65,7 @@ function Component() {
 									message: "User denied the permission request",
 									interrupt: true,
 								},
-							});
+							})
 						}
 					} catch (error) {
 						console.error("Failed to respond to permission request:", error);
@@ -73,7 +73,7 @@ function Component() {
 				},
 				onError: (error) => {
 					if (isAbortError(error)) {
-						return;
+						return
 					}
 					console.error("Tool permission error:", error);
 				},
@@ -81,20 +81,20 @@ function Component() {
 					console.log("Tool permission stream finished");
 				},
 			},
-		);
+		)
 
 		return () => {
 			abortController.abort();
 			void unsubscribe().catch((error) => {
 				if (isAbortError(error)) {
-					return;
+					return
 				}
 				console.error(
 					"Failed to unsubscribe from tool permission stream",
 					error,
-				);
-			});
-		};
+				)
+			})
+		}
 	}, [sessionId]);
 
 	const handleNewSession = async () => {
@@ -106,7 +106,7 @@ function Component() {
 		} catch (error) {
 			console.error("Failed to start a new session", error);
 		}
-	};
+	}
 
 	return (
 		<div className="flex h-full flex-col">
@@ -126,5 +126,5 @@ function Component() {
 				handleNewSession={handleNewSession}
 			/>
 		</div>
-	);
+	)
 }

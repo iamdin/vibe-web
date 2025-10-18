@@ -48,7 +48,7 @@
 	},
 	"scripts": {
 		"stub": "tsdown",
-		"test": "vitest --typecheck",
+		"test": "vitest run --typecheck",
 		"build": "tsdown",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules dist .turbo"
