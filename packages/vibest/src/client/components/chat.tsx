@@ -23,7 +23,7 @@ import {
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
 import { cn } from "@vibe-web/ui/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { MessageParts } from "@/components/message-parts";
 import { orpcClient } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
@@ -47,38 +47,27 @@ const models = createListCollection<{
 export function Chat({
 	className,
 	sessionId,
-	onSessionIdChange,
+	handleNewSession,
 }: {
 	className?: string;
-	sessionId: string | undefined;
-	onSessionIdChange: (sessionId: string) => void;
+	sessionId: string;
+	handleNewSession: () => void;
 }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
-	const sessionIdRef = useRef<string | undefined>(undefined);
-
-	// 同步 sessionId 到 ref，避免闭包问题
-	useEffect(() => {
-		sessionIdRef.current = sessionId;
-	}, [sessionId]);
 
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
 		transport: {
 			async sendMessages(options) {
 				try {
-					// 使用 ref 获取最新的 sessionId
-					const currentSessionId = sessionIdRef.current;
-					if (!currentSessionId) {
-						throw new Error("Session not initialized");
+					const message = options.messages.at(-1);
+					if (!message) {
+						throw new Error("message is required");
 					}
-				const message = options.messages.at(-1);
-				if (!message) {
-					throw new Error("message is required");
-				}
-				const event = await orpcClient.claudeCode.prompt(
-					{ sessionId: currentSessionId, message, model },
-					{ signal: options.abortSignal },
-				);
+					const event = await orpcClient.claudeCode.prompt(
+						{ sessionId, message, model },
+						{ signal: options.abortSignal },
+					);
 					return eventIteratorToStream(event);
 				} catch (error) {
 					console.error("Failed to send messages", error);
@@ -98,12 +87,6 @@ export function Chat({
 		e.preventDefault();
 
 		if (!input.trim()) return;
-
-		// 确保 session 已经创建
-		if (!sessionId) {
-			console.warn("Session not ready yet");
-			return;
-		}
 
 		sendMessage({
 			parts: [{ type: "text", text: input }],
@@ -155,7 +138,10 @@ export function Chat({
 								</SelectContent>
 							</Select>
 						</PromptInputTools>
-						<PromptInputSubmit disabled={!input || !sessionId} status={status} />
+						<PromptInputSubmit
+							disabled={!input || !sessionId}
+							status={status}
+						/>
 					</PromptInputToolbar>
 				</PromptInput>
 			</div>

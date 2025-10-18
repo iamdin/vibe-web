@@ -3,7 +3,6 @@
 	"extends": ["//"],
 	"tasks": {
 		"dev": {
-			"dependsOn": ["build"],
 			"outputs": ["dist"],
 			"inputs": ["./src/node/**"],
 			"interruptible": true

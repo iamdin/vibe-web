@@ -13,12 +13,29 @@ const orpc = os.$context<ClaudeCodeContext>();
 const session = {
 	create: orpc.session.create.handler(
 		async ({ context: { claudeCodeAgent } }) => {
-			return claudeCodeAgent.session.create();
+			return await claudeCodeAgent.session.create();
 		},
 	),
 	abort: orpc.session.abort.handler(
 		async ({ input, context: { claudeCodeAgent } }) => {
 			claudeCodeAgent.session.abort(input.sessionId);
+		},
+	),
+	getSupportedCommands: orpc.session.getSupportedCommands.handler(
+		async ({ input, context: { claudeCodeAgent } }) => {
+			return await claudeCodeAgent.session.getSupportedCommands(
+				input.sessionId,
+			);
+		},
+	),
+	getSupportedModels: orpc.session.getSupportedModels.handler(
+		async ({ input, context: { claudeCodeAgent } }) => {
+			return await claudeCodeAgent.session.getSupportedModels(input.sessionId);
+		},
+	),
+	getMcpServers: orpc.session.getMcpServers.handler(
+		async ({ input, context: { claudeCodeAgent } }) => {
+			return await claudeCodeAgent.session.getMcpServers(input.sessionId);
 		},
 	),
 };
@@ -49,15 +66,20 @@ const prompt = orpc.prompt.handler(
 					break;
 			}
 		}
-		return toUIMessage(
-			claudeCodeAgent.session.prompt({
-				sessionId: input.sessionId,
-				message: {
-					role: "user",
-					content: message,
-				},
-			}),
-		);
+		try {
+			return toUIMessage(
+				claudeCodeAgent.session.prompt({
+					sessionId: input.sessionId,
+					message: {
+						role: "user",
+						content: message,
+					},
+				}),
+			);
+		} catch (error) {
+			console.error("Failed to prompt", error);
+			throw error;
+		}
 	},
 );
 

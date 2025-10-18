@@ -1,9 +1,14 @@
-import type { PermissionUpdate } from "@anthropic-ai/claude-agent-sdk";
 import { oc, type } from "@orpc/contract";
 import type { ToolPermissionRequest } from "@vibe-web/agents/claude-code";
 import type { InferUIMessageChunk, UIMessage } from "ai";
-import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
-import { z } from "zod/v4";
+import {
+	type ClaudeCodeTools,
+	McpServerStatusSchema,
+	ModelInfoSchema,
+	PermissionResultSchema,
+	SlashCommandSchema,
+} from "ai-sdk-agents/claude-code";
+import { z } from "zod";
 
 export const claudeCodeContract = {
 	session: {
@@ -17,6 +22,27 @@ export const claudeCodeContract = {
 				sessionId: z.string(),
 			}),
 		),
+		getSupportedCommands: oc
+			.input(
+				z.object({
+					sessionId: z.string(),
+				}),
+			)
+			.output(z.array(SlashCommandSchema)),
+		getSupportedModels: oc
+			.input(
+				z.object({
+					sessionId: z.string(),
+				}),
+			)
+			.output(z.array(ModelInfoSchema)),
+		getMcpServers: oc
+			.input(
+				z.object({
+					sessionId: z.string(),
+				}),
+			)
+			.output(z.array(McpServerStatusSchema)),
 	},
 	prompt: oc
 		.input(
@@ -47,18 +73,7 @@ export const claudeCodeContract = {
 			z.object({
 				sessionId: z.string(),
 				requestId: z.string(),
-				result: z.union([
-					z.object({
-						behavior: z.literal("allow"),
-						updatedInput: z.object().loose(),
-						updatedPermissions: z.array(z.any()).optional(),
-					}),
-					z.object({
-						behavior: z.literal("deny"),
-						message: z.string(),
-						interrupt: z.boolean().optional(),
-					}),
-				]),
+				result: PermissionResultSchema,
 			}),
 		)
 		.output(z.boolean()),

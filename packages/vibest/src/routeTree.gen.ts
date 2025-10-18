@@ -11,44 +11,54 @@
 import type { CreateFileRoute, FileRoutesByPath } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './client/routes/__root'
-import { Route as ChatRouteImport } from './client/routes/chat'
 import { Route as IndexRouteImport } from './client/routes/index'
+import { Route as ChatIndexRouteImport } from './client/routes/chat/index'
+import { Route as ChatSessionIdRouteImport } from './client/routes/chat/$sessionId'
 
-const ChatRoute = ChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatIndexRoute = ChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatSessionIdRoute = ChatSessionIdRouteImport.update({
+  id: '/chat/$sessionId',
+  path: '/chat/$sessionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
+  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat': typeof ChatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
+  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat': typeof ChatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
+  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat/': typeof ChatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat'
+  fullPaths: '/' | '/chat/$sessionId' | '/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat'
-  id: '__root__' | '/' | '/chat'
+  to: '/' | '/chat/$sessionId' | '/chat'
+  id: '__root__' | '/' | '/chat/$sessionId' | '/chat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChatRoute: typeof ChatRoute
+  ChatSessionIdRoute: typeof ChatSessionIdRoute
+  ChatIndexRoute: typeof ChatIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -60,11 +70,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/chat': {
-      id: '/chat'
+    '/chat/$sessionId': {
+      id: '/chat/$sessionId'
+      path: '/chat/$sessionId'
+      fullPath: '/chat/$sessionId'
+      preLoaderRoute: typeof ChatSessionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/': {
+      id: '/chat/'
       path: '/chat'
       fullPath: '/chat'
-      preLoaderRoute: typeof ChatRouteImport
+      preLoaderRoute: typeof ChatIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -79,19 +96,29 @@ declare module './client/routes/index' {
     FileRoutesByPath['/']['fullPath']
   >
 }
-declare module './client/routes/chat' {
+declare module './client/routes/chat/$sessionId' {
   const createFileRoute: CreateFileRoute<
-    '/chat',
-    FileRoutesByPath['/chat']['parentRoute'],
-    FileRoutesByPath['/chat']['id'],
-    FileRoutesByPath['/chat']['path'],
-    FileRoutesByPath['/chat']['fullPath']
+    '/chat/$sessionId',
+    FileRoutesByPath['/chat/$sessionId']['parentRoute'],
+    FileRoutesByPath['/chat/$sessionId']['id'],
+    FileRoutesByPath['/chat/$sessionId']['path'],
+    FileRoutesByPath['/chat/$sessionId']['fullPath']
+  >
+}
+declare module './client/routes/chat/index' {
+  const createFileRoute: CreateFileRoute<
+    '/chat/',
+    FileRoutesByPath['/chat/']['parentRoute'],
+    FileRoutesByPath['/chat/']['id'],
+    FileRoutesByPath['/chat/']['path'],
+    FileRoutesByPath['/chat/']['fullPath']
   >
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChatRoute: ChatRoute,
+  ChatSessionIdRoute: ChatSessionIdRoute,
+  ChatIndexRoute: ChatIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

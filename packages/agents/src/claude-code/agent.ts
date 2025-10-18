@@ -1,12 +1,6 @@
-import {
-	type Options,
-	type PermissionResult,
-	type Query,
-	query,
-	type SDKMessage,
-	type SDKUserMessage,
-} from "@anthropic-ai/claude-agent-sdk";
-import { generateId } from "ai";
+import type * as sdk from "@anthropic-ai/claude-agent-sdk";
+import { query } from "@anthropic-ai/claude-agent-sdk";
+import { v7 as uuid } from "uuid";
 import type { ToolPermissionRequest } from "./types";
 import { Pushable } from "./utils/pushable";
 
@@ -15,8 +9,8 @@ interface SessionState {
 	 * the claude code session, will set when first system message is received
 	 */
 	id?: string;
-	query: Query;
-	input: Pushable<SDKUserMessage>;
+	query: sdk.Query;
+	input: Pushable<sdk.SDKUserMessage>;
 	requestPermission: Pushable<ToolPermissionRequest>;
 	pendingPermissionRequests: Map<string, PendingToolPermission>;
 }
@@ -38,12 +32,14 @@ export class Session {
 		return Array.from(this.store.values());
 	}
 
-	create() {
-		const sessionId = generateId();
-		const input = new Pushable<SDKUserMessage>();
+	async create(): Promise<{
+		sessionId: string;
+	}> {
+		const input = new Pushable<sdk.SDKUserMessage>();
 		const requestPermission = new Pushable<ToolPermissionRequest>();
+		const sessionId = uuid();
 
-		const options: Options = {
+		const options: sdk.Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
 			permissionMode: "default",
@@ -56,11 +52,11 @@ export class Session {
 			settingSources: ["user", "project", "local"],
 			// canUseTool callback: push permission requests to output stream
 			canUseTool: async (toolName, input, { signal, suggestions }) => {
-				const requestId = generateId();
+				const requestId = uuid();
 				const session = this.get(sessionId);
 				const pendingPermissionRequests = session.pendingPermissionRequests;
-				let resolve: (result: PermissionResult) => void;
-				const promise = new Promise<PermissionResult>((_resolve) => {
+				let resolve: (result: sdk.PermissionResult) => void;
+				const promise = new Promise<sdk.PermissionResult>((_resolve) => {
 					resolve = _resolve;
 				});
 
@@ -114,7 +110,24 @@ export class Session {
 			pendingPermissionRequests: new Map(),
 		});
 
-		return { sessionId };
+		return {
+			sessionId,
+		};
+	}
+
+	async getSupportedCommands(sessionId: string): Promise<sdk.SlashCommand[]> {
+		const session = this.get(sessionId);
+		return session.query.supportedCommands();
+	}
+
+	async getSupportedModels(sessionId: string): Promise<sdk.ModelInfo[]> {
+		const session = this.get(sessionId);
+		return session.query.supportedModels();
+	}
+
+	async getMcpServers(sessionId: string): Promise<sdk.McpServerStatus[]> {
+		const session = this.get(sessionId);
+		return session.query.mcpServerStatus();
 	}
 
 	abort(sessionId: string) {
@@ -143,9 +156,12 @@ export class Session {
 
 	async *prompt(input: {
 		sessionId: string;
-		message: SDKUserMessage["message"];
-	}): AsyncGenerator<SDKMessage, void, unknown> {
+		message: sdk.SDKUserMessage["message"];
+	}): AsyncGenerator<sdk.SDKMessage, void, unknown> {
 		const session = this.get(input.sessionId);
+		if (!session) {
+			throw new Error(`Session ${input.sessionId} not found`);
+		}
 		session.input.push({
 			type: "user",
 			message: input.message,
@@ -182,7 +198,7 @@ export class Session {
 	respondPermission(
 		sessionId: string,
 		requestId: string,
-		result: PermissionResult,
+		result: sdk.PermissionResult,
 	) {
 		const session = this.get(sessionId);
 		const request = session.pendingPermissionRequests.get(requestId);
