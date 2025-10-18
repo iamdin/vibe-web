@@ -6,16 +6,16 @@
 	"description": "RPC for Vibe Coding Devtools",
 	"exports": {
 		".": {
-			"default": "./dist/index.js",
-			"types": "./dist/index.d.ts"
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
 		},
 		"./contract": {
-			"default": "./dist/contract/index.js",
-			"types": "./dist/contract/index.d.ts"
+			"types": "./dist/contract/index.d.ts",
+			"default": "./dist/contract/index.js"
 		},
 		"./routes": {
-			"default": "./dist/routes/index.js",
-			"types": "./dist/routes/index.d.ts"
+			"types": "./dist/routes/index.d.ts",
+			"default": "./dist/routes/index.js"
 		}
 	},
 	"typesVersions": {
