@@ -91,6 +91,7 @@ export class Session {
 				// Push permission request to output stream (only necessary fields)
 				requestPermission.push({
 					type: "tool-permission-request",
+					sessionId,
 					requestId,
 					toolName,
 					input,
