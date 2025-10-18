@@ -15,7 +15,7 @@ interface SessionState {
 	pendingPermissionRequests: Map<string, PendingToolPermission>;
 }
 
-type PendingToolPermission = (result: PermissionResult) => void;
+type PendingToolPermission = (result: sdk.PermissionResult) => void;
 
 export class Session {
 	private store = new Map<string, SessionState>();
@@ -61,7 +61,7 @@ export class Session {
 				});
 
 				const pendingPermission: PendingToolPermission = (
-					result: PermissionResult,
+					result: sdk.PermissionResult,
 				) => {
 					resolve(result);
 					cleanUp();
