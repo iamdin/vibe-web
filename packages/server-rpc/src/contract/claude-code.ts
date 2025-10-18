@@ -8,7 +8,7 @@ import {
 	PermissionResultSchema,
 	SlashCommandSchema,
 } from "ai-sdk-agents/claude-code";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const claudeCodeContract = {
 	session: {

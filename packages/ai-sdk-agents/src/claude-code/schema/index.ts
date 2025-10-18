@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 /**
  * Represents a slash command available in Claude Code
@@ -111,7 +111,7 @@ const PermissionUpdateSchema = z.discriminatedUnion("type", [
 export const PermissionResultSchema = z.discriminatedUnion("behavior", [
 	z.object({
 		behavior: z.literal("allow"),
-		updatedInput: z.record(z.unknown()),
+		updatedInput: z.record(z.string(), z.unknown()),
 		updatedPermissions: z.array(PermissionUpdateSchema).optional(),
 	}),
 	z.object({
