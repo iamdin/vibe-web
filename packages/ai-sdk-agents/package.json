@@ -30,14 +30,14 @@
 		}
 	},
 	"devDependencies": {
-		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
+		"@anthropic-ai/claude-agent-sdk": "^0.1.22",
 		"@vibe-web/typescript": "workspace:*",
 		"ai": "^5.0.63",
 		"tsdown": "^0.13.5",
 		"zod": "^3.24.1"
 	},
 	"peerDependencies": {
-		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
+		"@anthropic-ai/claude-agent-sdk": "^0.1.22",
 		"ai": "^5.0.63",
 		"zod": "^3.24.1"
 	}

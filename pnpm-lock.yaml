@@ -379,8 +379,8 @@ importers:
         version: 13.0.0
     devDependencies:
       '@anthropic-ai/claude-agent-sdk':
-        specifier: ^0.1.12
-        version: 0.1.12(zod@3.25.76)
+        specifier: ^0.1.22
+        version: 0.1.22(zod@3.25.76)
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -400,8 +400,8 @@ importers:
   packages/ai-sdk-agents:
     devDependencies:
       '@anthropic-ai/claude-agent-sdk':
-        specifier: ^0.1.12
-        version: 0.1.12(zod@3.25.76)
+        specifier: ^0.1.22
+        version: 0.1.22(zod@3.25.76)
       '@vibe-web/typescript':
         specifier: workspace:*
         version: link:../../tools/typescript
@@ -521,8 +521,8 @@ importers:
   packages/server-rpc:
     dependencies:
       '@anthropic-ai/claude-agent-sdk':
-        specifier: ^0.1.12
-        version: 0.1.12(zod@3.25.76)
+        specifier: ^0.1.22
+        version: 0.1.22(zod@3.25.76)
       '@orpc/contract':
         specifier: ^1.9.1
         version: 1.9.1(@opentelemetry/api@1.9.0)
@@ -897,8 +897,8 @@ importers:
         specifier: ^2.0.44
         version: 2.0.44(react@19.2.0)(zod@3.25.76)
       '@anthropic-ai/claude-agent-sdk':
-        specifier: ^0.1.12
-        version: 0.1.12(zod@3.25.76)
+        specifier: ^0.1.22
+        version: 0.1.22(zod@3.25.76)
       '@hono/node-server':
         specifier: ^1.19.5
         version: 1.19.5(hono@4.9.12)
@@ -1204,6 +1204,12 @@ packages:
 
   '@anthropic-ai/claude-agent-sdk@0.1.12':
     resolution: {integrity: sha512-Uf6bJ7w8puG7ESZOZZwIdBRGSsCQ5hzA0Yd7GZtdgVSFRkq/ySmWcqkMCrxLCLo4jGZ2j/OJ786oICv2Dp7hkg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.24.1
+
+  '@anthropic-ai/claude-agent-sdk@0.1.22':
+    resolution: {integrity: sha512-lDwbcwh5goRVUHRRqvX9v6Vj38VME1L+QIaLWzdqbK3Lwkkz9PVLNQFRDEyUOSNd9Fm4cAlfQZ0RCVe8tuo9TA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       zod: ^3.24.1
@@ -9203,6 +9209,17 @@ snapshots:
   '@antfu/utils@0.7.10': {}
 
   '@anthropic-ai/claude-agent-sdk@0.1.12(zod@3.25.76)':
+    dependencies:
+      zod: 3.25.76
+    optionalDependencies:
+      '@img/sharp-darwin-arm64': 0.33.5
+      '@img/sharp-darwin-x64': 0.33.5
+      '@img/sharp-linux-arm': 0.33.5
+      '@img/sharp-linux-arm64': 0.33.5
+      '@img/sharp-linux-x64': 0.33.5
+      '@img/sharp-win32-x64': 0.33.5
+
+  '@anthropic-ai/claude-agent-sdk@0.1.22(zod@3.25.76)':
     dependencies:
       zod: 3.25.76
     optionalDependencies:

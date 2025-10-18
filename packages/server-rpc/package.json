@@ -53,7 +53,7 @@
 		"zod": "^3.25.67"
 	},
 	"dependencies": {
-		"@anthropic-ai/claude-agent-sdk": "^0.1.12",
+		"@anthropic-ai/claude-agent-sdk": "^0.1.22",
 		"@orpc/contract": "^1.9.1",
 		"@orpc/shared": "^1.9.4",
 		"@vibe-web/agents": "workspace:*",
