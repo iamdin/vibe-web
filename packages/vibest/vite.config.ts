@@ -28,6 +28,7 @@ export default defineConfig({
 			verboseFileRoutes: false,
 			autoCodeSplitting: true,
 			routesDirectory: "./src/client/routes",
+			generatedRouteTree: "./src/client/routeTree.gen.ts",
 		}),
 	],
 });

@@ -9,7 +9,7 @@
 	"scripts": {
 		"stub": "tsdown",
 		"build": "tsdown",
-		"test": "vitest",
+		"test": "vitest run",
 		"typecheck": "tsc --noEmit",
 		"clean": "git clean -xdf node_modules .turbo"
 	},

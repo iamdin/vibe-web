@@ -87,7 +87,7 @@ declare module '@tanstack/react-router' {
   }
 }
 
-declare module './client/routes/index' {
+declare module './routes/index' {
   const createFileRoute: CreateFileRoute<
     '/',
     FileRoutesByPath['/']['parentRoute'],
@@ -96,7 +96,7 @@ declare module './client/routes/index' {
     FileRoutesByPath['/']['fullPath']
   >
 }
-declare module './client/routes/chat/$sessionId' {
+declare module './routes/chat/$sessionId' {
   const createFileRoute: CreateFileRoute<
     '/chat/$sessionId',
     FileRoutesByPath['/chat/$sessionId']['parentRoute'],
@@ -105,7 +105,7 @@ declare module './client/routes/chat/$sessionId' {
     FileRoutesByPath['/chat/$sessionId']['fullPath']
   >
 }
-declare module './client/routes/chat/index' {
+declare module './routes/chat/index' {
   const createFileRoute: CreateFileRoute<
     '/chat/',
     FileRoutesByPath['/chat/']['parentRoute'],
