@@ -1,6 +1,7 @@
 import { consumeEventIterator } from "@orpc/client";
+import { useNavigate } from "@tanstack/react-router";
 import { Button } from "@vibe-web/ui/components/button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Chat } from "@/components/chat";
 import { orpcClient, orpcWsClient } from "@/lib/orpc";
 
@@ -9,44 +10,17 @@ export const Route = createFileRoute({
 });
 
 function Component() {
-	const [sessionId, setSessionId] = useState<string | undefined>(undefined);
-	const sessionIdRef = useRef<string | undefined>(undefined);
-	const isInitializingRef = useRef(false);
+	const { sessionId } = Route.useParams();
+	const navigate = useNavigate();
+	const sessionIdRef = useRef<string>(sessionId);
 
-	// 同步 sessionId 到 ref，以便在事件处理器中使用最新值
+	// Sync sessionId to ref for event handlers
 	useEffect(() => {
 		sessionIdRef.current = sessionId;
 	}, [sessionId]);
 
-	// 组件挂载时自动创建 session
+	// Set up permission request handling
 	useEffect(() => {
-		const initSession = async () => {
-			// 防止重复创建
-			if (isInitializingRef.current || sessionId) {
-				return
-			}
-
-			isInitializingRef.current = true;
-			try {
-				const { sessionId: newSessionId } =
-					await orpcClient.claudeCode.session.create();
-				console.log("Initial session created:", newSessionId);
-				setSessionId(newSessionId);
-			} catch (error) {
-				console.error("Failed to create initial session", error);
-			} finally {
-				isInitializingRef.current = false;
-			}
-		}
-
-		initSession();
-	}, []);
-
-	useEffect(() => {
-		if (!sessionId) {
-			return
-		}
-
 		const isAbortError = (error: unknown) =>
 			error instanceof DOMException && error.name === "AbortError";
 
@@ -60,19 +34,18 @@ function Component() {
 				onEvent: async (event) => {
 					console.log("Tool permission request:", event);
 
-					// 使用 ref 获取最新的 sessionId
 					const currentSessionId = sessionIdRef.current;
 					if (!currentSessionId) {
 						console.error("Session ID not found");
-						return
+						return;
 					}
 
-					// 使用浏览器原生 confirm 弹窗展示权限请求
+					// Show permission request using browser confirm dialog
 					const message = `Tool Permission Request:\n\nTool: ${event.toolName}\nRequest ID: ${event.requestId}\n\nInput: ${JSON.stringify(event.input, null, 2)}\n\nAllow this tool to execute?`;
 
 					const userConfirmed = window.confirm(message);
 
-					// 响应权限请求
+					// Respond to permission request
 					try {
 						if (userConfirmed) {
 							await orpcWsClient.claudeCode.respondPermission({
@@ -80,9 +53,9 @@ function Component() {
 								requestId: event.requestId,
 								result: {
 									behavior: "allow",
-									updatedInput: event.input
+									updatedInput: event.input,
 								},
-							})
+							});
 						} else {
 							await orpcWsClient.claudeCode.respondPermission({
 								sessionId: currentSessionId,
@@ -92,7 +65,7 @@ function Component() {
 									message: "User denied the permission request",
 									interrupt: true,
 								},
-							})
+							});
 						}
 					} catch (error) {
 						console.error("Failed to respond to permission request:", error);
@@ -100,7 +73,7 @@ function Component() {
 				},
 				onError: (error) => {
 					if (isAbortError(error)) {
-						return
+						return;
 					}
 					console.error("Tool permission error:", error);
 				},
@@ -108,39 +81,32 @@ function Component() {
 					console.log("Tool permission stream finished");
 				},
 			},
-		)
+		);
 
 		return () => {
 			abortController.abort();
 			void unsubscribe().catch((error) => {
 				if (isAbortError(error)) {
-					return
+					return;
 				}
 				console.error(
 					"Failed to unsubscribe from tool permission stream",
 					error,
-				)
-			})
-		}
+				);
+			});
+		};
 	}, [sessionId]);
 
 	const handleNewSession = async () => {
 		try {
-			// Abort current session to prevent leaks; multi-session not supported yet
-			if (sessionId) {
-				await orpcClient.claudeCode.session.abort({
-					sessionId: sessionId,
-				})
-				setSessionId(undefined);
-			}
-
+			// Create new session and navigate
 			const { sessionId: newSessionId } =
 				await orpcClient.claudeCode.session.create();
-			setSessionId(newSessionId);
+			navigate({ to: "/chat/$sessionId", params: { sessionId: newSessionId } });
 		} catch (error) {
 			console.error("Failed to start a new session", error);
 		}
-	}
+	};
 
 	return (
 		<div className="flex h-full flex-col">
@@ -157,8 +123,8 @@ function Component() {
 			<Chat
 				className="w-full min-w-80 max-w-4xl mx-auto"
 				sessionId={sessionId}
-				onSessionIdChange={setSessionId}
+				handleNewSession={handleNewSession}
 			/>
 		</div>
-	)
+	);
 }

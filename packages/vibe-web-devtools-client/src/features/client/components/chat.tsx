@@ -78,6 +78,8 @@ export function Chat({ className }: { className?: string }) {
 				if (!sessionId.current) {
 					const result = await orpc.claudeCode.session.create();
 					sessionId.current = result.sessionId;
+					// TODO: Store and use the additional session data
+					// result.supportedCommands, result.supportedModels, result.mcpServers
 				}
 				const message = options.messages.at(-1);
 				if (!message) {

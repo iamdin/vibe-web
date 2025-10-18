@@ -70,5 +70,14 @@ export const claudeCodeTools = {
 
 export type ClaudeCodeTools = InferUITools<typeof claudeCodeTools>;
 
+export {
+	McpServerStatusSchema,
+	ModelInfoSchema,
+	PermissionBehaviorSchema,
+	PermissionModeSchema,
+	PermissionResultSchema,
+	SlashCommandSchema,
+} from "./schema";
+
 export { Pushable, pushable } from "./utils/pushable";
 export { toUIMessage } from "./utils/to-ui-message";

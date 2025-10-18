@@ -373,6 +373,10 @@ importers:
         version: 2.2.12(typescript@5.9.2)
 
   packages/agents:
+    dependencies:
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
     devDependencies:
       '@anthropic-ai/claude-agent-sdk':
         specifier: ^0.1.12

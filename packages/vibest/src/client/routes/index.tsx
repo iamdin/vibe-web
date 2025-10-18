@@ -1,11 +1,29 @@
-import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { Button } from "@vibe-web/ui/components/button";
+import { useState } from "react";
+import { orpcClient } from "@/lib/orpc";
 
 export const Route = createFileRoute({
 	component: Component,
 });
 
 function Component() {
+	const navigate = useNavigate();
+	const [isCreatingSession, setIsCreatingSession] = useState(false);
+
+	const handleStartChatting = async () => {
+		try {
+			setIsCreatingSession(true);
+			const { sessionId } = await orpcClient.claudeCode.session.create();
+			navigate({ to: "/chat/$sessionId", params: { sessionId } });
+		} catch (error) {
+			console.error("Failed to create session", error);
+			// TODO: Show error toast to user
+		} finally {
+			setIsCreatingSession(false);
+		}
+	}
+
 	return (
 		<div className="flex h-full items-center justify-center">
 			<div className="max-w-2xl text-center space-y-6">
@@ -50,8 +68,12 @@ function Component() {
 				</div>
 
 				<div className="flex gap-4 justify-center mt-8">
-					<Button asChild size="lg">
-						<Link to="/chat">Start Chatting</Link>
+					<Button
+						size="lg"
+						onClick={handleStartChatting}
+						disabled={isCreatingSession}
+					>
+						{isCreatingSession ? "Creating Session..." : "Start Chatting"}
 					</Button>
 					<Button variant="outline" size="lg" asChild>
 						<a
@@ -65,5 +87,5 @@ function Component() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
