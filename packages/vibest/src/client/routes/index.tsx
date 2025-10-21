@@ -22,7 +22,7 @@ function Component() {
 		} finally {
 			setIsCreatingSession(false);
 		}
-	}
+	};
 
 	return (
 		<div className="flex h-full items-center justify-center">
@@ -87,5 +87,5 @@ function Component() {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }

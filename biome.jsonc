@@ -10,7 +10,7 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": ["**", "!**/routeTree.gen.ts"]
+		"includes": ["**", "!**/routeTree.gen.ts", "!.conductor"]
 	},
 	"formatter": {
 		"enabled": true

@@ -47,11 +47,9 @@ const models = createListCollection<{
 export function Chat({
 	className,
 	sessionId,
-	handleNewSession,
 }: {
 	className?: string;
 	sessionId: string;
-	handleNewSession: () => void;
 }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");

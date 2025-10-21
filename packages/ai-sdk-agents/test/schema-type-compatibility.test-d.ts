@@ -40,9 +40,7 @@ describe("Schema Type Compatibility", () => {
 		});
 
 		test("PermissionBehavior schema matches SDK type", () => {
-			expectTypeOf<PermissionBehavior>().toEqualTypeOf<
-				sdk.PermissionBehavior
-			>();
+			expectTypeOf<PermissionBehavior>().toEqualTypeOf<sdk.PermissionBehavior>();
 			expectTypeOf<sdk.PermissionBehavior>().toEqualTypeOf<PermissionBehavior>();
 		});
 
