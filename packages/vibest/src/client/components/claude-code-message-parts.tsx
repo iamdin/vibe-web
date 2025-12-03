@@ -1,12 +1,12 @@
 import { Message, MessageContent } from "@vibe-web/ui/ai-elements/message";
 import { Response } from "@vibe-web/ui/ai-elements/response";
 import { ClaudeCodeToolUIPart } from "@vibe-web/ui/claude-code/tools";
-import { isToolUIPart, type UIMessage } from "ai";
+import { isToolUIPart, type UIDataTypes, type UIMessage } from "ai";
 import type { ClaudeCodeTools } from "ai-sdk-agents/claude-code";
 
 export type ClaudeCodeUIMessage = UIMessage<
 	undefined,
-	Record<string, never>,
+	UIDataTypes,
 	ClaudeCodeTools
 >;
 

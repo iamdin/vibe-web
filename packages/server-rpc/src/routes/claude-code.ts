@@ -13,7 +13,11 @@ const orpc = os.$context<ClaudeCodeContext>();
 const session = {
 	create: orpc.session.create.handler(
 		async ({ context: { claudeCodeAgent } }) => {
-			return await claudeCodeAgent.session.create();
+			const session = await claudeCodeAgent.session.create();
+			return {
+				supportedModels: await session.query.supportedModels(),
+				supportedCommands: await session.query.supportedCommands(),
+			};
 		},
 	),
 	abort: orpc.session.abort.handler(
@@ -38,50 +42,46 @@ const session = {
 			return await claudeCodeAgent.session.getMcpServers(input.sessionId);
 		},
 	),
-};
-
-const prompt = orpc.prompt.handler(
-	async ({ input, context: { claudeCodeAgent } }) => {
-		const { model = "sonnet" } = input;
-		const session = claudeCodeAgent.session.get(input.sessionId);
-
-		// Set model before prompting
-		await session.query.setModel(model);
-
-		const message: { type: "text"; text: string }[] = [];
-		for (const part of input.message.parts || []) {
-			switch (part.type) {
-				case "text":
-					message.push({
-						type: "text",
-						text: part.text,
-					});
-					break;
-				case "data-inspector":
-					message.push({
-						type: "text",
-						// @ts-expect-error TODO fix me
-						text: `i am current inspect target: ${part.data.map((d) => `@${d.file}:${d.line}:${d.column}`).join(", ")}`,
-					});
-					break;
+	prompt: orpc.session.prompt.handler(
+		async ({ input, context: { claudeCodeAgent } }) => {
+			const message: { type: "text"; text: string }[] = [];
+			for (const part of input.message.parts || []) {
+				switch (part.type) {
+					case "text":
+						message.push({
+							type: "text",
+							text: part.text,
+						});
+						break;
+					case "data-inspector":
+						message.push({
+							type: "text",
+							// @ts-expect-error TODO fix me
+							text: `i am current inspect target: ${part.data.map((d) => `@${d.file}:${d.line}:${d.column}`).join(", ")}`,
+						});
+						break;
+				}
 			}
-		}
-		try {
-			return toUIMessage(
-				claudeCodeAgent.session.prompt({
-					sessionId: input.sessionId,
-					message: {
-						role: "user",
-						content: message,
-					},
-				}),
-			);
-		} catch (error) {
-			console.error("Failed to prompt", error);
-			throw error;
-		}
-	},
-);
+			try {
+				return toUIMessage(
+					claudeCodeAgent.session.prompt({
+						sessionId: input.sessionId,
+						message: {
+							role: "user",
+							content: message,
+						},
+						model: input.model,
+						maxThinkingTokens: input.maxThinkingTokens,
+						mode: input.mode,
+					}),
+				);
+			} catch (error) {
+				console.error("Failed to prompt", error);
+				throw error;
+			}
+		},
+	),
+};
 
 const requestPermission = orpc.requestPermission.handler(async function* ({
 	input,
@@ -112,7 +112,6 @@ const respondPermission = orpc.respondPermission.handler(
 
 export const claudeCodeRouter = orpc.router({
 	session,
-	prompt,
 	requestPermission,
 	respondPermission,
 });

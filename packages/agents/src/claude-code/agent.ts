@@ -1,12 +1,14 @@
 import type * as sdk from "@anthropic-ai/claude-agent-sdk";
 import { query } from "@anthropic-ai/claude-agent-sdk";
+import { error } from "console";
+import invariant from "tiny-invariant";
 import { v7 as uuid } from "uuid";
 import type { ToolPermissionRequest } from "./types";
 import { Pushable } from "./utils/pushable";
 
-interface SessionState {
+interface SessionInfo {
 	/**
-	 * the claude code session, will set when first system message is received
+	 * the current public identifier for the claude code session
 	 */
 	id?: string;
 	query: sdk.Query;
@@ -18,32 +20,38 @@ interface SessionState {
 type PendingToolPermission = (result: sdk.PermissionResult) => void;
 
 export class Session {
-	private store = new Map<string, SessionState>();
+	private store: SessionInfo[] = [];
 
 	get(id: string) {
-		const session = this.store.get(id);
-		if (!session) {
-			throw new Error("session not found");
-		}
+		const session = this.store.find((session) => session.id === id);
+		invariant(session, "session not found");
 		return session;
 	}
 
 	list() {
-		return Array.from(this.store.values());
+		return [...this.store];
 	}
 
-	async create(): Promise<{
-		sessionId: string;
-	}> {
+	async create(): Promise<SessionInfo> {
+		// if these already exist a uninitialized session, don't create a new one
+		const uninitializedSession = this.store.find((session) => !!session.id);
+		if (uninitializedSession) return uninitializedSession;
+
 		const input = new Pushable<sdk.SDKUserMessage>();
 		const requestPermission = new Pushable<ToolPermissionRequest>();
-		const sessionId = uuid();
+
+		const record: SessionInfo = {
+			// initial no session id
+			query: null as unknown as sdk.Query,
+			input,
+			requestPermission,
+			pendingPermissionRequests: new Map(),
+		};
 
 		const options: sdk.Options = {
 			mcpServers: {},
 			strictMcpConfig: true,
-			permissionMode: "default",
-			stderr: (err) => console.error(err),
+			stderr: (data) => console.log(data),
 			// note: although not documented by the types, passing an absolute path
 			executable: process.execPath as "node",
 			// Maintain Claude Code behavior with preset system prompt
@@ -53,8 +61,7 @@ export class Session {
 			// canUseTool callback: push permission requests to output stream
 			canUseTool: async (toolName, input, { signal, suggestions }) => {
 				const requestId = uuid();
-				const session = this.get(sessionId);
-				const pendingPermissionRequests = session.pendingPermissionRequests;
+				const pendingPermissionRequests = record.pendingPermissionRequests;
 				let resolve: (result: sdk.PermissionResult) => void;
 				const promise = new Promise<sdk.PermissionResult>((_resolve) => {
 					resolve = _resolve;
@@ -84,10 +91,12 @@ export class Session {
 				signal.addEventListener("abort", abortHandler, { once: true });
 
 				pendingPermissionRequests.set(requestId, pendingPermission);
+
+				invariant(record.id, "session id not set");
 				// Push permission request to output stream (only necessary fields)
 				requestPermission.push({
 					type: "tool-permission-request",
-					sessionId,
+					sessionId: record.id,
 					requestId,
 					toolName,
 					input,
@@ -98,21 +107,14 @@ export class Session {
 			},
 		};
 
-		const q = query({
+		record.query = query({
 			prompt: input,
 			options,
 		});
 
-		this.store.set(sessionId, {
-			query: q,
-			input,
-			requestPermission,
-			pendingPermissionRequests: new Map(),
-		});
+		this.store.push(record);
 
-		return {
-			sessionId,
-		};
+		return record;
 	}
 
 	async getSupportedCommands(sessionId: string): Promise<sdk.SlashCommand[]> {
@@ -146,7 +148,10 @@ export class Session {
 		session.input.end();
 		session.query.interrupt();
 
-		this.store.delete(sessionId);
+		const index = this.store.indexOf(session);
+		if (index !== -1) {
+			this.store.splice(index, 1);
+		}
 	}
 
 	interrupt(sessionId: string) {
@@ -155,18 +160,33 @@ export class Session {
 	}
 
 	async *prompt(input: {
-		sessionId: string;
+		sessionId?: string;
 		message: sdk.SDKUserMessage["message"];
+		model?: string;
+		maxThinkingTokens?: number;
+		mode?: sdk.PermissionMode;
 	}): AsyncGenerator<sdk.SDKMessage, void, unknown> {
-		const session = this.get(input.sessionId);
-		if (!session) {
-			throw new Error(`Session ${input.sessionId} not found`);
+		console.log("prompt", input);
+		const session = !input.sessionId
+			? await this.create()
+			: this.get(input.sessionId);
+
+		if (input?.model) {
+			await session.query.setModel(input.model);
 		}
+		if (input?.maxThinkingTokens) {
+			await session.query.setMaxThinkingTokens(input.maxThinkingTokens);
+		}
+		if (input?.mode) {
+			await session.query.setPermissionMode(input.mode);
+		}
+
 		session.input.push({
 			type: "user",
 			message: input.message,
 			parent_tool_use_id: null,
-			session_id: input.sessionId,
+			// @ts-expect-error first message, the session id can be undefined
+			session_id: session.id,
 		});
 
 		while (true) {

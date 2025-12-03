@@ -23,7 +23,8 @@ import {
 	SelectValueText,
 } from "@vibe-web/ui/components/select";
 import { cn } from "@vibe-web/ui/lib/utils";
-import { useState } from "react";
+import type { ChatTransport } from "ai";
+import { useEffect, useEffectEvent, useState } from "react";
 import { MessageParts } from "@/components/message-parts";
 import { orpcClient } from "@/lib/orpc";
 import type { ClaudeCodeUIMessage } from "@/types";
@@ -47,34 +48,49 @@ const models = createListCollection<{
 export function Chat({
 	className,
 	sessionId,
+	onUpdateSessionId,
 }: {
 	className?: string;
-	sessionId: string;
+	sessionId?: string;
+	onUpdateSessionId: (sessionId: string) => void;
 }) {
 	const [input, setInput] = useState("");
 	const [model, setModel] = useState<"opus" | "sonnet">("sonnet");
 
+	const sendMessages = useEffectEvent<
+		ChatTransport<ClaudeCodeUIMessage>["sendMessages"]
+	>(async (options) => {
+		const message = options.messages.at(-1);
+		if (!message) {
+			throw new Error("message is required");
+		}
+		const event = await orpcClient.claudeCode.session.prompt(
+			{ sessionId, message, model },
+			{ signal: options.abortSignal },
+		);
+		return eventIteratorToStream(event);
+	});
+
+	useEffect(() => {
+		async function init() {
+			const { supportedModels } = await orpcClient.claudeCode.session.create();
+			console.log("supportModels", supportedModels);
+		}
+		init();
+	}, []);
+
 	const { messages, sendMessage, status } = useChat<ClaudeCodeUIMessage>({
 		transport: {
-			async sendMessages(options) {
-				try {
-					const message = options.messages.at(-1);
-					if (!message) {
-						throw new Error("message is required");
-					}
-					const event = await orpcClient.claudeCode.prompt(
-						{ sessionId, message, model },
-						{ signal: options.abortSignal },
-					);
-					return eventIteratorToStream(event);
-				} catch (error) {
-					console.error("Failed to send messages", error);
-					throw error;
-				}
-			},
+			sendMessages,
 			reconnectToStream() {
 				throw new Error("Unsupported yet");
 			},
+		},
+		onData: (dataPart) => {
+			if (dataPart.type === "data-system_init") {
+				console.log("dataPart", dataPart);
+				onUpdateSessionId(dataPart.data.sessionId);
+			}
 		},
 		onFinish: ({ messages }) => {
 			console.log("onFinish", messages);
@@ -136,10 +152,7 @@ export function Chat({
 								</SelectContent>
 							</Select>
 						</PromptInputTools>
-						<PromptInputSubmit
-							disabled={!input || !sessionId}
-							status={status}
-						/>
+						<PromptInputSubmit disabled={!input} status={status} />
 					</PromptInputToolbar>
 				</PromptInput>
 			</div>

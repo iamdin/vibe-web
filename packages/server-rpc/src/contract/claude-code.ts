@@ -1,12 +1,13 @@
 import { oc, type } from "@orpc/contract";
 import type { ToolPermissionRequest } from "@vibe-web/agents/claude-code";
-import type { InferUIMessageChunk, UIMessage } from "ai";
+import type { UIDataTypes, UIMessage, UIMessageChunk } from "ai";
 import {
-	type ClaudeCodeTools,
 	McpServerStatusSchema,
 	ModelInfoSchema,
+	PermissionModeSchema,
 	PermissionResultSchema,
 	SlashCommandSchema,
+	type UIMessageMetadata,
 } from "ai-sdk-agents/claude-code";
 import { z } from "zod/v4";
 
@@ -14,7 +15,8 @@ export const claudeCodeContract = {
 	session: {
 		create: oc.output(
 			z.object({
-				sessionId: z.string(),
+				supportedModels: z.array(ModelInfoSchema),
+				supportedCommands: z.array(SlashCommandSchema),
 			}),
 		),
 		abort: oc.input(
@@ -43,24 +45,26 @@ export const claudeCodeContract = {
 				}),
 			)
 			.output(z.array(McpServerStatusSchema)),
+		prompt: oc
+			.input(
+				z.object({
+					sessionId: z.string().optional(),
+					// TODO a abstract schema
+					message: z
+						.object({
+							parts: z.array(z.object<UIMessage>().loose()),
+						})
+						.loose(),
+					model: z.string().optional(),
+					maxThinkingTokens: z.number().optional(),
+					mode: PermissionModeSchema.optional(),
+				}),
+			)
+			.output(
+				type<AsyncGenerator<UIMessageChunk<UIMessageMetadata, UIDataTypes>>>(),
+			),
 	},
-	prompt: oc
-		.input(
-			type<{
-				sessionId: string;
-				message: UIMessage;
-				model?: string;
-			}>(),
-		)
-		.output(
-			type<
-				AsyncGenerator<
-					InferUIMessageChunk<
-						UIMessage<undefined, Record<string, unknown>, ClaudeCodeTools>
-					>
-				>
-			>(),
-		),
+
 	requestPermission: oc
 		.input(
 			z.object({
@@ -68,6 +72,7 @@ export const claudeCodeContract = {
 			}),
 		)
 		.output(type<AsyncGenerator<ToolPermissionRequest>>()),
+
 	respondPermission: oc
 		.input(
 			z.object({

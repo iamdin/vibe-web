@@ -11,66 +11,45 @@
 import type { CreateFileRoute, FileRoutesByPath } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ChatIndexRouteImport } from './routes/chat/index'
-import { Route as ChatSessionIdRouteImport } from './routes/chat/$sessionId'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ChatIndexRouteImport } from './routes/chat/index'
-import { Route as ChatSessionIdRouteImport } from './routes/chat/$sessionId'
+import { Route as ChatChar123SessionIdChar125RouteImport } from './routes/chat.{-$sessionId}'
 
-const ChatIndexRoute = ChatIndexRouteImport.update({
-  id: '/chat/',
-  path: '/chat/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatSessionIdRoute = ChatSessionIdRouteImport.update({
-  id: '/chat/$sessionId',
-  path: '/chat/$sessionId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ChatIndexRoute = ChatIndexRouteImport.update({
-  id: '/chat/',
-  path: '/chat/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatSessionIdRoute = ChatSessionIdRouteImport.update({
-  id: '/chat/$sessionId',
-  path: '/chat/$sessionId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ChatChar123SessionIdChar125Route =
+  ChatChar123SessionIdChar125RouteImport.update({
+    id: '/chat/{-$sessionId}',
+    path: '/chat/{-$sessionId}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/chat/': typeof ChatIndexRoute
-  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat/{-$sessionId}': typeof ChatChar123SessionIdChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/chat/': typeof ChatIndexRoute
-  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat/{-$sessionId}': typeof ChatChar123SessionIdChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/chat/': typeof ChatIndexRoute
-  '/chat/$sessionId': typeof ChatSessionIdRoute
+  '/chat/{-$sessionId}': typeof ChatChar123SessionIdChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat/' | '/chat/$sessionId'
+  fullPaths: '/' | '/chat/{-$sessionId}'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat/' | '/chat/$sessionId'
-  id: '__root__' | '/' | '/chat/' | '/chat/$sessionId'
+  to: '/' | '/chat/{-$sessionId}'
+  id: '__root__' | '/' | '/chat/{-$sessionId}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChatIndexRoute: typeof ChatIndexRoute
-  ChatSessionIdRoute: typeof ChatSessionIdRoute
+  ChatChar123SessionIdChar125Route: typeof ChatChar123SessionIdChar125Route
 }
 
 declare module '@tanstack/react-router' {
@@ -82,18 +61,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/chat/': {
-      id: '/chat/'
-      path: '/chat/'
-      fullPath: '/chat/'
-      preLoaderRoute: typeof ChatIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chat/$sessionId': {
-      id: '/chat/$sessionId'
-      path: '/chat/$sessionId'
-      fullPath: '/chat/$sessionId'
-      preLoaderRoute: typeof ChatSessionIdRouteImport
+    '/chat/{-$sessionId}': {
+      id: '/chat/{-$sessionId}'
+      path: '/chat/{-$sessionId}'
+      fullPath: '/chat/{-$sessionId}'
+      preLoaderRoute: typeof ChatChar123SessionIdChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -108,29 +80,19 @@ declare module './routes/index' {
     FileRoutesByPath['/']['fullPath']
   >
 }
-declare module './routes/chat/index' {
+declare module './routes/chat.{-$sessionId}' {
   const createFileRoute: CreateFileRoute<
-    '/chat/',
-    FileRoutesByPath['/chat/']['parentRoute'],
-    FileRoutesByPath['/chat/']['id'],
-    FileRoutesByPath['/chat/']['path'],
-    FileRoutesByPath['/chat/']['fullPath']
-  >
-}
-declare module './routes/chat/$sessionId' {
-  const createFileRoute: CreateFileRoute<
-    '/chat/$sessionId',
-    FileRoutesByPath['/chat/$sessionId']['parentRoute'],
-    FileRoutesByPath['/chat/$sessionId']['id'],
-    FileRoutesByPath['/chat/$sessionId']['path'],
-    FileRoutesByPath['/chat/$sessionId']['fullPath']
+    '/chat/{-$sessionId}',
+    FileRoutesByPath['/chat/{-$sessionId}']['parentRoute'],
+    FileRoutesByPath['/chat/{-$sessionId}']['id'],
+    FileRoutesByPath['/chat/{-$sessionId}']['path'],
+    FileRoutesByPath['/chat/{-$sessionId}']['fullPath']
   >
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChatIndexRoute: ChatIndexRoute,
-  ChatSessionIdRoute: ChatSessionIdRoute,
+  ChatChar123SessionIdChar125Route: ChatChar123SessionIdChar125Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

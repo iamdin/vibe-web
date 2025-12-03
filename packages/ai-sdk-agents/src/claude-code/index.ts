@@ -80,4 +80,4 @@ export {
 } from "./schema";
 
 export { Pushable, pushable } from "./utils/pushable";
-export { toUIMessage } from "./utils/to-ui-message";
+export { toUIMessage, type UIMessageMetadata } from "./utils/to-ui-message";

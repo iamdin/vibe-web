@@ -1,15 +1,34 @@
 import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
-import { generateId, type InferUIMessageChunk, type UIMessage } from "ai";
+import { generateId, type UIMessageChunk } from "ai";
 
-export async function* toUIMessage<T extends UIMessage>(
+export interface UIMessageMetadata {
+	sessionId: string;
+}
+
+export type UIMessageDataTypes = {
+	system_init: {
+		sessionId: string;
+	};
+};
+
+export async function* toUIMessage(
 	iterator: AsyncGenerator<SDKMessage, void, unknown>,
-): AsyncGenerator<InferUIMessageChunk<T>> {
+): AsyncGenerator<UIMessageChunk<UIMessageMetadata, UIMessageDataTypes>> {
 	for await (const message of iterator) {
 		switch (message.type) {
 			case "system": {
 				if (message.subtype === "init") {
 					yield {
 						type: "start",
+						messageMetadata: {
+							sessionId: message.session_id,
+						},
+					};
+					yield {
+						type: "data-system_init",
+						data: {
+							sessionId: message.session_id,
+						},
 					};
 				}
 				break;
@@ -90,7 +109,6 @@ export async function* toUIMessage<T extends UIMessage>(
 										errorText:
 											typeof part.content === "string" ? part.content : "",
 										providerExecuted: true,
-										providerMetadata,
 									};
 								} else {
 									yield {
@@ -98,7 +116,6 @@ export async function* toUIMessage<T extends UIMessage>(
 										toolCallId: part.tool_use_id,
 										output: part.content,
 										providerExecuted: true,
-										providerMetadata,
 									};
 								}
 								break;

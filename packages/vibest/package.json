@@ -63,7 +63,8 @@
 		"uuid": "^13.0.0",
 		"vibe-web-devtools": "workspace:*",
 		"ws": "^8.18.3",
-		"zod": "^3.25.61"
+		"zod": "^3.25.61",
+		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
 		"@orpc/contract": "^1.9.1",
